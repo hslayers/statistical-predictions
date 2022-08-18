@@ -31,18 +31,20 @@ export class HslayersAppComponent {
   app = 'default';
   constructor(
     public HsConfig: HsConfig,
+    private httpClient: HttpClient,
     hsLayoutService: HsLayoutService,
     hsQueryPopupService: HsQueryPopupService,
     hsToolbarPanelContainerService: HsToolbarPanelContainerService,
     hsDialogContainerService: HsDialogContainerService
   ) {
     const vidzemeMuniSrc = new VectorSource({
-      loader: async (extent, projection) => {
+      loader: (extent, projection) => {
         const url = './assets/vidzeme.json';
-        await loadFeatureToSrc(url, vidzemeMuniSrc);
+        this.loadFeatureToSrc(url, vidzemeMuniSrc);
       },
     });
     const vidzemeMuni = new VectorLayer({
+      visible: false,
       properties: {
         title: 'Vidzeme statistical region municipalities',
         synchronize: false,
@@ -87,12 +89,13 @@ export class HslayersAppComponent {
       source: vidzemeMuniSrc,
     });
     const latvianMuniSrc = new VectorSource({
-      loader: async (extent, projection) => {
+      loader: (extent, projection) => {
         const url = './assets/administrativas_teritorijas_2021_2.json';
-        await loadFeatureToSrc(url, vidzemeMuniSrc);
+        this.loadFeatureToSrc(url, latvianMuniSrc);
       },
     });
     const latvianMuni = new VectorLayer({
+      visible: false,
       properties: {
         title: 'Latvian municipalities',
         synchronize: false,
@@ -271,19 +274,18 @@ export class HslayersAppComponent {
     hsDialogContainerService.create(InfoDialogComponent, {}, this.app);
   }
   title = 'hslayers-workspace';
-}
 
-async function loadFeatureToSrc(url: string, vidzemeMuniSrc) {
-  try {
-    const response: any = await lastValueFrom(
-      this.httpClient.get(url).pipe(catchError(async (e) => { }))
-    );
-    vidzemeMuniSrc.addFeatures(
-      new GeoJSON().readFeatures(response, {
-        dataProjection: 'EPSG:4326',
-        featureProjection: 'EPSG:3857',
-      })
-    );
-  } catch (error) { }
+  async loadFeatureToSrc(url: string, vidzemeMuniSrc) {
+    try {
+      const response: any = await lastValueFrom(
+        this.httpClient.get(url).pipe(catchError(async (e) => {}))
+      );
+      vidzemeMuniSrc.addFeatures(
+        new GeoJSON().readFeatures(response, {
+          dataProjection: 'EPSG:4326',
+          featureProjection: 'EPSG:3857',
+        })
+      );
+    } catch (error) {}
+  }
 }
-
