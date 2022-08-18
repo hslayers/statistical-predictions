@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {catchError, lastValueFrom} from 'rxjs';
 
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
@@ -20,7 +21,7 @@ import {
 } from 'hslayers-ng';
 import {HsStatisticsPanelComponent} from '../lib/statistics-panel.component';
 import {InfoDialogComponent} from './info.component';
-import {catchError, lastValueFrom} from 'rxjs';
+import {defaultStyleSld} from './default-style';
 
 @Component({
   selector: 'hslayers-app',
@@ -60,30 +61,7 @@ export class HslayersAppComponent {
             description: 'none',
           },
         },
-        sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
-            <StyledLayerDescriptor version="1.0.0" 
-                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
-                xmlns="http://www.opengis.net/sld" 
-                xmlns:ogc="http://www.opengis.net/ogc" 
-                xmlns:xlink="http://www.w3.org/1999/xlink" 
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-              <NamedLayer>
-                <Name>Simple point with stroke</Name>
-                <UserStyle>
-                  <Title>Default</Title>
-                  <FeatureTypeStyle>
-                    <Rule>
-                    <PolygonSymbolizer>
-                    <Fill>
-                      <CssParameter name="fill">#51a6d1</CssParameter>
-                    </Fill>
-                  </PolygonSymbolizer>
-                    </Rule>
-                  </FeatureTypeStyle>
-                </UserStyle>
-              </NamedLayer>
-            </StyledLayerDescriptor>
-            `,
+        sld: defaultStyleSld,
         path: 'User generated',
       },
       source: vidzemeMuniSrc,
@@ -111,30 +89,7 @@ export class HslayersAppComponent {
             description: 'none',
           },
         },
-        sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
-            <StyledLayerDescriptor version="1.0.0" 
-                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
-                xmlns="http://www.opengis.net/sld" 
-                xmlns:ogc="http://www.opengis.net/ogc" 
-                xmlns:xlink="http://www.w3.org/1999/xlink" 
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-              <NamedLayer>
-                <Name>Simple point with stroke</Name>
-                <UserStyle>
-                  <Title>Default</Title>
-                  <FeatureTypeStyle>
-                    <Rule>
-                    <PolygonSymbolizer>
-                    <Fill>
-                      <CssParameter name="fill">#51a6d1</CssParameter>
-                    </Fill>
-                  </PolygonSymbolizer>
-                    </Rule>
-                  </FeatureTypeStyle>
-                </UserStyle>
-              </NamedLayer>
-            </StyledLayerDescriptor>
-            `,
+        sld: defaultStyleSld,
         path: 'User generated',
       },
       source: latvianMuniSrc,
@@ -162,41 +117,19 @@ export class HslayersAppComponent {
             na: 'New polygon',
           },
         },
-        sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
-            <StyledLayerDescriptor version="1.0.0" 
-                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
-                xmlns="http://www.opengis.net/sld" 
-                xmlns:ogc="http://www.opengis.net/ogc" 
-                xmlns:xlink="http://www.w3.org/1999/xlink" 
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-              <NamedLayer>
-                <Name>Simple point with stroke</Name>
-                <UserStyle>
-                  <Title>Default</Title>
-                  <FeatureTypeStyle>
-                    <Rule>
-                    <PolygonSymbolizer>
-                    <Fill>
-                      <CssParameter name="fill">#51a6d1</CssParameter>
-                    </Fill>
-                  </PolygonSymbolizer>
-                    </Rule>
-                  </FeatureTypeStyle>
-                </UserStyle>
-              </NamedLayer>
-            </StyledLayerDescriptor>
-            `,
+        sld: defaultStyleSld,
         path: 'User generated',
       },
       source: nuts2Src,
     });
-    
+
     const nuts3Src = new VectorSource({
       loader: (extent, projection) => {
         const url = './assets/nutsrg_3.json';
         this.loadFeatureToSrc(url, nuts3Src);
       },
     });
+
     const nuts3 = new VectorLayer({
       visible: false,
       properties: {
@@ -213,30 +146,7 @@ export class HslayersAppComponent {
             na: 'New polygon',
           },
         },
-        sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
-            <StyledLayerDescriptor version="1.0.0" 
-                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
-                xmlns="http://www.opengis.net/sld" 
-                xmlns:ogc="http://www.opengis.net/ogc" 
-                xmlns:xlink="http://www.w3.org/1999/xlink" 
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-              <NamedLayer>
-                <Name>Simple point with stroke</Name>
-                <UserStyle>
-                  <Title>Default</Title>
-                  <FeatureTypeStyle>
-                    <Rule>
-                    <PolygonSymbolizer>
-                    <Fill>
-                      <CssParameter name="fill">#51a6d1</CssParameter>
-                    </Fill>
-                  </PolygonSymbolizer>
-                    </Rule>
-                  </FeatureTypeStyle>
-                </UserStyle>
-              </NamedLayer>
-            </StyledLayerDescriptor>
-            `,
+        sld: defaultStyleSld,
         path: 'User generated',
       },
       source: nuts3Src,
