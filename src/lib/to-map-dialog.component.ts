@@ -16,7 +16,11 @@ import {Layer} from 'ol/layer';
 import {Source} from 'ol/source';
 import {max, min} from 'simple-statistics';
 
-import {CorpusItemValues, Usage} from './statistics.service';
+import {
+  CorpusItemValues,
+  HsStatisticsService,
+  Usage,
+} from './statistics.service';
 import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component';
 
 /**
@@ -29,7 +33,8 @@ import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component
   templateUrl: './to-map-dialog.component.html',
 })
 export class HsStatisticsToMapDialogComponent
-  implements HsDialogComponent, OnInit {
+  implements HsDialogComponent, OnInit
+{
   @Input() data: {
     rows: any[] | {[key: string]: {values: CorpusItemValues}};
     columns: string[];
@@ -58,7 +63,8 @@ export class HsStatisticsToMapDialogComponent
     public HsDialogContainerService: HsDialogContainerService,
     public HsLayerUtilsService: HsLayerUtilsService,
     private HsMapService: HsMapService,
-    private HsStylerService: HsStylerService
+    private HsStylerService: HsStylerService,
+    private HsStatisticsService: HsStatisticsService
   ) {}
 
   ngOnInit(): void {
@@ -203,6 +209,16 @@ export class HsStatisticsToMapDialogComponent
   }
 
   async visualize(): Promise<void> {
+    if (!this.selectedLayer) {
+      this.HsStatisticsService.callErrorDialog(
+        {
+          header: 'ERROR_DIALOG.MISSING_LAYER',
+          errorMessage: 'ERROR_DIALOG.MAKE_SURE_YOU_HAVE',
+        },
+        this.data.app
+      );
+      return;
+    }
     const features = this.selectedLayer.layer.getSource().getFeatures();
     for (const row of this.filteredRows) {
       const feature = features.find(

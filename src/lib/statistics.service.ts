@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 
-import {ColumnWrapper} from './column-wrapper.type';
 import {
   HsConfirmDialogComponent,
   HsDialogContainerService,
@@ -9,6 +8,8 @@ import {
 import {Subject} from 'rxjs';
 import {sampleCorrelation} from 'simple-statistics';
 
+import {ColumnWrapper} from './column-wrapper.type';
+import {HsErrorDialogComponent} from './error-dialog/error-dialog.component';
 export interface Usage {
   [key: string]: 'location' | 'ignore' | 'time' | 'variable';
 }
@@ -292,5 +293,21 @@ export class HsStatisticsService {
       localStorage.removeItem('hs_statistics_table');
       appRef.clearData$.next();
     }
+  }
+
+  callErrorDialog(
+    dialogOptions: {header: string; errorMessage?: string},
+    app: string
+  ): void {
+    this.hsDialogContainerService.create(
+      HsErrorDialogComponent,
+      {
+        header: this.hsLanguageService.getTranslation(dialogOptions.header),
+        errorMessage: this.hsLanguageService.getTranslation(
+          dialogOptions.errorMessage
+        ),
+      },
+      app
+    );
   }
 }

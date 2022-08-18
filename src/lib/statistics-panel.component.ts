@@ -22,7 +22,8 @@ import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
 })
 export class HsStatisticsPanelComponent
   extends HsPanelBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public title = '';
   name = 'statistics';
   appRef;
@@ -70,6 +71,11 @@ export class HsStatisticsPanelComponent
             PANEL_HEADER: {
               STATISTICS: 'Statistics',
               UPLOAD: 'Upload tabular data',
+            },
+            ERROR_DIALOG: {
+              MISSING_LAYER: 'Missing layer for visualization',
+              MAKE_SURE_YOU_HAVE:
+                'Make sure You have selected layer before trying to visualize the data on the map!',
             },
             STATISTICS: {
               AGO: 'ago',
