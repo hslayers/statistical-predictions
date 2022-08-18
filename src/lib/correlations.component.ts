@@ -33,17 +33,17 @@ export class HsStatisticsCorrelationsComponent implements HsDialogComponent {
   shifts: ShiftBy = {};
 
   constructor(
-    public HsDialogContainerService: HsDialogContainerService,
-    private HsStatisticsService: HsStatisticsService
+    public hsDialogContainerService: HsDialogContainerService,
+    private hsStatisticsService: HsStatisticsService
   ) {}
 
   close(): void {
-    this.HsDialogContainerService.destroy(this, this.data.app);
+    this.hsDialogContainerService.destroy(this, this.data.app);
   }
 
   updateShifting(variable: string, shiftBy: number) {
     this.shifts[variable] = shiftBy;
-    this.data.correlate = this.HsStatisticsService.correlate(
+    this.data.correlate = this.hsStatisticsService.correlate(
       this.shifts,
       this.data.app
     );

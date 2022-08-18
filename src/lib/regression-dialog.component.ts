@@ -23,7 +23,8 @@ const CHART_DIV = '.hs-statistics-regression';
   templateUrl: './regression-dialog.component.html',
 })
 export class HsStatisticsRegressionDialogComponent
-  implements HsDialogComponent, OnInit {
+  implements HsDialogComponent, OnInit
+{
   @Input() data: {
     app: string;
   };
@@ -45,10 +46,9 @@ export class HsStatisticsRegressionDialogComponent
   shifts: ShiftBy = {};
   appRef;
   constructor(
-    private HsDialogContainerService: HsDialogContainerService,
+    private hsDialogContainerService: HsDialogContainerService,
     private hsStatisticsService: HsStatisticsService,
-    private elementRef: ElementRef,
-    private hsDialogContainerService: HsDialogContainerService
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +94,7 @@ export class HsStatisticsRegressionDialogComponent
   }
 
   close(): void {
-    this.HsDialogContainerService.destroy(this, this.data.app);
+    this.hsDialogContainerService.destroy(this, this.data.app);
   }
 
   selectVariable(variable): void {

@@ -60,11 +60,11 @@ export class HsStatisticsToMapDialogComponent
   selectedLocationProp: string;
 
   constructor(
-    public HsDialogContainerService: HsDialogContainerService,
-    public HsLayerUtilsService: HsLayerUtilsService,
-    private HsMapService: HsMapService,
-    private HsStylerService: HsStylerService,
-    private HsStatisticsService: HsStatisticsService
+    public hsDialogContainerService: HsDialogContainerService,
+    public hsLayerUtilsService: HsLayerUtilsService,
+    private hsMapService: HsMapService,
+    private hsStylerService: HsStylerService,
+    private hsStatisticsService: HsStatisticsService
   ) {}
 
   ngOnInit(): void {
@@ -119,7 +119,7 @@ export class HsStatisticsToMapDialogComponent
   }
 
   visualizeHistogram(): void {
-    this.HsDialogContainerService.create(
+    this.hsDialogContainerService.create(
       HsStatisticsHistogramComponent,
       {
         filteredValues: this.filteredValues,
@@ -134,11 +134,12 @@ export class HsStatisticsToMapDialogComponent
   }
 
   async fillVectorLayers(): Promise<void> {
-    this.HsMapService.loaded(this.data.app).then((map) => {
+    this.hsMapService.loaded(this.data.app).then((map) => {
       this.vectorLayers = [
-        ...this.HsMapService.getLayersArray(this.data.app)
+        ...this.hsMapService
+          .getLayersArray(this.data.app)
           .filter((layer: Layer<Source>) =>
-            this.HsLayerUtilsService.isLayerDrawable(layer)
+            this.hsLayerUtilsService.isLayerDrawable(layer)
           )
           .map((layer: VectorLayer<VectorSource<Geometry>>) => {
             return {layer, title: getTitle(layer)};
@@ -151,7 +152,7 @@ export class HsStatisticsToMapDialogComponent
   }
 
   close(): void {
-    this.HsDialogContainerService.destroy(this, this.data.app);
+    this.hsDialogContainerService.destroy(this, this.data.app);
   }
 
   async selectLayer(layer: {
@@ -210,7 +211,7 @@ export class HsStatisticsToMapDialogComponent
 
   async visualize(): Promise<void> {
     if (!this.selectedLayer) {
-      this.HsStatisticsService.callErrorDialog(
+      this.hsStatisticsService.callErrorDialog(
         {
           header: 'ERROR_DIALOG.MISSING_LAYER',
           errorMessage: 'ERROR_DIALOG.MAKE_SURE_YOU_HAVE',
@@ -293,7 +294,7 @@ export class HsStatisticsToMapDialogComponent
   </NamedLayer>
 </StyledLayerDescriptor>`;
     setSld(this.selectedLayer.layer, sld);
-    const style = (await this.HsStylerService.parseStyle(sld, this.data.app))
+    const style = (await this.hsStylerService.parseStyle(sld, this.data.app))
       .style;
     if (style) {
       this.selectedLayer.layer.setStyle(style);

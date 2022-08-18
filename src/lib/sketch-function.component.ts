@@ -8,11 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import {
-  HsDialogContainerService,
-  HsLanguageService,
-  HsLayerUtilsService,
-} from 'hslayers-ng';
+import {HsDialogContainerService, HsLayerUtilsService} from 'hslayers-ng';
 
 @Component({
   selector: 'hs-sketch-function',
@@ -27,13 +23,11 @@ export class HsSketchFunctionComponent implements OnChanges {
   values: any = {};
   @Output() set = new EventEmitter<{
     [key: string]: number;
-  }>(); 
+  }>();
 
   constructor(
-    public HsDialogContainerService: HsDialogContainerService,
-    public HsLayerUtilsService: HsLayerUtilsService,
-    private HsLanguageService: HsLanguageService,
-    private elementRef: ElementRef
+    public hsDialogContainerService: HsDialogContainerService,
+    public hsLayerUtilsService: HsLayerUtilsService
   ) {}
 
   ngOnChanges(): void {
