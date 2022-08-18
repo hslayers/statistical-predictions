@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build --configuration production",
-    "serve": "ng serve",
+    "serve": "ng serve --hmr",
+    "federated-serve": "ng run app:federated-serve",
     "start": "ng serve",
     "build-watch": "ng build --watch",
     "find-circular": "npx madge --circular --extensions ts ./",
