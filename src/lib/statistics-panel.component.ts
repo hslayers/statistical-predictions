@@ -3,7 +3,6 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {
   HsConfig,
   HsDialogContainerService,
-  HsLanguageService,
   HsLayoutService,
   HsPanelBaseComponent,
   HsSidebarService,
@@ -22,8 +21,7 @@ import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
 })
 export class HsStatisticsPanelComponent
   extends HsPanelBaseComponent
-  implements OnInit
-{
+  implements OnInit {
   public title = '';
   name = 'statistics';
   appRef;
@@ -31,7 +29,6 @@ export class HsStatisticsPanelComponent
     private hsStatisticsService: HsStatisticsService,
     private hsConfig: HsConfig,
     hsLayoutService: HsLayoutService,
-    private hsLanguageService: HsLanguageService,
     private hsSidebarService: HsSidebarService,
     private hsDialogContainerService: HsDialogContainerService
   ) {

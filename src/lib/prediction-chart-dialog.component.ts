@@ -1,11 +1,10 @@
-import {Component, ElementRef, Input, OnInit, ViewRef} from '@angular/core';
+import {Component, Input, OnInit, ViewRef} from '@angular/core';
 
 import {ColumnWrapper} from './column-wrapper.type';
 import {CorpusItemValues, HsStatisticsService} from './statistics.service';
 import {
   HsDialogComponent,
   HsDialogContainerService,
-  HsLanguageService,
   HsLayerUtilsService,
   HsUtilsService,
 } from 'hslayers-ng';
@@ -48,10 +47,8 @@ export class HsStatisticsPredictionChartDialogComponent
   functionSketchVisible = false;
 
   constructor(
-    public HsDialogContainerService: HsDialogContainerService,
-    public HsLayerUtilsService: HsLayerUtilsService,
-    private HsLanguageService: HsLanguageService,
-    private elementRef: ElementRef,
+    public hsDialogContainerService: HsDialogContainerService,
+    public hsLayerUtilsService: HsLayerUtilsService,
     public hsStatisticsService: HsStatisticsService,
     private hsUtilsService: HsUtilsService
   ) {}
@@ -64,7 +61,7 @@ export class HsStatisticsPredictionChartDialogComponent
   }
 
   close(): void {
-    this.HsDialogContainerService.destroy(this, this.data.app);
+    this.hsDialogContainerService.destroy(this, this.data.app);
   }
 
   dateRangeChanged() {

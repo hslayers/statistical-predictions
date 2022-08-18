@@ -25,9 +25,9 @@ export class HsStatisticsTimeSeriesChartComponent implements OnChanges {
   }[];
 
   constructor(
-    public HsDialogContainerService: HsDialogContainerService,
-    public HsLayerUtilsService: HsLayerUtilsService,
-    private HsLanguageService: HsLanguageService,
+    public hsDialogContainerService: HsDialogContainerService,
+    public hsLayerUtilsService: HsLayerUtilsService,
+    private hsLanguageService: HsLanguageService,
     private elementRef: ElementRef
   ) {}
 
@@ -98,7 +98,7 @@ export class HsStatisticsTimeSeriesChartComponent implements OnChanges {
               'legend': {
                 'labelLimit': 500,
                 'orient': 'top',
-                'title': this.HsLanguageService.getTranslation(
+                'title': this.hsLanguageService.getTranslation(
                   'STATISTICS.VARIABLES'
                 ),
               },
@@ -107,7 +107,7 @@ export class HsStatisticsTimeSeriesChartComponent implements OnChanges {
             },
             'x': {
               'axis': {
-                'title': this.HsLanguageService.getTranslation(
+                'title': this.hsLanguageService.getTranslation(
                   'STATISTICS.TIMESTAMP'
                 ),
                 'labelOverlap': true,
@@ -120,7 +120,7 @@ export class HsStatisticsTimeSeriesChartComponent implements OnChanges {
             'y': {
               'axis': {
                 'title':
-                  this.HsLanguageService.getTranslation('STATISTICS.VALUE'),
+                  this.hsLanguageService.getTranslation('STATISTICS.VALUE'),
               },
               'field': 'value',
               'type': 'quantitative',

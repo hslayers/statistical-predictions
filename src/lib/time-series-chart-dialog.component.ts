@@ -1,14 +1,12 @@
-import {Component, ElementRef, Input, OnInit, ViewRef} from '@angular/core';
+import {Component, Input, OnInit, ViewRef} from '@angular/core';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import {default as vegaEmbed} from 'vega-embed';
 
 import {CorpusItemValues, Usage} from './statistics.service';
 import {
   HsDialogComponent,
   HsDialogContainerService,
-  HsLanguageService,
   HsLayerUtilsService,
 } from 'hslayers-ng';
 
@@ -24,8 +22,7 @@ const CHART_DIV = '.hs-statistics-timeseries';
   templateUrl: './time-series-chart-dialog.component.html',
 })
 export class HsStatisticsTimeSeriesChartDialogComponent
-  implements HsDialogComponent, OnInit
-{
+  implements HsDialogComponent, OnInit {
   @Input() data: {
     rows: any[] | {[key: string]: {values: CorpusItemValues}};
     columns: string[];
@@ -49,10 +46,8 @@ export class HsStatisticsTimeSeriesChartDialogComponent
   }[];
 
   constructor(
-    public HsDialogContainerService: HsDialogContainerService,
-    public HsLayerUtilsService: HsLayerUtilsService,
-    private HsLanguageService: HsLanguageService,
-    private elementRef: ElementRef
+    public hsDialogContainerService: HsDialogContainerService,
+    public hsLayerUtilsService: HsLayerUtilsService
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +91,7 @@ export class HsStatisticsTimeSeriesChartDialogComponent
   }
 
   close(): void {
-    this.HsDialogContainerService.destroy(this, this.data.app);
+    this.hsDialogContainerService.destroy(this, this.data.app);
   }
 
   selectVariable(variable): void {
