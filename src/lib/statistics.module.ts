@@ -7,6 +7,8 @@ import {HsPanelHelpersModule, HsUploadModule} from 'hslayers-ng';
 import {NgbDropdownModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbsPipe} from './abs.pipe';
+import {HsErrorDialogComponent} from './error-dialog/error-dialog.component';
+import {HsSketchFunctionComponent} from './sketch-function.component';
 import {HsStatisticsCorrelationsComponent} from './correlations.component';
 import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component';
 import {HsStatisticsPanelComponent} from './statistics-panel.component';
@@ -16,7 +18,6 @@ import {HsStatisticsTimeSeriesChartComponent} from './time-series-chart';
 import {HsStatisticsTimeSeriesChartDialogComponent} from './time-series-chart-dialog.component';
 import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
 import {HsStatisticsUploadPanelComponent} from './upload-panel';
-import { HsSketchFunctionComponent } from './sketch-function.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -32,6 +33,7 @@ import { HsSketchFunctionComponent } from './sketch-function.component';
     AbsPipe,
     HsStatisticsTimeSeriesChartComponent,
     HsSketchFunctionComponent,
+    HsErrorDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -54,6 +56,7 @@ import { HsSketchFunctionComponent } from './sketch-function.component';
     HsStatisticsHistogramComponent,
     HsStatisticsTimeSeriesChartComponent,
     HsSketchFunctionComponent,
+    HsErrorDialogComponent,
   ],
 })
 export class HsStatisticsModule {}
