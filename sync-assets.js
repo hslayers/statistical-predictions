@@ -15,6 +15,11 @@ const assets = [
   "https://dih.bosc.lv/statistical-predictions/assets/vidzeme.json",
   "https://dih.bosc.lv/statistical-predictions/assets/administrativas_teritorijas_2021_2.json",
 ];
+
+var dir = __dirname + '/assets';
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, 0744);
+}
 (async () => {
   for (let a of assets) {
     const fileName = path.basename(a);
