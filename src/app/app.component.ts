@@ -139,6 +139,109 @@ export class HslayersAppComponent {
       },
       source: latvianMuniSrc,
     });
+
+    const nuts2Src = new VectorSource({
+      loader: (extent, projection) => {
+        const url = './assets/nutsrg_2.json';
+        this.loadFeatureToSrc(url, nuts2Src);
+      },
+    });
+    const nuts2 = new VectorLayer({
+      visible: false,
+      properties: {
+        title: 'Nuts2 regions',
+        synchronize: false,
+        cluster: false,
+        inlineLegend: true,
+        popUp: {
+          attributes: ['na', 'value'],
+        },
+        editor: {
+          editable: true,
+          defaultAttributes: {
+            na: 'New polygon',
+          },
+        },
+        sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
+            <StyledLayerDescriptor version="1.0.0" 
+                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
+                xmlns="http://www.opengis.net/sld" 
+                xmlns:ogc="http://www.opengis.net/ogc" 
+                xmlns:xlink="http://www.w3.org/1999/xlink" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <NamedLayer>
+                <Name>Simple point with stroke</Name>
+                <UserStyle>
+                  <Title>Default</Title>
+                  <FeatureTypeStyle>
+                    <Rule>
+                    <PolygonSymbolizer>
+                    <Fill>
+                      <CssParameter name="fill">#51a6d1</CssParameter>
+                    </Fill>
+                  </PolygonSymbolizer>
+                    </Rule>
+                  </FeatureTypeStyle>
+                </UserStyle>
+              </NamedLayer>
+            </StyledLayerDescriptor>
+            `,
+        path: 'User generated',
+      },
+      source: nuts2Src,
+    });
+    
+    const nuts3Src = new VectorSource({
+      loader: (extent, projection) => {
+        const url = './assets/nutsrg_3.json';
+        this.loadFeatureToSrc(url, nuts3Src);
+      },
+    });
+    const nuts3 = new VectorLayer({
+      visible: false,
+      properties: {
+        title: 'Nuts3 regions',
+        synchronize: false,
+        cluster: false,
+        inlineLegend: true,
+        popUp: {
+          attributes: ['na', 'value'],
+        },
+        editor: {
+          editable: true,
+          defaultAttributes: {
+            na: 'New polygon',
+          },
+        },
+        sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
+            <StyledLayerDescriptor version="1.0.0" 
+                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
+                xmlns="http://www.opengis.net/sld" 
+                xmlns:ogc="http://www.opengis.net/ogc" 
+                xmlns:xlink="http://www.w3.org/1999/xlink" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <NamedLayer>
+                <Name>Simple point with stroke</Name>
+                <UserStyle>
+                  <Title>Default</Title>
+                  <FeatureTypeStyle>
+                    <Rule>
+                    <PolygonSymbolizer>
+                    <Fill>
+                      <CssParameter name="fill">#51a6d1</CssParameter>
+                    </Fill>
+                  </PolygonSymbolizer>
+                    </Rule>
+                  </FeatureTypeStyle>
+                </UserStyle>
+              </NamedLayer>
+            </StyledLayerDescriptor>
+            `,
+        path: 'User generated',
+      },
+      source: nuts3Src,
+    });
+
     this.HsConfig.update(
       {
         datasources: [
@@ -250,8 +353,9 @@ export class HslayersAppComponent {
           }),
 
           latvianMuni,
-
           vidzemeMuni,
+          nuts2,
+          nuts3,
         ],
       },
       this.app
