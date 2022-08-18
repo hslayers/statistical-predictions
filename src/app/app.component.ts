@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 import GeoJSON from 'ol/format/GeoJSON';
+import VectorLayer from 'ol/layer/Vector';
 import {OSM, Vector as VectorSource, XYZ} from 'ol/source';
 import {Tile} from 'ol/layer';
-import {Vector as VectorLayer} from 'ol/layer';
 
-import vidzeme from '../assets/vidzeme.json';
 import {
   HsConfig,
   HsDialogContainerService,
@@ -20,6 +20,7 @@ import {
 } from 'hslayers-ng';
 import {HsStatisticsPanelComponent} from '../lib/statistics-panel.component';
 import {InfoDialogComponent} from './info.component';
+import {catchError, lastValueFrom} from 'rxjs';
 
 @Component({
   selector: 'hslayers-app',
@@ -35,6 +36,106 @@ export class HslayersAppComponent {
     hsToolbarPanelContainerService: HsToolbarPanelContainerService,
     hsDialogContainerService: HsDialogContainerService
   ) {
+    const vidzemeMuniSrc = new VectorSource({
+      loader: async (extent, projection) => {
+        const url = './assets/vidzeme.json';
+        await loadFeatureToSrc(url, vidzemeMuniSrc);
+      },
+    });
+    const vidzemeMuni = new VectorLayer({
+      properties: {
+        title: 'Vidzeme statistical region municipalities',
+        synchronize: false,
+        cluster: false,
+        inlineLegend: true,
+        popUp: {
+          attributes: ['LABEL', 'value'],
+        },
+        editor: {
+          editable: true,
+          defaultAttributes: {
+            name: 'New polygon',
+            description: 'none',
+          },
+        },
+        sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
+            <StyledLayerDescriptor version="1.0.0" 
+                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
+                xmlns="http://www.opengis.net/sld" 
+                xmlns:ogc="http://www.opengis.net/ogc" 
+                xmlns:xlink="http://www.w3.org/1999/xlink" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <NamedLayer>
+                <Name>Simple point with stroke</Name>
+                <UserStyle>
+                  <Title>Default</Title>
+                  <FeatureTypeStyle>
+                    <Rule>
+                    <PolygonSymbolizer>
+                    <Fill>
+                      <CssParameter name="fill">#51a6d1</CssParameter>
+                    </Fill>
+                  </PolygonSymbolizer>
+                    </Rule>
+                  </FeatureTypeStyle>
+                </UserStyle>
+              </NamedLayer>
+            </StyledLayerDescriptor>
+            `,
+        path: 'User generated',
+      },
+      source: vidzemeMuniSrc,
+    });
+    const latvianMuniSrc = new VectorSource({
+      loader: async (extent, projection) => {
+        const url = './assets/administrativas_teritorijas_2021_2.json';
+        await loadFeatureToSrc(url, vidzemeMuniSrc);
+      },
+    });
+    const latvianMuni = new VectorLayer({
+      properties: {
+        title: 'Latvian municipalities',
+        synchronize: false,
+        cluster: false,
+        inlineLegend: true,
+        popUp: {
+          attributes: ['LABEL', 'value'],
+        },
+        editor: {
+          editable: true,
+          defaultAttributes: {
+            name: 'New polygon',
+            description: 'none',
+          },
+        },
+        sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
+            <StyledLayerDescriptor version="1.0.0" 
+                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
+                xmlns="http://www.opengis.net/sld" 
+                xmlns:ogc="http://www.opengis.net/ogc" 
+                xmlns:xlink="http://www.w3.org/1999/xlink" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <NamedLayer>
+                <Name>Simple point with stroke</Name>
+                <UserStyle>
+                  <Title>Default</Title>
+                  <FeatureTypeStyle>
+                    <Rule>
+                    <PolygonSymbolizer>
+                    <Fill>
+                      <CssParameter name="fill">#51a6d1</CssParameter>
+                    </Fill>
+                  </PolygonSymbolizer>
+                    </Rule>
+                  </FeatureTypeStyle>
+                </UserStyle>
+              </NamedLayer>
+            </StyledLayerDescriptor>
+            `,
+        path: 'User generated',
+      },
+      source: latvianMuniSrc,
+    });
     this.HsConfig.update(
       {
         datasources: [
@@ -139,55 +240,10 @@ export class HslayersAppComponent {
               removable: false,
             },
           }),
-          new VectorLayer({
-            properties: {
-              title: 'Municipalities',
-              synchronize: false,
-              cluster: false,
-              inlineLegend: true,
-              popUp: {
-                attributes: ['LABEL', 'value'],
-              },
-              editor: {
-                editable: true,
-                defaultAttributes: {
-                  name: 'New polygon',
-                  description: 'none',
-                },
-              },
-              sld: `<?xml version="1.0" encoding="ISO-8859-1"?>
-            <StyledLayerDescriptor version="1.0.0" 
-                xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
-                xmlns="http://www.opengis.net/sld" 
-                xmlns:ogc="http://www.opengis.net/ogc" 
-                xmlns:xlink="http://www.w3.org/1999/xlink" 
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-              <NamedLayer>
-                <Name>Simple point with stroke</Name>
-                <UserStyle>
-                  <Title>Default</Title>
-                  <FeatureTypeStyle>
-                    <Rule>
-                    <PolygonSymbolizer>
-                    <Fill>
-                      <CssParameter name="fill">#51a6d1</CssParameter>
-                    </Fill>
-                  </PolygonSymbolizer>
-                    </Rule>
-                  </FeatureTypeStyle>
-                </UserStyle>
-              </NamedLayer>
-            </StyledLayerDescriptor>
-            `,
-              path: 'User generated',
-            },
-            source: new VectorSource({
-              features: new GeoJSON().readFeatures(vidzeme, {
-                dataProjection: 'EPSG:4326',
-                featureProjection: 'EPSG:3857',
-              }),
-            }),
-          }),
+
+          latvianMuni,
+
+          vidzemeMuni,
         ],
       },
       this.app
@@ -211,3 +267,18 @@ export class HslayersAppComponent {
   }
   title = 'hslayers-workspace';
 }
+
+async function loadFeatureToSrc(url: string, vidzemeMuniSrc) {
+  try {
+    const response: any = await lastValueFrom(
+      this.httpClient.get(url).pipe(catchError(async (e) => { }))
+    );
+    vidzemeMuniSrc.addFeatures(
+      new GeoJSON().readFeatures(response, {
+        dataProjection: 'EPSG:4326',
+        featureProjection: 'EPSG:3857',
+      })
+    );
+  } catch (error) { }
+}
+
