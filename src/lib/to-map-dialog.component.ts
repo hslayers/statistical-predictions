@@ -299,5 +299,6 @@ export class HsStatisticsToMapDialogComponent
     if (style) {
       this.selectedLayer.layer.setStyle(style);
     }
+    this.selectedLayer.layer.setVisible(true);
   }
 }
