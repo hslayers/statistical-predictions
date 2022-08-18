@@ -183,6 +183,11 @@ export class HslayersAppComponent {
               STATISTICS: 'Statistics',
               UPLOAD: 'Upload tabular data',
             },
+            ERROR_DIALOG: {
+              MISSING_LAYER: 'Missing layer for visualization',
+              MAKE_SURE_YOU_HAVE:
+                'Make sure You have selected layer before trying to visualize the data on the map!',
+            },
             STATISTICS: {
               AGO: 'ago',
               BY: 'by',
