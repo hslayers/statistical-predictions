@@ -203,6 +203,7 @@ export class HslayersAppComponent {
               MISSING_LAYER: 'Missing layer for visualization',
               MAKE_SURE_YOU_HAVE:
                 'Make sure You have selected layer before trying to visualize the data on the map!',
+              ERROR_STORING_DATA: 'Error storing data to localStorage',
             },
             STATISTICS: {
               AGO: 'ago',

@@ -120,11 +120,24 @@ export class HsStatisticsService {
       }
     }
     Object.assign(appRef.corpus.uses, uses);
-    localStorage.setItem('hs_statistics_corpus', JSON.stringify(appRef.corpus));
-    localStorage.setItem(
-      'hs_statistics_table',
-      JSON.stringify({rows: rows, columns: columns})
-    );
+    try {
+      localStorage.setItem(
+        'hs_statistics_corpus',
+        JSON.stringify(appRef.corpus)
+      );
+      localStorage.setItem(
+        'hs_statistics_table',
+        JSON.stringify({rows: rows, columns: columns})
+      );
+    } catch (error) {
+      this.callErrorDialog(
+        {
+          header: 'ERROR_DIALOG.ERROR_STORING_DATA',
+          errorMessage: error.message,
+        },
+        app
+      );
+    }
   }
 
   addPrediction(
