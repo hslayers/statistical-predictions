@@ -32,20 +32,30 @@
                 <th *ngFor="let col of columns">{{col}}</th>
             </thead>
             <tbody [hidden]="rowsCollapsed">
-                <tr *ngFor="let row of rows">
+                <tr *ngFor="let row of rows | slice:0:limitShown">
                     <td *ngFor="let col of columns">{{row[col]}}</td>
                 </tr>
             </tbody>
         </table>
     </ng-container>
+    <div class="d-flex justify-content-between">
+        <div class="btn-group" data-toggle="buttons">
+            <button type="button" class="btn m-1 btn-primary"
+                (click)="hsStatisticsService.store(rows, columns, uses, app)">{{'STATISTICS.STORE' |
+                translateHs : {app} }}</button>
+            <button type="button" class="btn m-1 btn-secondary" (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP'
+                |
+                translateHs : {app} }}</button>
+        </div>
 
-    <div class="btn-group align-items-center" data-toggle="buttons">
-        <button type="button" class="btn m-1 btn-primary"
-            (click)="hsStatisticsService.store(rows, columns, uses, app)">{{'STATISTICS.STORE' |
-            translateHs : {app} }}</button>
-        <button type="button" class="btn m-1 btn-secondary" (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP'
-            |
-            translateHs : {app} }}</button>
+        <ng-container *ngIf="!rowsCollapsed && dataAvailable()">
+            <div class="btn-group" data-toggle="buttons"><button type="button" class="btn bts-sm m-1 btn-secondary"
+                    (click)="rowsShown('more')">{{'COMMON.more' |
+                    translateHs : {app} }}</button>
+                <button type="button" class="btn m-1 bts-sm btn-secondary" (click)="rowsShown('less')">{{'COMMON.less'
+                    |
+                    translateHs : {app} }}</button>
+            </div>
+        </ng-container>
     </div>
-
 </div>
