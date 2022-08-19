@@ -17,8 +17,7 @@ export type HistogramData = {
   templateUrl: './histogram-chart-dialog.component.html',
 })
 export class HsStatisticsHistogramComponent
-  implements HsDialogComponent, OnInit
-{
+  implements HsDialogComponent, OnInit {
   viewRef: ViewRef;
   descStat: {
     median: number;
@@ -288,6 +287,9 @@ export class HsStatisticsHistogramComponent
     let maxIndex = 0;
     let number = 0;
     values.forEach((val) => {
+      if (Number.isNaN(val)) {
+        return;
+      }
       number = val;
       count[number] = (count[number] || 0) + 1;
       if (count[number] > maxIndex) {

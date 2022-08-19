@@ -33,8 +33,7 @@ import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component
   templateUrl: './to-map-dialog.component.html',
 })
 export class HsStatisticsToMapDialogComponent
-  implements HsDialogComponent, OnInit
-{
+  implements HsDialogComponent, OnInit {
   @Input() data: {
     rows: any[] | {[key: string]: {values: CorpusItemValues}};
     columns: string[];
@@ -47,6 +46,7 @@ export class HsStatisticsToMapDialogComponent
     layer: VectorLayer<VectorSource<Geometry>>;
     title: string;
   };
+  availableVariables: string[] = [];
   selectedVariable: string;
   selectedTimeValue: any;
   timeValues: any[];
@@ -95,10 +95,10 @@ export class HsStatisticsToMapDialogComponent
         })
         .filter((val) => val);
 
-      const variable = this.data.columns.find(
+      this.availableVariables = this.data.columns.filter(
         (col) => this.data.uses[col] == 'variable'
       );
-      this.selectedVariable = variable;
+      this.selectedVariable = this.availableVariables[0];
       if (this.timeValues?.length > 0) {
         this.selectFilter(this.timeValues[this.timeValues.length - 1]);
       }
@@ -171,7 +171,7 @@ export class HsStatisticsToMapDialogComponent
       !this.filteredRows ||
       !this.selectedVariable ||
       !this.selectedTimeValue ||
-      !(this.min > 0 && this.max > 0)
+      !(this.min >= 0 && this.max > 0)
     );
   }
 
