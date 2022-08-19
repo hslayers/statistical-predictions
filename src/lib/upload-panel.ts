@@ -22,7 +22,9 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   uses: Usage = null;
   rows: any[] = [];
   rowsCollapsed = false;
+  records: any[] = [];
   fileInput;
+  limitShown = 50;
   @ViewChild(HsUploadComponent) hsUploadComponent: HsUploadComponent;
   downloadData: any;
   uploadTemplate = `"Municipality name or code",Year,"Variable 1","Variable 2"
@@ -87,13 +89,25 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
         console.error('Something went wrong');
         return;
       }
-      const records = Papa.parse(fileContents[0] as string, {header: true});
-      this.columns = Object.keys(records.data[0]);
+      Papa.parse(fileContents[0] as string, {
+        header: true,
+        skipEmptyLines: true,
+        step: this.trimEmptyCells,
+      });
+      this.columns = Object.keys(this.records[0]);
       this.setUses();
-      this.rows = records.data;
+      this.rows = this.records;
     });
   }
 
+  trimEmptyCells = (results: Papa.ParseResult) => {
+    Object.keys(results.data).forEach((k) => {
+      if (results.data[k] === '') {
+        delete results.data[k];
+      }
+    });
+    this.records.push(results.data);
+  };
   setUses(): void {
     if (!this.columns) {
       return;
@@ -107,9 +121,11 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
         case 'Municipality':
         case 'Field':
         case 'Municipality name or code':
+        case 'AdministrativiTeritorialasVienibasNosaukums':
           this.uses[key] = 'location';
           break;
         case 'Gads':
+        case 'Datums':
         case 'Year':
         case 'Month':
         case 'Date':
@@ -119,5 +135,22 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
           this.uses[key] = 'variable';
       }
     });
+  }
+
+  rowsShown(action: string): void {
+    switch (action) {
+      case 'more':
+        this.limitShown += 50;
+        break;
+      case 'less':
+        if (this.limitShown - 50 == 0) {
+          this.limitShown = 50;
+        } else {
+          this.limitShown -= 50;
+        }
+        break;
+      default:
+        this.limitShown = 50;
+    }
   }
 }
