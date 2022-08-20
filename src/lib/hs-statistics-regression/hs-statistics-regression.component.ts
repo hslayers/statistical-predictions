@@ -5,10 +5,10 @@ import utc from 'dayjs/plugin/utc';
 import {regression} from 'multiregress';
 import {default as vegaEmbed} from 'vega-embed';
 
-import {ColumnWrapper} from './column-wrapper.type';
-import {HsDialogComponent, HsDialogContainerService} from 'hslayers-ng';
-import {HsStatisticsPredictionChartDialogComponent} from './prediction-chart-dialog.component';
-import {HsStatisticsService, ShiftBy} from './statistics.service';
+import {ColumnWrapper} from '../column-wrapper.type';
+import {HsDialogContainerService} from 'hslayers-ng';
+import {HsStatisticsPredictionChartDialogComponent} from '../prediction-chart-dialog.component';
+import {HsStatisticsService, ShiftBy} from '../statistics.service';
 import {linearRegression} from 'simple-statistics';
 
 dayjs.extend(utc);
@@ -19,15 +19,11 @@ const CHART_DIV = '.hs-statistics-regression';
  * data from stored corpus.
  */
 @Component({
-  selector: 'hs-regression-dialog',
-  templateUrl: './regression-dialog.component.html',
+  selector: 'hs-statistics-regression',
+  templateUrl: './hs-statistics-regression.component.html',
 })
-export class HsStatisticsRegressionDialogComponent
-  implements HsDialogComponent, OnInit
-{
-  @Input() data: {
-    app: string;
-  };
+export class HsStatisticsRegressionComponent implements OnInit {
+  @Input() app = 'default';
   viewRef: ViewRef;
   selectedVariable: string;
   selectedLocation: any;
@@ -58,18 +54,14 @@ export class HsStatisticsRegressionDialogComponent
     this.locationColumn = 'location';
     this.timeColumn = 'time';
     tmpTimeValues = Object.keys(
-      this.hsStatisticsService.get(this.data.app).corpus.dict
+      this.hsStatisticsService.get(this.app).corpus.dict
     )
-      .map(
-        (key) => this.hsStatisticsService.get(this.data.app).corpus.dict[key]
-      )
+      .map((key) => this.hsStatisticsService.get(this.app).corpus.dict[key])
       .map((row) => row.time);
     tmpLocValues = Object.keys(
-      this.hsStatisticsService.get(this.data.app).corpus.dict
+      this.hsStatisticsService.get(this.app).corpus.dict
     )
-      .map(
-        (key) => this.hsStatisticsService.get(this.data.app).corpus.dict[key]
-      )
+      .map((key) => this.hsStatisticsService.get(this.app).corpus.dict[key])
       .map((row) => row.location);
 
     this.timeValues = tmpTimeValues.filter((value, index, self) => {
@@ -81,20 +73,16 @@ export class HsStatisticsRegressionDialogComponent
       return self.indexOf(value) === index;
     });
     this.colWrappers = this.hsStatisticsService
-      .get(this.data.app)
+      .get(this.app)
       .corpus.variables.map((col) => {
         return {checked: true, name: col, shift: 0};
       });
-    this.appRef = this.hsStatisticsService.get(this.data.app);
+    this.appRef = this.hsStatisticsService.get(this.app);
   }
 
   updateShifting(variable: string, shiftBy: number) {
     this.shifts[variable] = shiftBy;
     this.visualize();
-  }
-
-  close(): void {
-    this.hsDialogContainerService.destroy(this, this.data.app);
   }
 
   selectVariable(variable): void {
@@ -124,7 +112,7 @@ export class HsStatisticsRegressionDialogComponent
     const {samples, sampleKeys} = this.hsStatisticsService.createShiftedSamples(
       [...factors, this.selectedVariable],
       this.shifts,
-      this.data.app
+      this.app
     );
 
     let coefficients;
@@ -144,13 +132,11 @@ export class HsStatisticsRegressionDialogComponent
     }
 
     const observations = Object.keys(
-      this.hsStatisticsService.get(this.data.app).corpus.dict
+      this.hsStatisticsService.get(this.app).corpus.dict
     )
       .map((key) => {
         const tmp: any = {};
-        const row = this.hsStatisticsService.get(this.data.app).corpus.dict[
-          key
-        ];
+        const row = this.hsStatisticsService.get(this.app).corpus.dict[key];
         Object.assign(tmp, row.values);
         tmp.key = row.location + row.time;
         //Key is a composite of location and time, thus we need to store also the parts separated to calculate shift
@@ -461,7 +447,7 @@ export class HsStatisticsRegressionDialogComponent
       const {samples} = this.hsStatisticsService.createShiftedSamples(
         [factor, this.selectedVariable],
         this.shifts,
-        this.data.app
+        this.app
       );
       const observations = [];
       for (let i = 0; i < samples[0].length; i++) {
@@ -573,7 +559,7 @@ export class HsStatisticsRegressionDialogComponent
 
   storePrediction(col?: ColumnWrapper) {
     this.hsStatisticsService.addPrediction(
-      this.data.app,
+      this.app,
       this.modelName,
       this.selectedRegressionType.name,
       this.multipleRegressionOutput,
@@ -592,9 +578,9 @@ export class HsStatisticsRegressionDialogComponent
       HsStatisticsPredictionChartDialogComponent,
       {
         predictedVariable,
-        app: this.data.app,
+        app: this.app,
       },
-      this.data.app
+      this.app
     );
   }
 }

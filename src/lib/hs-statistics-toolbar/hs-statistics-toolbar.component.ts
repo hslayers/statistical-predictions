@@ -3,7 +3,7 @@ import {HsDialogContainerService} from 'hslayers-ng';
 import {HsStatisticsCorrelationsDialogComponent} from '../hs-statistics-correlations-dialog/correlations-dialog.component';
 
 import {HsStatisticsPredictionChartDialogComponent} from '../prediction-chart-dialog.component';
-import {HsStatisticsRegressionDialogComponent} from '../regression-dialog.component';
+import {HsStatisticsRegressionDialogComponent} from '../hs-statistics-regression-dialog/regression-dialog.component';
 import {HsStatisticsService} from '../statistics.service';
 import {HsStatisticsTimeSeriesChartDialogComponent} from '../time-series-chart-dialog.component';
 import {HsStatisticsToMapDialogComponent} from '../to-map-dialog.component';

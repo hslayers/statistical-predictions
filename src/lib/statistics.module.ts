@@ -14,7 +14,8 @@ import {HsStatisticsCorrelationsDialogComponent} from './hs-statistics-correlati
 import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component';
 import {HsStatisticsPanelComponent} from './statistics-panel.component';
 import {HsStatisticsPredictionChartDialogComponent} from './prediction-chart-dialog.component';
-import {HsStatisticsRegressionDialogComponent} from './regression-dialog.component';
+import {HsStatisticsRegressionComponent} from './hs-statistics-regression/hs-statistics-regression.component';
+import {HsStatisticsRegressionDialogComponent} from './hs-statistics-regression-dialog/regression-dialog.component';
 import {HsStatisticsTimeSeriesChartComponent} from './time-series-chart';
 import {HsStatisticsTimeSeriesChartDialogComponent} from './time-series-chart-dialog.component';
 import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
@@ -31,6 +32,7 @@ import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/h
     HsStatisticsCorrelationsDialogComponent,
     HsStatisticsToMapDialogComponent,
     HsStatisticsTimeSeriesChartDialogComponent,
+    HsStatisticsRegressionComponent,
     HsStatisticsRegressionDialogComponent,
     HsStatisticsHistogramComponent,
     HsStatisticsPredictionChartDialogComponent,
@@ -57,6 +59,7 @@ import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/h
     HsStatisticsCorrelationsComponent,
     HsStatisticsToMapDialogComponent,
     HsStatisticsTimeSeriesChartDialogComponent,
+    HsStatisticsRegressionComponent,
     HsStatisticsRegressionDialogComponent,
     HsStatisticsPredictionChartDialogComponent,
     HsStatisticsHistogramComponent,
