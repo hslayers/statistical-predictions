@@ -46,6 +46,13 @@ export class HsStatisticsService {
   apps: {
     [id: string]: StatisticsServiceParams;
   } = {default: new StatisticsServiceParams()};
+  correlations: {
+    matrix: { [var1: string]: number[]; }; list: {
+      var1: string;
+      var2: string;
+      coefficient: number;
+    }[];
+  };
   constructor(
     public hsLanguageService: HsLanguageService,
     public hsDialogContainerService: HsDialogContainerService,
@@ -65,8 +72,14 @@ export class HsStatisticsService {
     if (savedPredictions) {
       this.get(app).predictions = JSON.parse(savedPredictions);
     }
+    this.afterVariablesChange(app);
     this.setConfig(app);
   }
+
+  private afterVariablesChange(app: string) {
+    this.correlations = this.correlate({}, app);
+  }
+
   /**
    * Get the params saved by the statistics service for the current app
    * @param app - App identifier
@@ -141,6 +154,7 @@ export class HsStatisticsService {
         app
       );
     }
+    this.afterVariablesChange(app);
   }
 
   addPrediction(

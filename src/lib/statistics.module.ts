@@ -9,7 +9,8 @@ import {NgbDropdownModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import {AbsPipe} from './abs.pipe';
 import {HsErrorDialogComponent} from './error-dialog/error-dialog.component';
 import {HsSketchFunctionComponent} from './sketch-function.component';
-import {HsStatisticsCorrelationsComponent} from './correlations.component';
+import {HsStatisticsCorrelationsComponent} from './hs-statistics-correlations/hs-statistics-correlations.component';
+import {HsStatisticsCorrelationsDialogComponent} from './hs-statistics-correlations-dialog/correlations-dialog.component';
 import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component';
 import {HsStatisticsPanelComponent} from './statistics-panel.component';
 import {HsStatisticsPredictionChartDialogComponent} from './prediction-chart-dialog.component';
@@ -17,9 +18,9 @@ import {HsStatisticsRegressionDialogComponent} from './regression-dialog.compone
 import {HsStatisticsTimeSeriesChartComponent} from './time-series-chart';
 import {HsStatisticsTimeSeriesChartDialogComponent} from './time-series-chart-dialog.component';
 import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
+import {HsStatisticsToolbarComponent} from './hs-statistics-toolbar/hs-statistics-toolbar.component';
 import {HsStatisticsUploadPanelComponent} from './upload-panel';
-import { HsStatisticsToolbarComponent } from './hs-statistics-toolbar/hs-statistics-toolbar.component';
-import { HsStatisticsVariableListComponent } from './hs-statistics-variable-list/hs-statistics-variable-list.component';
+import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/hs-statistics-variable-list.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -27,6 +28,7 @@ import { HsStatisticsVariableListComponent } from './hs-statistics-variable-list
     HsStatisticsPanelComponent,
     HsStatisticsUploadPanelComponent,
     HsStatisticsCorrelationsComponent,
+    HsStatisticsCorrelationsDialogComponent,
     HsStatisticsToMapDialogComponent,
     HsStatisticsTimeSeriesChartDialogComponent,
     HsStatisticsRegressionDialogComponent,
@@ -63,6 +65,7 @@ import { HsStatisticsVariableListComponent } from './hs-statistics-variable-list
     HsErrorDialogComponent,
     HsStatisticsToolbarComponent,
     HsStatisticsVariableListComponent,
+    HsStatisticsCorrelationsDialogComponent,
   ],
 })
 export class HsStatisticsModule {}

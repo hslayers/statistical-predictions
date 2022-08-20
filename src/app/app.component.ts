@@ -34,7 +34,7 @@ export class HslayersAppComponent {
     hsLayoutService: HsLayoutService,
     hsQueryPopupService: HsQueryPopupService,
     hsToolbarPanelContainerService: HsToolbarPanelContainerService,
-    private hsStatisticsService: HsStatisticsService
+    public hsStatisticsService: HsStatisticsService
   ) {
     const vidzemeMuniSrc = new VectorSource({
       loader: (extent, projection) => {

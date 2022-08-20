@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HsDialogContainerService} from 'hslayers-ng';
+import {HsStatisticsCorrelationsDialogComponent} from '../hs-statistics-correlations-dialog/correlations-dialog.component';
 
-import {HsStatisticsCorrelationsComponent} from '../correlations.component';
 import {HsStatisticsPredictionChartDialogComponent} from '../prediction-chart-dialog.component';
 import {HsStatisticsRegressionDialogComponent} from '../regression-dialog.component';
 import {HsStatisticsService} from '../statistics.service';
@@ -13,7 +13,7 @@ import {HsStatisticsToMapDialogComponent} from '../to-map-dialog.component';
   templateUrl: './hs-statistics-toolbar.component.html',
   styleUrls: ['./hs-statistics-toolbar.component.sass'],
 })
-export class HsStatisticsToolbarComponent implements OnInit {
+export class HsStatisticsToolbarComponent {
   @Input() app = 'default';
 
   constructor(
@@ -21,11 +21,9 @@ export class HsStatisticsToolbarComponent implements OnInit {
     private hsStatisticsService: HsStatisticsService
   ) {}
 
-  ngOnInit(): void {}
-
   correlate(): void {
     this.hsDialogContainerService.create(
-      HsStatisticsCorrelationsComponent,
+      HsStatisticsCorrelationsDialogComponent,
       {
         correlate: this.hsStatisticsService.correlate({}, this.app),
         app: this.app,
