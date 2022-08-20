@@ -18,6 +18,8 @@ import {HsStatisticsTimeSeriesChartComponent} from './time-series-chart';
 import {HsStatisticsTimeSeriesChartDialogComponent} from './time-series-chart-dialog.component';
 import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
 import {HsStatisticsUploadPanelComponent} from './upload-panel';
+import { HsStatisticsToolbarComponent } from './hs-statistics-toolbar/hs-statistics-toolbar.component';
+import { HsStatisticsVariableTaggerComponent } from './hs-statistics-variable-tagger/hs-statistics-variable-tagger.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -34,6 +36,8 @@ import {HsStatisticsUploadPanelComponent} from './upload-panel';
     HsStatisticsTimeSeriesChartComponent,
     HsSketchFunctionComponent,
     HsErrorDialogComponent,
+    HsStatisticsToolbarComponent,
+    HsStatisticsVariableTaggerComponent,
   ],
   imports: [
     CommonModule,

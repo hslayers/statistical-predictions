@@ -2,17 +2,12 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {
   HsConfig,
-  HsDialogContainerService,
   HsLayoutService,
   HsPanelBaseComponent,
   HsSidebarService,
 } from 'hslayers-ng';
-import {HsStatisticsCorrelationsComponent} from './correlations.component';
-import {HsStatisticsPredictionChartDialogComponent} from './prediction-chart-dialog.component';
-import {HsStatisticsRegressionDialogComponent} from './regression-dialog.component';
 import {HsStatisticsService} from './statistics.service';
-import {HsStatisticsTimeSeriesChartDialogComponent} from './time-series-chart-dialog.component';
-import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
+
 @Component({
   selector: 'hs-statistics',
   templateUrl: './statistics-panel.component.html',
@@ -30,7 +25,6 @@ export class HsStatisticsPanelComponent
     private hsConfig: HsConfig,
     hsLayoutService: HsLayoutService,
     private hsSidebarService: HsSidebarService,
-    private hsDialogContainerService: HsDialogContainerService
   ) {
     super(hsLayoutService);
   }
@@ -133,70 +127,5 @@ export class HsStatisticsPanelComponent
       },
       this.data.app
     );
-  }
-
-  correlate(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsCorrelationsComponent,
-      {
-        correlate: this.hsStatisticsService.correlate({}, this.data.app),
-        app: this.data.app,
-      },
-      this.data.app
-    );
-  }
-
-  visualizeInMap(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsToMapDialogComponent,
-      {
-        rows: this.hsStatisticsService.get(this.data.app).corpus.dict,
-        columns: this.hsStatisticsService.get(this.data.app).corpus.variables,
-        uses: this.hsStatisticsService.get(this.data.app).corpus.uses,
-      },
-      this.data.app
-    );
-  }
-
-  timeSeries(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsTimeSeriesChartDialogComponent,
-      {
-        rows: this.hsStatisticsService.get(this.data.app).corpus.dict,
-        columns: this.hsStatisticsService.get(this.data.app).corpus.variables,
-        uses: this.hsStatisticsService.get(this.data.app).corpus.uses,
-        app: this.data.app,
-      },
-      this.data.app
-    );
-  }
-
-  regression(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsRegressionDialogComponent,
-      {app: this.data.app},
-      this.data.app
-    );
-  }
-
-  predict(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsPredictionChartDialogComponent,
-      {app: this.data.app},
-      this.data.app
-    );
-  }
-
-  removeVariable(varSelected: string) {
-    if (varSelected) {
-      this.hsStatisticsService.get(this.data.app).corpus.variables =
-        this.hsStatisticsService
-          .get(this.data.app)
-          .corpus.variables.filter((variable) => variable != varSelected);
-    }
-  }
-
-  clearAll(): void {
-    this.hsStatisticsService.clear(this.data.app);
   }
 }

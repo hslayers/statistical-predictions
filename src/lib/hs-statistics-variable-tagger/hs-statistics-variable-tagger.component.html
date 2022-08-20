@@ -1,0 +1,25 @@
+<div>
+    {{'STATISTICS.CURRENT_VARIABLES' |
+    translateHs : {app: app} }}: {{appRef.corpus?.variables?.length ?? '0'}}
+
+    <ng-container *ngIf="appRef.corpus?.variables?.length > 0">
+        <ul class="list-group hs-styler-content-list">
+            <ng-container *ngFor="let variable of appRef.corpus.variables">
+                <li
+                    class="list-group-item hs-list-item-header list-group-item-primary d-flex justify-content-between align-items-center">
+                    <div>
+                        {{variable}}
+                    </div>
+                    <div>
+                        <button class="btn btn-danger btn-sm me-0"
+                            (click)="removeVariable(variable)" data-toggle="tooltip"
+                            [title]="'STATISTICS.removeVariable' | translateHs : {app: app} ">
+                            <i class="icon-trash"></i>
+                        </button>
+                    </div>
+                </li>
+            </ng-container>
+        </ul>
+    </ng-container>
+    
+</div>

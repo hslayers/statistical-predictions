@@ -1,0 +1,16 @@
+<div class="btn-group mt-2 align-items-center d-flex justify-content-between" data-toggle="buttons">
+    <button type="button" class="btn btn-sm btn-primary " (click)="correlate()">{{'STATISTICS.CORRELATE' |
+        translateHs : {app: app} }}</button>
+    <button type="button" class="btn btn-sm btn-primary " (click)="regression()">{{'STATISTICS.REGRESSION'
+        |
+        translateHs : {app: app} }}</button>
+    <button type="button" class="btn btn-sm btn-primary " (click)="predict()">{{'STATISTICS.PREDICT'
+        |
+        translateHs : {app: app} }}</button>
+    <button type="button" class="btn btn-sm btn-secondary " (click)="timeSeries()">{{'STATISTICS.TIME_SERIES_CHART' |
+        translateHs : {app: app} }}</button>
+    <button type="button" class="btn btn-sm btn-secondary " (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP' |
+        translateHs : {app: app} }}</button>
+    <button type="button" class="btn btn-sm btn-danger " (click)="clearAll()">{{'STATISTICS.CLEAR_ALL_DATA' |
+        translateHs : {app: app} }}</button>
+</div>
