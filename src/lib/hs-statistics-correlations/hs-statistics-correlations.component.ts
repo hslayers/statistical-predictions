@@ -15,6 +15,7 @@ export class HsStatisticsCorrelationsComponent {
   tabs = Tabs;
   @Input() correlate: any;
   @Input() app = 'default';
+  @Input() dialogMode = false;
 
   tabSelected = Tabs.varList;
   shifts: ShiftBy = {};

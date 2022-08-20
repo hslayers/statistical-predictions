@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HsDialogContainerService} from 'hslayers-ng';
 import {HsStatisticsCorrelationsDialogComponent} from '../hs-statistics-correlations-dialog/correlations-dialog.component';
 
-import {HsStatisticsPredictionChartDialogComponent} from '../prediction-chart-dialog.component';
+import {HsStatisticsPredictionDialogComponent} from '../hs-statistics-prediction-dialog/prediction-dialog.component';
 import {HsStatisticsRegressionDialogComponent} from '../hs-statistics-regression-dialog/regression-dialog.component';
 import {HsStatisticsService} from '../statistics.service';
 import {HsStatisticsTimeSeriesChartDialogComponent} from '../time-series-chart-dialog.component';
@@ -67,7 +67,7 @@ export class HsStatisticsToolbarComponent {
 
   predict(): void {
     this.hsDialogContainerService.create(
-      HsStatisticsPredictionChartDialogComponent,
+      HsStatisticsPredictionDialogComponent,
       {app: this.app},
       this.app
     );

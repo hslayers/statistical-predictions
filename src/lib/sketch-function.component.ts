@@ -16,7 +16,7 @@ import {HsDialogContainerService, HsLayerUtilsService} from 'hslayers-ng';
 })
 export class HsSketchFunctionComponent implements OnChanges {
   @Input() years: number[];
-  @Input() data;
+  @Input() app: string = 'default';
   @ViewChild('canvas') canvas: ElementRef;
   mouseDown: boolean;
   maxValue = 500;

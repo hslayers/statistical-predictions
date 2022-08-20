@@ -13,7 +13,8 @@ import {HsStatisticsCorrelationsComponent} from './hs-statistics-correlations/hs
 import {HsStatisticsCorrelationsDialogComponent} from './hs-statistics-correlations-dialog/correlations-dialog.component';
 import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component';
 import {HsStatisticsPanelComponent} from './statistics-panel.component';
-import {HsStatisticsPredictionChartDialogComponent} from './prediction-chart-dialog.component';
+import {HsStatisticsPredictionComponent} from './hs-statistics-prediction/hs-statistics-prediction.component';
+import {HsStatisticsPredictionDialogComponent} from './hs-statistics-prediction-dialog/prediction-dialog.component';
 import {HsStatisticsRegressionComponent} from './hs-statistics-regression/hs-statistics-regression.component';
 import {HsStatisticsRegressionDialogComponent} from './hs-statistics-regression-dialog/regression-dialog.component';
 import {HsStatisticsTimeSeriesChartComponent} from './time-series-chart';
@@ -35,7 +36,8 @@ import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/h
     HsStatisticsRegressionComponent,
     HsStatisticsRegressionDialogComponent,
     HsStatisticsHistogramComponent,
-    HsStatisticsPredictionChartDialogComponent,
+    HsStatisticsPredictionComponent,
+    HsStatisticsPredictionDialogComponent,
     AbsPipe,
     HsStatisticsTimeSeriesChartComponent,
     HsSketchFunctionComponent,
@@ -61,7 +63,8 @@ import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/h
     HsStatisticsTimeSeriesChartDialogComponent,
     HsStatisticsRegressionComponent,
     HsStatisticsRegressionDialogComponent,
-    HsStatisticsPredictionChartDialogComponent,
+    HsStatisticsPredictionComponent,
+    HsStatisticsPredictionDialogComponent,
     HsStatisticsHistogramComponent,
     HsStatisticsTimeSeriesChartComponent,
     HsSketchFunctionComponent,

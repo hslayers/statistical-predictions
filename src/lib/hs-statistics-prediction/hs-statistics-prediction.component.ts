@@ -1,9 +1,8 @@
 import {Component, Input, OnInit, ViewRef} from '@angular/core';
 
-import {ColumnWrapper} from './column-wrapper.type';
-import {CorpusItemValues, HsStatisticsService} from './statistics.service';
+import {ColumnWrapper} from '../column-wrapper.type';
+import {CorpusItemValues, HsStatisticsService} from '../statistics.service';
 import {
-  HsDialogComponent,
   HsDialogContainerService,
   HsLayerUtilsService,
   HsUtilsService,
@@ -15,15 +14,12 @@ import {
  * data from stored corpus.
  */
 @Component({
-  selector: 'hs-prediction-chart-dialog',
-  templateUrl: './prediction-chart-dialog.component.html',
+  selector: 'hs-statistics-prediction',
+  templateUrl: './hs-statistics-prediction.component.html',
 })
-export class HsStatisticsPredictionChartDialogComponent
-  implements HsDialogComponent, OnInit
-{
-  @Input() data: {
-    app: string;
-  };
+export class HsStatisticsPredictionComponent implements OnInit {
+  @Input() app = 'default';
+  @Input() dialogMode = false;
   viewRef: ViewRef;
   selectedLocation: any;
   timeValues: any[];
@@ -57,12 +53,10 @@ export class HsStatisticsPredictionChartDialogComponent
     this.locationColumn = 'location';
     this.timeColumn = 'time';
 
-    this.predictions = this.hsStatisticsService.get(this.data.app).predictions;
+    this.predictions = this.hsStatisticsService.get(this.app).predictions;
   }
 
-  close(): void {
-    this.hsDialogContainerService.destroy(this, this.data.app);
-  }
+  close(): void {}
 
   dateRangeChanged() {
     const range = (start: number, end: number) =>
@@ -78,7 +72,7 @@ export class HsStatisticsPredictionChartDialogComponent
     this.predictedVariable = prediction.predictedVariable;
     this.dict = Object.assign(
       {},
-      this.hsStatisticsService.get(this.data.app).corpus.dict
+      this.hsStatisticsService.get(this.app).corpus.dict
     );
     const tmpLocValues = Object.keys(this.dict)
       .map((key) => this.dict[key])

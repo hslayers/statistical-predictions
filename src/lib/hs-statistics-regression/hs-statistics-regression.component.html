@@ -28,7 +28,7 @@
 <!--         <button (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
                 class="visually-hidden">{{'COMMON.close' | translateHs : {app: app} }}</span></button> -->
     </div>
-    <div class="modal-body" style="height: 51em; overflow-y:auto">
+    <div class="modal-body" [ngStyle]="dialogMode ? {'max-height':'51em', 'overflow-y':'auto'} : {}">
 
         <div class="flex-row w-100 m-auto justify-content-center align-items-center" style="display: flex">
             <p class="m-0 p-0 flex-fill text-primary">{{'STATISTICS.VARIABLE' | translateHs : {app: app}
