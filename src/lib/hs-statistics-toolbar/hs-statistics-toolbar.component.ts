@@ -5,8 +5,6 @@ import {HsStatisticsCorrelationsDialogComponent} from '../hs-statistics-correlat
 import {HsStatisticsPredictionDialogComponent} from '../hs-statistics-prediction-dialog/prediction-dialog.component';
 import {HsStatisticsRegressionDialogComponent} from '../hs-statistics-regression-dialog/regression-dialog.component';
 import {HsStatisticsService} from '../statistics.service';
-import {HsStatisticsTimeSeriesChartDialogComponent} from '../time-series-chart-dialog.component';
-import {HsStatisticsToMapDialogComponent} from '../to-map-dialog.component';
 
 @Component({
   selector: 'hs-statistics-toolbar',
@@ -32,31 +30,6 @@ export class HsStatisticsToolbarComponent {
     );
   }
 
-  visualizeInMap(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsToMapDialogComponent,
-      {
-        rows: this.hsStatisticsService.get(this.app).corpus.dict,
-        columns: this.hsStatisticsService.get(this.app).corpus.variables,
-        uses: this.hsStatisticsService.get(this.app).corpus.uses,
-      },
-      this.app
-    );
-  }
-
-  timeSeries(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsTimeSeriesChartDialogComponent,
-      {
-        rows: this.hsStatisticsService.get(this.app).corpus.dict,
-        columns: this.hsStatisticsService.get(this.app).corpus.variables,
-        uses: this.hsStatisticsService.get(this.app).corpus.uses,
-        app: this.app,
-      },
-      this.app
-    );
-  }
-
   regression(): void {
     this.hsDialogContainerService.create(
       HsStatisticsRegressionDialogComponent,
@@ -71,9 +44,5 @@ export class HsStatisticsToolbarComponent {
       {app: this.app},
       this.app
     );
-  }
-
-  clearAll(): void {
-    this.hsStatisticsService.clear(this.app);
   }
 }

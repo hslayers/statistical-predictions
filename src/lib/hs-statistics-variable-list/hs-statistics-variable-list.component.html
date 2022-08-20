@@ -11,9 +11,8 @@
                         {{variable}}
                     </div>
                     <div>
-                        <button class="btn btn-danger btn-sm me-0"
-                            (click)="removeVariable(variable)" data-toggle="tooltip"
-                            [title]="'STATISTICS.removeVariable' | translateHs : {app: app} ">
+                        <button class="btn btn-danger btn-sm me-0" (click)="removeVariable(variable)"
+                            data-toggle="tooltip" [title]="'STATISTICS.removeVariable' | translateHs : {app: app} ">
                             <i class="icon-trash"></i>
                         </button>
                     </div>
@@ -21,5 +20,16 @@
             </ng-container>
         </ul>
     </ng-container>
-    
+
+    <div class="btn-group mt-2 align-items-center d-flex justify-content-between" data-toggle="buttons">
+        <button type="button" class="btn btn-sm btn-secondary " (click)="timeSeries()">{{'STATISTICS.TIME_SERIES_CHART'
+            |
+            translateHs : {app: app} }}</button>
+        <button type="button" class="btn btn-sm btn-secondary " (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP'
+            |
+            translateHs : {app: app} }}</button>
+        <button type="button" class="btn btn-sm btn-danger " (click)="clearAll()">{{'STATISTICS.CLEAR_ALL_DATA' |
+            translateHs : {app: app} }}</button>
+    </div>
+
 </div>
