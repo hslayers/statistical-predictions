@@ -286,7 +286,6 @@ export class HslayersAppComponent {
     hsLayoutService.createOverlay(HsQueryPopupComponent, this.app, {
       service: hsQueryPopupService,
     });
-    hsDialogContainerService.create(InfoDialogComponent, {}, this.app);
   }
   title = 'hslayers-workspace';
 
