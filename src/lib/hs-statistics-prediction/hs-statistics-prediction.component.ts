@@ -1,4 +1,12 @@
-import {Component, Input, OnInit, ViewRef} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewRef,
+} from '@angular/core';
 
 import {ColumnWrapper} from '../column-wrapper.type';
 import {CorpusItemValues, HsStatisticsService} from '../statistics.service';
@@ -20,6 +28,7 @@ import {
 export class HsStatisticsPredictionComponent implements OnInit {
   @Input() app = 'default';
   @Input() dialogMode = false;
+  @Output() closed = new EventEmitter<void>();
   viewRef: ViewRef;
   selectedLocation: any;
   timeValues: any[];
@@ -46,7 +55,8 @@ export class HsStatisticsPredictionComponent implements OnInit {
     public hsDialogContainerService: HsDialogContainerService,
     public hsLayerUtilsService: HsLayerUtilsService,
     public hsStatisticsService: HsStatisticsService,
-    private hsUtilsService: HsUtilsService
+    private hsUtilsService: HsUtilsService,
+    public elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +66,9 @@ export class HsStatisticsPredictionComponent implements OnInit {
     this.predictions = this.hsStatisticsService.get(this.app).predictions;
   }
 
-  close(): void {}
+  close(): void {
+    this.closed.emit();
+  }
 
   dateRangeChanged() {
     const range = (start: number, end: number) =>

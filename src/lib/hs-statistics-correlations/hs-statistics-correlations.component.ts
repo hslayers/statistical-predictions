@@ -1,4 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import {HsStatisticsService, ShiftBy} from '../statistics.service';
 
 export enum Tabs {
@@ -16,11 +22,15 @@ export class HsStatisticsCorrelationsComponent {
   @Input() correlate: any;
   @Input() app = 'default';
   @Input() dialogMode = false;
+  @Output() closed = new EventEmitter<void>();
 
   tabSelected = Tabs.varList;
   shifts: ShiftBy = {};
 
-  constructor(private hsStatisticsService: HsStatisticsService) {}
+  constructor(
+    private hsStatisticsService: HsStatisticsService,
+    public elementRef: ElementRef
+  ) {}
 
   updateShifting(variable: string, shiftBy: number) {
     this.shifts[variable] = shiftBy;
@@ -31,5 +41,7 @@ export class HsStatisticsCorrelationsComponent {
     this.tabSelected = tabTitle;
   }
 
-  close(): void {}
+  close(): void {
+    this.closed.emit();
+  }
 }

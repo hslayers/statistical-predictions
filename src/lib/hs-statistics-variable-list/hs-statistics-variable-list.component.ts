@@ -12,7 +12,10 @@ import {HsStatisticsToMapDialogComponent} from '../to-map-dialog.component';
 })
 export class HsStatisticsVariableListComponent implements OnInit {
   @Input() app = 'default';
+  @Input() dialogMode = false;
   appRef;
+  @Input() timeSeriesElementRef?: HTMLElement;
+  @Input() mapVisualizerElementRef?: HTMLElement;
   constructor(
     private hsStatisticsService: HsStatisticsService,
     private hsDialogContainerService: HsDialogContainerService
@@ -36,27 +39,39 @@ export class HsStatisticsVariableListComponent implements OnInit {
   }
 
   visualizeInMap(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsToMapDialogComponent,
-      {
-        rows: this.hsStatisticsService.get(this.app).corpus.dict,
-        columns: this.hsStatisticsService.get(this.app).corpus.variables,
-        uses: this.hsStatisticsService.get(this.app).corpus.uses,
-      },
-      this.app
-    );
+    if (this.dialogMode) {
+      this.hsDialogContainerService.create(
+        HsStatisticsToMapDialogComponent,
+        {
+          rows: this.hsStatisticsService.get(this.app).corpus.dict,
+          columns: this.hsStatisticsService.get(this.app).corpus.variables,
+          uses: this.hsStatisticsService.get(this.app).corpus.uses,
+        },
+        this.app
+      );
+    } else {
+      this.scroll(this.mapVisualizerElementRef);
+    }
   }
 
   timeSeries(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsTimeSeriesChartDialogComponent,
-      {
-        rows: this.hsStatisticsService.get(this.app).corpus.dict,
-        columns: this.hsStatisticsService.get(this.app).corpus.variables,
-        uses: this.hsStatisticsService.get(this.app).corpus.uses,
-        app: this.app,
-      },
-      this.app
-    );
+    if (this.dialogMode) {
+      this.hsDialogContainerService.create(
+        HsStatisticsTimeSeriesChartDialogComponent,
+        {
+          rows: this.hsStatisticsService.get(this.app).corpus.dict,
+          columns: this.hsStatisticsService.get(this.app).corpus.variables,
+          uses: this.hsStatisticsService.get(this.app).corpus.uses,
+          app: this.app,
+        },
+        this.app
+      );
+    } else {
+      this.scroll(this.timeSeriesElementRef);
+    }
+  }
+
+  scroll(el: HTMLElement) {
+    el.scrollIntoView({behavior: 'smooth'});
   }
 }

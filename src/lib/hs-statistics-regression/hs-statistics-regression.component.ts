@@ -1,4 +1,12 @@
-import {Component, ElementRef, Input, OnInit, ViewRef} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewRef,
+} from '@angular/core';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -42,10 +50,12 @@ export class HsStatisticsRegressionComponent implements OnInit {
   multipleRegressionOutput;
   shifts: ShiftBy = {};
   appRef;
+  @Output() closed = new EventEmitter<void>();
+
   constructor(
     private hsDialogContainerService: HsDialogContainerService,
     private hsStatisticsService: HsStatisticsService,
-    private elementRef: ElementRef
+    public elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -583,5 +593,9 @@ export class HsStatisticsRegressionComponent implements OnInit {
       },
       this.app
     );
+  }
+
+  close(): void {
+    this.closed.emit();
   }
 }

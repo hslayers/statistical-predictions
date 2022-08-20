@@ -3,7 +3,7 @@
         <h4 class="modal-title">
             {{'STATISTICS.PREDICT' | translateHs : {app: app} }} {{predictedVariable}}
         </h4>
-        <button (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
+        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
                 class="visually-hidden">{{'COMMON.close' | translateHs : {app: app} }}</span></button>
     </div>
     <div class="modal-body" [ngStyle]="dialogMode ? {'max-height':'600px', 'overflow-y':'auto'} : {}">

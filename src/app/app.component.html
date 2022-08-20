@@ -2,8 +2,6 @@
 
   <info></info>
 
-  <hs-statistics-toolbar></hs-statistics-toolbar>
-
   <h3>Upload data</h3>
 
   <hs-statistics-upload-panel></hs-statistics-upload-panel>
@@ -12,20 +10,24 @@
 
   <hs-statistics-variable-list></hs-statistics-variable-list>
 
+  <hs-statistics-toolbar [predictionComponent]="predictionTemplateRef" [regressionComponent]="regressionTemplateRef"
+    [correlationComponent]="correlationTemplateRef"></hs-statistics-toolbar>
+
   <h3>Correlate</h3>
 
-  <hs-statistics-correlations [correlate]="hsStatisticsService.correlations"></hs-statistics-correlations>
+  <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
+  </hs-statistics-correlations>
 
   <h3>Create predictive model</h3>
 
-  <hs-statistics-regression></hs-statistics-regression>
+  <hs-statistics-regression #regressionTemplateRef></hs-statistics-regression>
 
   <h3>Input X and Predict Y</h3>
 
-  <hs-statistics-prediction></hs-statistics-prediction>
-  
+  <hs-statistics-prediction #predictionTemplateRef></hs-statistics-prediction>
+
   <h3>Visualize on map</h3>
-  
+
 </div>
 
 <hs-layout class="hs-layout" [app]="app" #hslayout layout="column"
