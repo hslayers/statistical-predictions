@@ -9,7 +9,6 @@ import {Tile} from 'ol/layer';
 
 import {
   HsConfig,
-  HsDialogContainerService,
   HsLayerManagerComponent,
   HsLayoutService,
   HsQueryComponent,
@@ -19,8 +18,7 @@ import {
   HsStylerComponent,
   HsToolbarPanelContainerService,
 } from 'hslayers-ng';
-import {HsStatisticsPanelComponent} from '../lib/statistics-panel.component';
-import {InfoDialogComponent} from './info.component';
+import {HsStatisticsService} from '../lib/statistics.service';
 import {defaultStyleSld} from './default-style';
 
 @Component({
@@ -36,7 +34,7 @@ export class HslayersAppComponent {
     hsLayoutService: HsLayoutService,
     hsQueryPopupService: HsQueryPopupService,
     hsToolbarPanelContainerService: HsToolbarPanelContainerService,
-    hsDialogContainerService: HsDialogContainerService
+    private hsStatisticsService: HsStatisticsService
   ) {
     const vidzemeMuniSrc = new VectorSource({
       loader: (extent, projection) => {
@@ -272,7 +270,7 @@ export class HslayersAppComponent {
       this.app
     );
     hsLayoutService.createPanel(HsQueryComponent, this.app, {});
-    hsLayoutService.createPanel(HsStatisticsPanelComponent, this.app, {});
+    this.hsStatisticsService.init();
     hsLayoutService.createPanel(HsLayerManagerComponent, this.app, {
       app: this.app,
     });
