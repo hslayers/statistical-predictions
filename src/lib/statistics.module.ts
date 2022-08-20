@@ -19,7 +19,7 @@ import {HsStatisticsTimeSeriesChartComponent} from './time-series-chart';
 import {HsStatisticsTimeSeriesChartDialogComponent} from './time-series-chart-dialog.component';
 import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
 import {HsStatisticsToolbarComponent} from './hs-statistics-toolbar/hs-statistics-toolbar.component';
-import {HsStatisticsUploadPanelComponent} from './upload-panel';
+import {HsStatisticsUploadPanelComponent} from './hs-statistics-upload-panel/hs-statistics-upload-panel';
 import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/hs-statistics-variable-list.component';
 
 @NgModule({

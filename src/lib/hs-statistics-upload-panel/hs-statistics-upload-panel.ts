@@ -8,12 +8,12 @@ import {
   HsUploadedFiles,
 } from 'hslayers-ng';
 
-import {HsStatisticsService, Usage} from './statistics.service';
-import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
+import {HsStatisticsService, Usage} from '../statistics.service';
+import {HsStatisticsToMapDialogComponent} from '../to-map-dialog.component';
 
 @Component({
-  selector: 'hs-statistics-upload',
-  templateUrl: './upload-panel.component.html',
+  selector: 'hs-statistics-upload-panel',
+  templateUrl: './hs-statistics-upload-panel.component.html',
 })
 export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   @Input() app = 'default';
