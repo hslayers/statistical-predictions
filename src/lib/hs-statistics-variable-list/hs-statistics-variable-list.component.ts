@@ -3,11 +3,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HsStatisticsService} from '../statistics.service';
 
 @Component({
-  selector: 'hs-statistics-variable-tagger',
-  templateUrl: './hs-statistics-variable-tagger.component.html',
-  styleUrls: ['./hs-statistics-variable-tagger.component.sass'],
+  selector: 'hs-statistics-variable-list',
+  templateUrl: './hs-statistics-variable-list.component.html',
+  styleUrls: ['./hs-statistics-variable-list.component.sass'],
 })
-export class HsStatisticsVariableTaggerComponent implements OnInit {
+export class HsStatisticsVariableListComponent implements OnInit {
   @Input() app = 'default';
   appRef;
   constructor(private hsStatisticsService: HsStatisticsService) {}
