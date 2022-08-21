@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HsDialogContainerService} from 'hslayers-ng';
+import {HsStatisticsMapControllerDialogComponent} from '../hs-statistics-map-controller-dialog/hs-statistics-map-controller-dialog.component';
 import {HsStatisticsTimeSeriesDialogComponent} from '../hs-statistics-time-series-dialog/hs-statistics-time-series-dialog.component';
 
 import {HsStatisticsService} from '../statistics.service';
-import {HsStatisticsToMapDialogComponent} from '../to-map-dialog.component';
 
 @Component({
   selector: 'hs-statistics-variable-list',
@@ -41,7 +41,7 @@ export class HsStatisticsVariableListComponent implements OnInit {
   visualizeInMap(): void {
     if (this.dialogMode) {
       this.hsDialogContainerService.create(
-        HsStatisticsToMapDialogComponent,
+        HsStatisticsMapControllerDialogComponent,
         {
           rows: this.hsStatisticsService.get(this.app).corpus.dict,
           columns: this.hsStatisticsService.get(this.app).corpus.variables,

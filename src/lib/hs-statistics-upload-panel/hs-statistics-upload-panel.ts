@@ -8,8 +8,8 @@ import {
   HsUploadedFiles,
 } from 'hslayers-ng';
 
+import {HsStatisticsMapControllerDialogComponent} from '../hs-statistics-map-controller-dialog/hs-statistics-map-controller-dialog.component';
 import {HsStatisticsService, Usage} from '../statistics.service';
-import {HsStatisticsToMapDialogComponent} from '../to-map-dialog.component';
 
 @Component({
   selector: 'hs-statistics-upload-panel',
@@ -60,7 +60,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
 
   visualizeInMap(): void {
     this.hsDialogContainerService.create(
-      HsStatisticsToMapDialogComponent,
+      HsStatisticsMapControllerDialogComponent,
       {
         rows: this.rows,
         columns: this.columns,

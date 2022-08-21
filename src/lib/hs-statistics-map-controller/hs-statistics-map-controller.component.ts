@@ -4,11 +4,11 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import {Geometry} from 'ol/geom';
 import {
-  HsDialogComponent,
   HsDialogContainerService,
   HsLayerUtilsService,
   HsMapService,
   HsStylerService,
+  HsUtilsService,
   getTitle,
   setSld,
 } from 'hslayers-ng';
@@ -20,8 +20,8 @@ import {
   CorpusItemValues,
   HsStatisticsService,
   Usage,
-} from './statistics.service';
-import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component';
+} from '../statistics.service';
+import {HsStatisticsHistogramComponent} from '../histogram-chart-dialog.component';
 
 /**
  * Dialog window to choose variables and filters to visualize data on map.
@@ -29,17 +29,17 @@ import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component
  * data from stored corpus.
  */
 @Component({
-  selector: 'hs-to-map',
-  templateUrl: './to-map-dialog.component.html',
+  selector: 'hs-statistics-map-controller',
+  templateUrl: './hs-statistics-map-controller.component.html',
 })
-export class HsStatisticsToMapDialogComponent
-  implements HsDialogComponent, OnInit {
+export class HsStatisticsMapControllerComponent implements OnInit {
   @Input() data: {
     rows: any[] | {[key: string]: {values: CorpusItemValues}};
     columns: string[];
     uses: Usage;
     app: string;
   };
+  @Input() dialogMode = false;
   viewRef: ViewRef;
   vectorLayers = [];
   selectedLayer: {
@@ -64,7 +64,8 @@ export class HsStatisticsToMapDialogComponent
     public hsLayerUtilsService: HsLayerUtilsService,
     private hsMapService: HsMapService,
     private hsStylerService: HsStylerService,
-    private hsStatisticsService: HsStatisticsService
+    private hsStatisticsService: HsStatisticsService,
+    private hsUtilsService: HsUtilsService
   ) {}
 
   ngOnInit(): void {
@@ -138,8 +139,12 @@ export class HsStatisticsToMapDialogComponent
       this.vectorLayers = [
         ...this.hsMapService
           .getLayersArray(this.data.app)
-          .filter((layer: Layer<Source>) =>
-            this.hsLayerUtilsService.isLayerDrawable(layer)
+          .filter(
+            (layer: Layer<Source>) =>
+              this.hsUtilsService.instOf(layer, VectorLayer) &&
+              this.hsLayerUtilsService.isLayerInManager(layer) &&
+              this.hsLayerUtilsService.hasLayerTitle(layer) &&
+              this.hsLayerUtilsService.isLayerEditable(layer)
           )
           .map((layer: VectorLayer<VectorSource<Geometry>>) => {
             return {layer, title: getTitle(layer)};
@@ -160,10 +165,22 @@ export class HsStatisticsToMapDialogComponent
     title: string;
   }): Promise<void> {
     this.selectedLayer = layer;
-    const features = layer.layer.getSource().getFeatures();
-    if (features.length > 0) {
-      this.locProperties = Object.keys(features[0].getProperties());
+    this.selectedLayer.layer.setVisible(true);
+    this.fillAttributes();
+  }
+
+  /**
+   * Get possible attributes from first feature.
+   * If no features exist, wait for them.
+   */
+  fillAttributes() {
+    const src = this.selectedLayer.layer.getSource();
+    const features = src.getFeatures();
+    if (features.length == 0) {
+      src.once('change', () => this.fillAttributes());
+      return;
     }
+    this.locProperties = Object.keys(features[0].getProperties());
   }
 
   histogramDisabled(): boolean {

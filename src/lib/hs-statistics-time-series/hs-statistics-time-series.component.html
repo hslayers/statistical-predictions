@@ -3,7 +3,7 @@
         <h4 class="modal-title">
             {{'STATISTICS.TIME_SERIES_CHART' | translateHs : {app: data.app} }}
         </h4>
-        <button (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
+        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
                 class="visually-hidden">{{'COMMON.close' | translateHs : {app: data.app} }}</span></button>
     </div>
     <div class="modal-body" style="max-height:600px; overflow-y:auto">

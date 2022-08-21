@@ -30,6 +30,7 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
     uses: Usage;
     app: string;
   };
+  @Input() dialogMode = false;
   viewRef: ViewRef;
   selectedVariable: string;
   selectedLocation: any;
@@ -46,7 +47,6 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
     value: null;
   }[];
   @Output() closed = new EventEmitter<void>();
-  dialogMode: false;
 
   constructor(public hsLayerUtilsService: HsLayerUtilsService) {}
 

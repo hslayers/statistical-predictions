@@ -284,6 +284,7 @@ export class HslayersAppComponent {
     hsLayoutService.createOverlay(HsQueryPopupComponent, this.app, {
       service: hsQueryPopupService,
     });
+    hsLayoutService.setMainPanel('layermanager');
   }
   title = 'hslayers-workspace';
 
