@@ -1,51 +1,82 @@
 <div class="hsl">
 
-  <info></info>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col col-1">
 
-  <h3>Upload data</h3>
+      </div>
+      <div class="col col-10">
+        <info></info>
 
-  <hs-statistics-upload-panel></hs-statistics-upload-panel>
+        <h3>Upload data</h3>
 
-  <h3>List variables</h3>
+        <hs-statistics-upload-panel></hs-statistics-upload-panel>
 
-  <hs-statistics-variable-list></hs-statistics-variable-list>
+        <h3>List variables</h3>
 
-  <hs-statistics-time-series [data]="{
-    rows: hsStatisticsService.get('default').corpus.dict,
-    columns: hsStatisticsService.get('default').corpus.variables,
-    uses: hsStatisticsService.get('default').corpus.uses,
-    app: 'default'
-  }" [dialogMode]="false" app="default"></hs-statistics-time-series>
+        <hs-statistics-variable-list></hs-statistics-variable-list>
+
+        <hs-statistics-time-series [data]="{
+          rows: hsStatisticsService.get('default').corpus.dict,
+          columns: hsStatisticsService.get('default').corpus.variables,
+          uses: hsStatisticsService.get('default').corpus.uses,
+          app: 'default'
+        }" [dialogMode]="false" app="default"></hs-statistics-time-series>
 
 
-  <h3>Visualize on map</h3>
+        <h3>Visualize on map</h3>
 
-  <hs-statistics-map-controller [data]="{
-    rows: hsStatisticsService.get('default').corpus.dict,
-    columns: hsStatisticsService.get('default').corpus.variables,
-    uses: hsStatisticsService.get('default').corpus.uses,
-    app: 'default'
-  }" [dialogMode]="false" app="default"></hs-statistics-map-controller>
+        <hs-statistics-map-controller [data]="{
+          rows: hsStatisticsService.get('default').corpus.dict,
+          columns: hsStatisticsService.get('default').corpus.variables,
+          uses: hsStatisticsService.get('default').corpus.uses,
+          app: 'default'
+        }" [dialogMode]="false" app="default"></hs-statistics-map-controller>
+      </div>
+      <div class="col col-1"></div>
+    </div>
+  </div>
+
 </div>
 
-<hs-layout class="hs-layout" [app]="app" #hslayout layout="column"
-  style="min-height:400px; max-height:100vh; position: relative;width:100%; display:block"></hs-layout>
+<div class="container text-center">
+  <div class="row justify-content-md-center">
+    <div class="col col-1"></div>
+    <div class="col col-10">
+      <hs-layout class="hs-layout" [app]="app" #hslayout style="min-height:400px; max-height:100vh; display:block">
+      </hs-layout>
 
+    </div>
+    <div class="col col-1"></div>
+  </div>
+</div>
 
 <div class="hsl">
-  <hs-statistics-toolbar [predictionComponent]="predictionTemplateRef" [regressionComponent]="regressionTemplateRef"
-    [correlationComponent]="correlationTemplateRef"></hs-statistics-toolbar>
+  <div class="container text-center">
+    <div class="row justify-content-md-center">
+      <div class="col col-1"></div>
+      <div class="col col-10">
 
-  <h3>Correlate</h3>
+        <hs-statistics-toolbar [predictionComponent]="predictionTemplateRef"
+          [regressionComponent]="regressionTemplateRef" [correlationComponent]="correlationTemplateRef">
+        </hs-statistics-toolbar>
 
-  <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
-  </hs-statistics-correlations>
+        <h3>Correlate</h3>
 
-  <h3>Create predictive model</h3>
+        <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
+        </hs-statistics-correlations>
 
-  <hs-statistics-regression #regressionTemplateRef></hs-statistics-regression>
+        <h3>Create predictive model</h3>
 
-  <h3>Input X and Predict Y</h3>
+        <hs-statistics-regression #regressionTemplateRef></hs-statistics-regression>
 
-  <hs-statistics-prediction #predictionTemplateRef></hs-statistics-prediction>
+        <h3>Input X and Predict Y</h3>
+
+        <hs-statistics-prediction #predictionTemplateRef></hs-statistics-prediction>
+
+      </div>
+      <div class="col col-1"></div>
+    </div>
+  </div>
+
 </div>
