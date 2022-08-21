@@ -17,9 +17,9 @@
         <hs-statistics-variable-list></hs-statistics-variable-list>
 
         <hs-statistics-time-series [data]="{
-          rows: hsStatisticsService.get('default').corpus.dict,
-          columns: hsStatisticsService.get('default').corpus.variables,
-          uses: hsStatisticsService.get('default').corpus.uses,
+          rows: statisticsAppRef.corpus.dict,
+          columns: statisticsAppRef.corpus.variables,
+          uses: statisticsAppRef.corpus.uses,
           app: 'default'
         }" [dialogMode]="false" app="default"></hs-statistics-time-series>
 
@@ -27,9 +27,9 @@
         <h3>Visualize on map</h3>
 
         <hs-statistics-map-controller [data]="{
-          rows: hsStatisticsService.get('default').corpus.dict,
-          columns: hsStatisticsService.get('default').corpus.variables,
-          uses: hsStatisticsService.get('default').corpus.uses,
+          rows: statisticsAppRef.corpus.dict,
+          columns: statisticsAppRef.corpus.variables,
+          uses: statisticsAppRef.corpus.uses,
           app: 'default'
         }" [dialogMode]="false" app="default"></hs-statistics-map-controller>
       </div>

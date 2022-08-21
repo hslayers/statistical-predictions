@@ -18,7 +18,10 @@ import {
   HsStylerComponent,
   HsToolbarPanelContainerService,
 } from 'hslayers-ng';
-import {HsStatisticsService} from '../lib/statistics.service';
+import {
+  HsStatisticsService,
+  StatisticsServiceParams,
+} from '../lib/statistics.service';
 import {defaultStyleSld} from './default-style';
 
 @Component({
@@ -28,6 +31,7 @@ import {defaultStyleSld} from './default-style';
 })
 export class HslayersAppComponent {
   app = 'default';
+  statisticsAppRef: StatisticsServiceParams;
   constructor(
     public HsConfig: HsConfig,
     private httpClient: HttpClient,
@@ -285,6 +289,7 @@ export class HslayersAppComponent {
       service: hsQueryPopupService,
     });
     hsLayoutService.setMainPanel('layermanager');
+    this.statisticsAppRef = hsStatisticsService.get('default');
   }
   title = 'hslayers-workspace';
 
