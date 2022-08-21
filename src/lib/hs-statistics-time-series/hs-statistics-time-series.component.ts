@@ -1,28 +1,29 @@
-import {Component, Input, OnInit, ViewRef} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewRef,
+} from '@angular/core';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import {CorpusItemValues, Usage} from './statistics.service';
-import {
-  HsDialogComponent,
-  HsDialogContainerService,
-  HsLayerUtilsService,
-} from 'hslayers-ng';
+import {CorpusItemValues, Usage} from '../statistics.service';
+import {HsLayerUtilsService} from 'hslayers-ng';
 
 dayjs.extend(utc);
-const CHART_DIV = '.hs-statistics-timeseries';
 /**
  * Dialog window to choose variables and filters to visualize data on map.
  * Can be used both for uploaded, but not yet stored data or
  * data from stored corpus.
  */
 @Component({
-  selector: 'hs-time-series-chart-dialog',
-  templateUrl: './time-series-chart-dialog.component.html',
+  selector: 'hs-statistics-time-series',
+  templateUrl: './hs-statistics-time-series.component.html',
 })
-export class HsStatisticsTimeSeriesChartDialogComponent
-  implements HsDialogComponent, OnInit {
+export class HsStatisticsTimeSeriesComponent implements OnInit {
   @Input() data: {
     rows: any[] | {[key: string]: {values: CorpusItemValues}};
     columns: string[];
@@ -44,11 +45,10 @@ export class HsStatisticsTimeSeriesChartDialogComponent
     time_stamp: string | Date;
     value: null;
   }[];
+  @Output() closed = new EventEmitter<void>();
+  dialogMode: false;
 
-  constructor(
-    public hsDialogContainerService: HsDialogContainerService,
-    public hsLayerUtilsService: HsLayerUtilsService
-  ) {}
+  constructor(public hsLayerUtilsService: HsLayerUtilsService) {}
 
   ngOnInit(): void {
     let tmpTimeValues = [];
@@ -88,10 +88,6 @@ export class HsStatisticsTimeSeriesChartDialogComponent
     this.colWrappers = this.data.columns.map((col) => {
       return {checked: true, name: col};
     });
-  }
-
-  close(): void {
-    this.hsDialogContainerService.destroy(this, this.data.app);
   }
 
   selectVariable(variable): void {
@@ -142,5 +138,9 @@ export class HsStatisticsTimeSeriesChartDialogComponent
           ),
         []
       );
+  }
+
+  close(): void {
+    this.closed.emit();
   }
 }

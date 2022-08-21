@@ -17,8 +17,11 @@ import {HsStatisticsPredictionComponent} from './hs-statistics-prediction/hs-sta
 import {HsStatisticsPredictionDialogComponent} from './hs-statistics-prediction-dialog/prediction-dialog.component';
 import {HsStatisticsRegressionComponent} from './hs-statistics-regression/hs-statistics-regression.component';
 import {HsStatisticsRegressionDialogComponent} from './hs-statistics-regression-dialog/regression-dialog.component';
-import {HsStatisticsTimeSeriesChartComponent} from './time-series-chart';
-import {HsStatisticsTimeSeriesChartDialogComponent} from './time-series-chart-dialog.component';
+
+import {HsStatisticsTimeSeriesChartComponent} from './hs-statistics-time-series-chart/time-series-chart';
+import {HsStatisticsTimeSeriesComponent} from './hs-statistics-time-series/hs-statistics-time-series.component';
+import {HsStatisticsTimeSeriesDialogComponent} from './hs-statistics-time-series-dialog/hs-statistics-time-series-dialog.component';
+
 import {HsStatisticsToMapDialogComponent} from './to-map-dialog.component';
 import {HsStatisticsToolbarComponent} from './hs-statistics-toolbar/hs-statistics-toolbar.component';
 import {HsStatisticsUploadPanelComponent} from './hs-statistics-upload-panel/hs-statistics-upload-panel';
@@ -32,14 +35,16 @@ import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/h
     HsStatisticsCorrelationsComponent,
     HsStatisticsCorrelationsDialogComponent,
     HsStatisticsToMapDialogComponent,
-    HsStatisticsTimeSeriesChartDialogComponent,
+    HsStatisticsTimeSeriesChartComponent,
+    HsStatisticsTimeSeriesComponent,
+    HsStatisticsTimeSeriesDialogComponent,
     HsStatisticsRegressionComponent,
     HsStatisticsRegressionDialogComponent,
     HsStatisticsHistogramComponent,
     HsStatisticsPredictionComponent,
     HsStatisticsPredictionDialogComponent,
     AbsPipe,
-    HsStatisticsTimeSeriesChartComponent,
+
     HsSketchFunctionComponent,
     HsErrorDialogComponent,
     HsStatisticsToolbarComponent,
@@ -60,7 +65,9 @@ import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/h
     HsStatisticsUploadPanelComponent,
     HsStatisticsCorrelationsComponent,
     HsStatisticsToMapDialogComponent,
-    HsStatisticsTimeSeriesChartDialogComponent,
+    HsStatisticsTimeSeriesChartComponent,
+    HsStatisticsTimeSeriesComponent,
+    HsStatisticsTimeSeriesDialogComponent,
     HsStatisticsRegressionComponent,
     HsStatisticsRegressionDialogComponent,
     HsStatisticsPredictionComponent,

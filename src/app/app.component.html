@@ -10,6 +10,13 @@
 
   <hs-statistics-variable-list></hs-statistics-variable-list>
 
+  <hs-statistics-time-series [data]="{
+    rows: hsStatisticsService.get('default').corpus.dict,
+    columns: hsStatisticsService.get('default').corpus.variables,
+    uses: hsStatisticsService.get('default').corpus.uses,
+    app: 'default'
+  }" dialogMode="false" app="default" ></hs-statistics-time-series>
+
   <hs-statistics-toolbar [predictionComponent]="predictionTemplateRef" [regressionComponent]="regressionTemplateRef"
     [correlationComponent]="correlationTemplateRef"></hs-statistics-toolbar>
 
