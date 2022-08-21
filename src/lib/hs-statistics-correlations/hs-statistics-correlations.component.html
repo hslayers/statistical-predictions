@@ -1,8 +1,8 @@
 <div class="modal-content">
     <div class="modal-header">
-        <!-- <h4 class="modal-title">
+        <h4 *ngIf="dialogMode" class="modal-title">
             {{'STATISTICS.CORRELATIONS' | translateHs : {app: app} }}
-        </h4> -->
+        </h4>
         <ul class="nav flex-column flex-sm-row justify-content-center" role="tablist">
             <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'btn-primary active': tabSelected === tabs.varList}" role="tab"

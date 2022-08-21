@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h4 class="modal-title">
+        <h4 *ngIf="dialogMode" class="modal-title">
             {{'STATISTICS.TIME_SERIES_CHART' | translateHs : {app: data.app} }}
         </h4>
         <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span

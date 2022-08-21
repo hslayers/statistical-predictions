@@ -8,30 +8,54 @@
       <div class="col col-10">
         <info></info>
 
-        <h3>Upload data</h3>
-
-        <hs-statistics-upload-panel></hs-statistics-upload-panel>
-
-        <h3>List variables</h3>
-
-        <hs-statistics-variable-list></hs-statistics-variable-list>
-
-        <hs-statistics-time-series [data]="{
-          rows: statisticsAppRef.corpus.dict,
-          columns: statisticsAppRef.corpus.variables,
-          uses: statisticsAppRef.corpus.uses,
-          app: 'default'
-        }" [dialogMode]="false" app="default"></hs-statistics-time-series>
+        <div class="card mt-1">
+          <div class="card-body">
+            <h5 class="card-title">Upload data</h5>
+            <p class="card-text">
+              <hs-statistics-upload-panel></hs-statistics-upload-panel>
+            </p>
+          </div>
+        </div>
 
 
-        <h3>Visualize on map</h3>
+        <div class="card mt-1">
+          <div class="card-body">
+            <h5 class="card-title">List variables</h5>
+            <p class="card-text">
+              <hs-statistics-variable-list></hs-statistics-variable-list>
+            </p>
+          </div>
+        </div>
 
-        <hs-statistics-map-controller [data]="{
-          rows: statisticsAppRef.corpus.dict,
-          columns: statisticsAppRef.corpus.variables,
-          uses: statisticsAppRef.corpus.uses,
-          app: 'default'
-        }" [dialogMode]="false" app="default"></hs-statistics-map-controller>
+
+        <div class="card mt-1">
+          <div class="card-body">
+            <h5 class="card-title">Visualize time series</h5>
+            <p class="card-text">
+              <hs-statistics-time-series [data]="{
+                rows: statisticsAppRef.corpus.dict,
+                columns: statisticsAppRef.corpus.variables,
+                uses: statisticsAppRef.corpus.uses,
+                app: 'default'
+              }" [dialogMode]="false" app="default"></hs-statistics-time-series>
+            </p>
+          </div>
+        </div>
+        
+        <div class="card mt-1 mb-1">
+          <div class="card-body">
+            <h5 class="card-title">Visualize on map</h5>
+            <p class="card-text">
+              <hs-statistics-map-controller [data]="{
+                rows: statisticsAppRef.corpus.dict,
+                columns: statisticsAppRef.corpus.variables,
+                uses: statisticsAppRef.corpus.uses,
+                app: 'default'
+              }" [dialogMode]="false" app="default"></hs-statistics-map-controller>
+            </p>
+          </div>
+        </div>
+
       </div>
       <div class="col col-1"></div>
     </div>
@@ -57,22 +81,39 @@
       <div class="col col-1"></div>
       <div class="col col-10">
 
+
         <hs-statistics-toolbar [predictionComponent]="predictionTemplateRef"
           [regressionComponent]="regressionTemplateRef" [correlationComponent]="correlationTemplateRef">
         </hs-statistics-toolbar>
 
-        <h3>Correlate</h3>
+        <div class="card mt-1">
+          <div class="card-body">
+            <h5 class="card-title">Correlate</h5>
+            <p class="card-text">
+              <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
+              </hs-statistics-correlations>
+            </p>
+          </div>
+        </div>
 
-        <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
-        </hs-statistics-correlations>
+        <div class="card mt-1">
+          <div class="card-body">
+            <h5 class="card-title">Create predictive model</h5>
+            <p class="card-text">
+              <hs-statistics-regression #regressionTemplateRef></hs-statistics-regression>
+            </p>
+          </div>
+        </div>
 
-        <h3>Create predictive model</h3>
-
-        <hs-statistics-regression #regressionTemplateRef></hs-statistics-regression>
-
-        <h3>Input X and Predict Y</h3>
-
-        <hs-statistics-prediction #predictionTemplateRef></hs-statistics-prediction>
+      
+        <div class="card mt-1">
+          <div class="card-body">
+            <h5 class="card-title">Input X and Predict Y</h5>
+            <p class="card-text">
+              <hs-statistics-prediction #predictionTemplateRef></hs-statistics-prediction>
+            </p>
+          </div>
+        </div>
 
       </div>
       <div class="col col-1"></div>
