@@ -16,10 +16,10 @@
             translateHs : {app} }}</button>
     </div>
     <ng-container>
-        <table class="table table-sm table-striped table-bordered"
+        <table class="table table-striped table-bordered"
             style="table-layout: fixed;max-height: 500px;display: block;overflow-y: scroll;">
             <thead>
-                <th *ngFor="let col of columns">
+                <th *ngFor="let col of columns" style="min-width: 6em">
                     <select class="form-control form-select" style="border: none;" [(ngModel)]="uses[col]">
                         <option value="ignore">Ignore</option>
                         <option value="location">Location</option>
@@ -39,20 +39,20 @@
         </table>
     </ng-container>
     <div class="d-flex justify-content-between">
-        <div class="btn-group" data-toggle="buttons">
-            <button type="button" class="btn m-1 btn-primary"
+        <div class="btn-group" data-toggle="buttons" *ngIf="dataAvailable()">
+            <button type="button" class="btn btn-primary"
                 (click)="hsStatisticsService.store(rows, columns, uses, app)">{{'STATISTICS.STORE' |
                 translateHs : {app} }}</button>
-            <button type="button" class="btn m-1 btn-secondary" (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP'
+            <button type="button" class="btn btn-secondary" (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP'
                 |
                 translateHs : {app} }}</button>
         </div>
 
         <ng-container *ngIf="!rowsCollapsed && dataAvailable()">
-            <div class="btn-group" data-toggle="buttons"><button type="button" class="btn bts-sm m-1 btn-secondary"
+            <div class="btn-group" data-toggle="buttons"><button type="button" class="btn bts-sm btn-secondary"
                     (click)="rowsShown('more')">{{'COMMON.more' |
                     translateHs : {app} }}</button>
-                <button type="button" class="btn m-1 bts-sm btn-secondary" (click)="rowsShown('less')">{{'COMMON.less'
+                <button type="button" class="btn bts-sm btn-secondary" (click)="rowsShown('less')">{{'COMMON.less'
                     |
                     translateHs : {app} }}</button>
             </div>
