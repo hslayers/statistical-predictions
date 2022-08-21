@@ -47,12 +47,14 @@ export class HsStatisticsService {
     [id: string]: StatisticsServiceParams;
   } = {default: new StatisticsServiceParams()};
   correlations: {
-    matrix: { [var1: string]: number[]; }; list: {
+    matrix: {[var1: string]: number[]};
+    list: {
       var1: string;
       var2: string;
       coefficient: number;
     }[];
   };
+  variableChanges = new Subject<void>();
   constructor(
     public hsLanguageService: HsLanguageService,
     public hsDialogContainerService: HsDialogContainerService,
@@ -76,8 +78,9 @@ export class HsStatisticsService {
     this.setConfig(app);
   }
 
-  private afterVariablesChange(app: string) {
+  afterVariablesChange(app: string) {
     this.correlations = this.correlate({}, app);
+    this.variableChanges.next();
   }
 
   /**
@@ -136,14 +139,23 @@ export class HsStatisticsService {
       }
     }
     Object.assign(appRef.corpus.uses, uses);
+    localStorage.setItem(
+      'hs_statistics_table',
+      JSON.stringify({
+        rows: rows,
+        columns: columns,
+      })
+    );
+    this.save(app);
+    this.afterVariablesChange(app);
+  }
+
+  save(app: string) {
+    const appRef: StatisticsServiceParams = this.get(app);
     try {
       localStorage.setItem(
         'hs_statistics_corpus',
         JSON.stringify(appRef.corpus)
-      );
-      localStorage.setItem(
-        'hs_statistics_table',
-        JSON.stringify({rows: rows, columns: columns})
       );
     } catch (error) {
       this.callErrorDialog(
@@ -154,7 +166,6 @@ export class HsStatisticsService {
         app
       );
     }
-    this.afterVariablesChange(app);
   }
 
   addPrediction(
@@ -322,6 +333,7 @@ export class HsStatisticsService {
       localStorage.removeItem('hs_statistics_corpus');
       localStorage.removeItem('hs_statistics_table');
       appRef.clearData$.next();
+      this.afterVariablesChange(app);
     }
   }
 

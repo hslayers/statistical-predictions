@@ -10,7 +10,11 @@ import {
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import {CorpusItemValues, Usage} from '../statistics.service';
+import {
+  CorpusItemValues,
+  HsStatisticsService,
+  Usage,
+} from '../statistics.service';
 import {HsLayerUtilsService} from 'hslayers-ng';
 
 dayjs.extend(utc);
@@ -24,12 +28,13 @@ dayjs.extend(utc);
   templateUrl: './hs-statistics-time-series.component.html',
 })
 export class HsStatisticsTimeSeriesComponent implements OnInit {
-  @Input() data: {
+  @Input() data?: {
     rows: any[] | {[key: string]: {values: CorpusItemValues}};
     columns: string[];
     uses: Usage;
     app: string;
   };
+  @Input() app? = 'default';
   @Input() dialogMode = false;
   viewRef: ViewRef;
   selectedVariable: string;
@@ -48,11 +53,25 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
   }[];
   @Output() closed = new EventEmitter<void>();
 
-  constructor(public hsLayerUtilsService: HsLayerUtilsService) {}
+  constructor(
+    public hsLayerUtilsService: HsLayerUtilsService,
+    private hsStatisticsService: HsStatisticsService
+  ) {}
 
   ngOnInit(): void {
+    this.init();
+    this.hsStatisticsService.variableChanges.subscribe(() => {
+      this.fillDataFromService();
+      this.init();
+    });
+  }
+
+  init() {
     let tmpTimeValues = [];
     let tmpLocValues = [];
+    if (this.data == undefined) {
+      this.fillDataFromService();
+    }
     if (Array.isArray(this.data.rows)) {
       this.locationColumn = this.data.columns.find(
         (col) => this.data.uses[col] == 'location'
@@ -88,6 +107,16 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
     this.colWrappers = this.data.columns.map((col) => {
       return {checked: true, name: col};
     });
+  }
+
+  private fillDataFromService() {
+    const statisticsAppRef = this.hsStatisticsService.get(this.app);
+    this.data = {
+      rows: statisticsAppRef.corpus.dict,
+      columns: statisticsAppRef.corpus.variables,
+      uses: statisticsAppRef.corpus.uses,
+      app: this.app,
+    };
   }
 
   selectVariable(variable): void {

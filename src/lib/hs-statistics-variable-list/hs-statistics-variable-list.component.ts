@@ -31,6 +31,8 @@ export class HsStatisticsVariableListComponent implements OnInit {
         this.hsStatisticsService
           .get(this.app)
           .corpus.variables.filter((variable) => variable != varSelected);
+      this.hsStatisticsService.afterVariablesChange(this.app);
+      this.hsStatisticsService.save(this.app);
     }
   }
 

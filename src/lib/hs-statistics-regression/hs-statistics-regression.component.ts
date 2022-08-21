@@ -56,23 +56,28 @@ export class HsStatisticsRegressionComponent implements OnInit {
     private hsDialogContainerService: HsDialogContainerService,
     private hsStatisticsService: HsStatisticsService,
     public elementRef: ElementRef
-  ) {}
+  ) {
+    this.hsStatisticsService.variableChanges.subscribe(() => {
+      this.init();
+    });
+  }
 
   ngOnInit(): void {
+    this.appRef = this.hsStatisticsService.get(this.app);
+    this.init();
+  }
+
+  private init() {
     let tmpTimeValues = [];
     let tmpLocValues = [];
 
     this.locationColumn = 'location';
     this.timeColumn = 'time';
-    tmpTimeValues = Object.keys(
-      this.hsStatisticsService.get(this.app).corpus.dict
-    )
-      .map((key) => this.hsStatisticsService.get(this.app).corpus.dict[key])
+    tmpTimeValues = Object.keys(this.appRef.corpus.dict)
+      .map((key) => this.appRef.corpus.dict[key])
       .map((row) => row.time);
-    tmpLocValues = Object.keys(
-      this.hsStatisticsService.get(this.app).corpus.dict
-    )
-      .map((key) => this.hsStatisticsService.get(this.app).corpus.dict[key])
+    tmpLocValues = Object.keys(this.appRef.corpus.dict)
+      .map((key) => this.appRef.corpus.dict[key])
       .map((row) => row.location);
 
     this.timeValues = tmpTimeValues.filter((value, index, self) => {
@@ -83,12 +88,9 @@ export class HsStatisticsRegressionComponent implements OnInit {
     this.locationValues = tmpLocValues.filter((value, index, self) => {
       return self.indexOf(value) === index;
     });
-    this.colWrappers = this.hsStatisticsService
-      .get(this.app)
-      .corpus.variables.map((col) => {
-        return {checked: true, name: col, shift: 0};
-      });
-    this.appRef = this.hsStatisticsService.get(this.app);
+    this.colWrappers = this.appRef.corpus.variables.map((col) => {
+      return {checked: true, name: col, shift: 0};
+    });
   }
 
   updateShifting(variable: string, shiftBy: number) {
