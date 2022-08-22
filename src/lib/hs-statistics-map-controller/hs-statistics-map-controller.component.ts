@@ -70,6 +70,39 @@ export class HsStatisticsMapControllerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.hsStatisticsService.variableChanges.subscribe(() => {
+      this.resetData();
+      this.init();
+    });
+    this.init();
+  }
+
+  private resetData(): void {
+    this.availableVariables = [];
+    this.filteredRows = null;
+    this.timeValues = [];
+    this.max = undefined;
+    this.min = undefined;
+    this.selectedLayer = undefined;
+    this.selectedVariable = undefined;
+    this.selectedTimeValue = undefined;
+    this.selectedLocationProp = undefined;
+    this.locProperties = undefined;
+    this.selectedLocationProp = undefined;
+  }
+
+  private fillDataFromService(): void {
+    const statisticsAppRef = this.hsStatisticsService.get(this.data.app);
+    this.data = {
+      rows: statisticsAppRef.corpus.dict,
+      columns: statisticsAppRef.corpus.variables,
+      uses: statisticsAppRef.corpus.uses,
+      app: this.data.app,
+    };
+  }
+
+  init(): void {
+    this.fillDataFromService();
     if (this.isDataLoaded()) {
       if (Array.isArray(this.data.rows)) {
         this.locationColumn = this.data.columns.find(
@@ -258,6 +291,9 @@ export class HsStatisticsMapControllerComponent implements OnInit {
         },
         this.data.app
       );
+      return;
+    }
+    if (!this.filteredRows) {
       return;
     }
     const features = this.selectedLayer.layer.getSource().getFeatures();

@@ -41,16 +41,20 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
     private hsDialogContainerService: HsDialogContainerService
   ) {
     this.hsStatisticsService.get(this.app).clearData$.subscribe(() => {
-      this.rows = [];
-      this.columns = [];
-      this.uses = {};
-      this.columnAliases = {};
-      this.rowsCollapsed = false;
-      if (this.fileInput?.nativeElement?.value) {
-        this.fileInput.nativeElement.value = '';
-      }
+      this.resetData();
     });
   }
+  private resetData(): void {
+    this.rows = [];
+    this.columns = [];
+    this.uses = {};
+    this.columnAliases = {};
+    this.rowsCollapsed = false;
+    if (this.fileInput?.nativeElement?.value) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
   ngAfterViewInit(): void {
     this.fileInput = this.hsUploadComponent.getFileInput();
   }

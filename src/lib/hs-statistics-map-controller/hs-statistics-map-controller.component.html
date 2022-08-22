@@ -3,8 +3,9 @@
         <h4 *ngIf="dialogMode" class="modal-title">
             {{'STATISTICS.VISUALIZE_MAP' | translateHs : {app: data.app} }}
         </h4>
-        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
-                class="visually-hidden">{{'COMMON.close' | translateHs : {app: data.app} }}</span></button>
+        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span
+                aria-hidden="true"></span><span class="visually-hidden">{{'COMMON.close' | translateHs : {app: data.app}
+                }}</span></button>
     </div>
     <div class="modal-body" style="max-height:600px; overflow-y:auto">
         <div class="flex-row w-100 m-auto justify-content-center align-items-center" style="display: flex">
@@ -24,8 +25,7 @@
                 </button>
                 <div ngbDropdownMenu style="transform: translateX(25%); width: 15em">
                     <div class="d-flex align-items-center w-100 flex-column">
-                        <a class="dropdown-item text-truncate" *ngFor="let layer of vectorLayers"
-                            data-toggle="tooltip"
+                        <a class="dropdown-item text-truncate" *ngFor="let layer of vectorLayers" data-toggle="tooltip"
                             title="{{layer.title | translateHs : {app: data.app, module: 'LAYERS'} }}"
                             (click)="selectLayer(layer);">{{layer.title | translateHs : {app: data.app, module:
                             'LAYERS'} }}</a>
@@ -53,8 +53,8 @@
                 </button>
                 <div ngbDropdownMenu style="transform: translateX(25%); width: 15em">
                     <div class="d-flex align-items-center w-100 flex-column">
-                        <a class="dropdown-item text-truncate" *ngFor="let p of locProperties"
-                            data-toggle="tooltip" title="{{p}}" (click)="selectedLocationProp = p">{{p}}</a>
+                        <a class="dropdown-item text-truncate" *ngFor="let p of locProperties" data-toggle="tooltip"
+                            title="{{p}}" (click)="selectedLocationProp = p">{{p}}</a>
                     </div>
                 </div>
             </div>
@@ -103,8 +103,8 @@
                 </button>
                 <div ngbDropdownMenu style="transform: translateX(25%); width: 15em">
                     <div class="d-flex align-items-center w-100 flex-column">
-                        <a class="dropdown-item text-truncate" *ngFor="let val of timeValues"
-                            data-toggle="tooltip" (click)="selectFilter(val)">{{val}}</a>
+                        <a class="dropdown-item text-truncate" *ngFor="let val of timeValues" data-toggle="tooltip"
+                            (click)="selectFilter(val)">{{val}}</a>
                     </div>
                 </div>
             </div>
@@ -124,12 +124,14 @@
 
 
         <div class="modal-footer">
-            <button class="btn btn-primary" (click)="visualizeHistogram();" [disabled]="histogramDisabled()"
-                data-dismiss="modal">{{'STATISTICS.DESCRIPTIVE_STATISTICS'
-                | translateHs : {app: data.app} }}</button>
-            <button class="btn btn-primary" (click)="visualize();" [disabled]="!filteredRows"
-                data-dismiss="modal">{{'STATISTICS.VISUALIZE'
-                | translateHs : {app: data.app} }}</button>
+            <div class="btn-group mt-1" data-toggle="buttons">
+                <button class="btn btn-primary" (click)="visualizeHistogram();" [disabled]="histogramDisabled()"
+                    data-dismiss="modal">{{'STATISTICS.DESCRIPTIVE_STATISTICS'
+                    | translateHs : {app: data.app} }}</button>
+                <button class="btn btn-primary" (click)="visualize();" [disabled]="!filteredRows"
+                    data-dismiss="modal">{{'STATISTICS.VISUALIZE'
+                    | translateHs : {app: data.app} }}</button>
+            </div>
         </div>
     </div>
 </div>
