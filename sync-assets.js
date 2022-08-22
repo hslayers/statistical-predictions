@@ -14,6 +14,7 @@ console.log("Downloading assets");
 const assets = [
   "https://dih.bosc.lv/statistical-predictions/assets/vidzeme.json",
   "https://dih.bosc.lv/statistical-predictions/assets/administrativas_teritorijas_2021_2.json",
+  "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_1.json",
   "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_2.json",
   "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_3.json"
 ];

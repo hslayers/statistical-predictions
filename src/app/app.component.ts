@@ -154,6 +154,35 @@ export class HslayersAppComponent {
       source: nuts3Src,
     });
 
+    const nuts1Src = new VectorSource({
+      loader: (extent, projection) => {
+        const url = './assets/nutsrg_1.json';
+        this.loadFeatureToSrc(url, nuts1Src);
+      },
+    });
+
+    const nuts1 = new VectorLayer({
+      visible: false,
+      properties: {
+        title: 'Nuts1 regions (countries)',
+        synchronize: false,
+        cluster: false,
+        inlineLegend: true,
+        popUp: {
+          attributes: ['na', 'value'],
+        },
+        editor: {
+          editable: true,
+          defaultAttributes: {
+            na: 'New polygon',
+          },
+        },
+        sld: defaultStyleSld,
+        path: 'User generated',
+      },
+      source: nuts1Src,
+    });
+
     this.HsConfig.update(
       {
         datasources: [
@@ -267,6 +296,7 @@ export class HslayersAppComponent {
 
           latvianMuni,
           vidzemeMuni,
+          nuts1,
           nuts2,
           nuts3,
         ],
