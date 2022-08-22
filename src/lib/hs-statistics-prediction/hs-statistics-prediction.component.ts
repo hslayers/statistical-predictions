@@ -57,7 +57,11 @@ export class HsStatisticsPredictionComponent implements OnInit {
     public hsStatisticsService: HsStatisticsService,
     private hsUtilsService: HsUtilsService,
     public elementRef: ElementRef
-  ) {}
+  ) {
+    this.hsStatisticsService.predictionsAdded.subscribe((newPrediction) => {
+      this.selectPrediction(newPrediction);
+    });
+  }
 
   ngOnInit(): void {
     this.locationColumn = 'location';

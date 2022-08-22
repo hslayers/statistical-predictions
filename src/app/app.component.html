@@ -131,14 +131,22 @@
             </div>
           </div>
           <div class="card-body">
-              <hs-statistics-regression #regressionTemplateRef></hs-statistics-regression>
+              <hs-statistics-regression [predictionsComponent]="predictionTemplateRef" #regressionTemplateRef></hs-statistics-regression>
           </div>
         </div>
 
 
         <div class="card mt-1">
+          <div class="card-header d-flex">
+            <div class="flex-grow-1">
+              <h5>Input X and Predict Y</h5>
+            </div>
+            <div class=""><a>
+                <i class="icon-question-sign text-secondary"></i>
+              </a>
+            </div>
+          </div>
           <div class="card-body">
-            <h5 class="card-title">Input X and Predict Y</h5>
             <p class="card-text">
               <hs-statistics-prediction #predictionTemplateRef></hs-statistics-prediction>
             </p>

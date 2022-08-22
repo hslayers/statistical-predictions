@@ -35,6 +35,14 @@ export interface CorpusItems {
   uses: Usage;
 }
 
+export type Prediction = {
+  name: string;
+  type: 'linear' | 'multi-linear';
+  predictedVariable: string;
+  coefficients: any;
+  variables: ColumnWrapper[];
+};
+
 export class StatisticsServiceParams {
   /** Main hash table of time+location keys and values which are populated from columns marked as 'variable'*/
   corpus: CorpusItems = {dict: {}, variables: [], uses: {}};
@@ -59,6 +67,7 @@ export class HsStatisticsService {
     }[];
   };
   variableChanges = new Subject<void>();
+  predictionsAdded = new Subject<Prediction>();
   constructor(
     public hsLanguageService: HsLanguageService,
     public hsDialogContainerService: HsDialogContainerService,
@@ -181,17 +190,19 @@ export class HsStatisticsService {
     variables: ColumnWrapper[]
   ) {
     const appRef = this.get(app);
-    appRef.predictions.push({
+    const newPrediction = {
       name,
       type,
       predictedVariable,
       coefficients,
       variables,
-    });
+    };
+    appRef.predictions.push(newPrediction);
     localStorage.setItem(
       'hs_statistics_predictions',
       JSON.stringify(appRef.predictions)
     );
+    this.predictionsAdded.next(newPrediction);
   }
 
   correlate(

@@ -15,6 +15,7 @@ import {default as vegaEmbed} from 'vega-embed';
 
 import {ColumnWrapper} from '../column-wrapper.type';
 import {HsDialogContainerService} from 'hslayers-ng';
+import {HsStatisticsPredictionComponent} from '../hs-statistics-prediction/hs-statistics-prediction.component';
 import {HsStatisticsPredictionDialogComponent} from '../hs-statistics-prediction-dialog/prediction-dialog.component';
 import {HsStatisticsService, ShiftBy} from '../statistics.service';
 import {linearRegression} from 'simple-statistics';
@@ -33,6 +34,7 @@ const CHART_DIV = '.hs-statistics-regression';
 export class HsStatisticsRegressionComponent implements OnInit {
   @Input() app = 'default';
   @Input() dialogMode = false;
+  @Input() predictionsComponent?: HsStatisticsPredictionComponent;
   viewRef: ViewRef;
   selectedVariable: string;
   selectedLocation: any;
@@ -587,14 +589,18 @@ export class HsStatisticsRegressionComponent implements OnInit {
   }
 
   openPredictionDialog(predictedVariable: string): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsPredictionDialogComponent,
-      {
-        predictedVariable,
-        app: this.app,
-      },
-      this.app
-    );
+    if (this.dialogMode) {
+      this.hsDialogContainerService.create(
+        HsStatisticsPredictionDialogComponent,
+        {
+          predictedVariable,
+          app: this.app,
+        },
+        this.app
+      );
+    } else {
+      this.hsStatisticsService.scroll(this.predictionsComponent.elementRef);
+    }
   }
 
   close(): void {
