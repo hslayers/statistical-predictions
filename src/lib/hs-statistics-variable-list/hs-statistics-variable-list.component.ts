@@ -1,9 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HsDialogContainerService} from 'hslayers-ng';
-import {HsStatisticsMapControllerDialogComponent} from '../hs-statistics-map-controller-dialog/hs-statistics-map-controller-dialog.component';
-import {HsStatisticsTimeSeriesDialogComponent} from '../hs-statistics-time-series-dialog/hs-statistics-time-series-dialog.component';
 
+import {HsStatisticsMapControllerComponent} from '../hs-statistics-map-controller/hs-statistics-map-controller.component';
+import {HsStatisticsMapControllerDialogComponent} from '../hs-statistics-map-controller-dialog/hs-statistics-map-controller-dialog.component';
 import {HsStatisticsService} from '../statistics.service';
+import {HsStatisticsTimeSeriesComponent} from '../hs-statistics-time-series/hs-statistics-time-series.component';
+import {HsStatisticsTimeSeriesDialogComponent} from '../hs-statistics-time-series-dialog/hs-statistics-time-series-dialog.component';
 
 @Component({
   selector: 'hs-statistics-variable-list',
@@ -14,8 +16,8 @@ export class HsStatisticsVariableListComponent implements OnInit {
   @Input() app = 'default';
   @Input() dialogMode = false;
   appRef;
-  @Input() timeSeriesElementRef?: HTMLElement;
-  @Input() mapVisualizerElementRef?: HTMLElement;
+  @Input() mapControllerComponent?: HsStatisticsMapControllerComponent;
+  @Input() timeSeriesComponent?: HsStatisticsTimeSeriesComponent;
   constructor(
     private hsStatisticsService: HsStatisticsService,
     private hsDialogContainerService: HsDialogContainerService
@@ -52,7 +54,7 @@ export class HsStatisticsVariableListComponent implements OnInit {
         this.app
       );
     } else {
-      this.scroll(this.mapVisualizerElementRef);
+      this.hsStatisticsService.scroll(this.mapControllerComponent.elementRef);
     }
   }
 
@@ -69,11 +71,7 @@ export class HsStatisticsVariableListComponent implements OnInit {
         this.app
       );
     } else {
-      this.scroll(this.timeSeriesElementRef);
+      this.hsStatisticsService.scroll(this.timeSeriesComponent.elementRef);
     }
-  }
-
-  scroll(el: HTMLElement) {
-    el.scrollIntoView({behavior: 'smooth'});
   }
 }
