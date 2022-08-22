@@ -432,7 +432,7 @@ export class HsStatisticsService {
               VISUALIZE_MAP: 'To map',
               VISUALIZE: 'Visualize',
               YEARS: 'years',
-              LOCATION_PROPERTY: 'Location property',
+              LOCATION_PROPERTY: 'Location property in layer (country code, ZIP, field number, etc.)',
               DOWNLOAD_TEMPLATE_HINT: `Upload data in CSV format. A template can be downloaded`,
               HERE: 'here',
               OPTIONAL: '(optional)',
