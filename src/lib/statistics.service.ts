@@ -455,6 +455,7 @@ export class HsStatisticsService {
               MODEL_NAME: 'Model name',
               FUNCTION: 'Function',
               DRAG_TO_DRAW: 'Drag mouse in this area to draw',
+              STORED_STATISTICAL_MODEL: 'Stored statistical model',
             },
           },
         },
