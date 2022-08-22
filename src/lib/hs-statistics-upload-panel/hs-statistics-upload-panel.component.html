@@ -4,7 +4,7 @@
             [hsDownload]="uploadTemplate" mimeType="text/csv" [href]="downloadData"
             (downloadPrepared)="downloadData = $event" [title]="'STATISTICS.HERE' | translateHs: {app} ">
             {{'STATISTICS.HERE' |
-            translateHs : {app} }}</a>.<br/> Example dataset for life satisfaction of people aged over 16: <a href="assets/life_satisfaction_over_16.csv" target="_blank">energy_consumption.csv</a>. <br/>Example dataset for energy consumption in kilograms of oil per capita per year: <a href="assets/energy_consumption.csv" target="_blank">energy_consumption.csv</a>. 
+            translateHs : {app} }}</a>.<br/> Example dataset for life satisfaction of people aged over 16: <a href="assets/life_satisfaction_over_16.csv" target="_blank">life_satisfaction_over_16.csv</a>. <br/>Example dataset for energy consumption in kilograms of oil per capita per year: <a href="assets/energy_consumption.csv" target="_blank">energy_consumption.csv</a>. 
     </div>
     <div class="form-group m-3">
         <hs-file-upload (uploaded)="handleFileUpload($event)" [app]="app" uploader="hs-sld-upload"
