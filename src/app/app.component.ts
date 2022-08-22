@@ -85,7 +85,7 @@ export class HslayersAppComponent {
         cluster: false,
         inlineLegend: true,
         popUp: {
-          attributes: ['LABEL', 'value'],
+          attributes: ['LABEL', 'NOSAUKUMS', 'value'],
         },
         editor: {
           editable: true,
@@ -114,7 +114,7 @@ export class HslayersAppComponent {
         cluster: false,
         inlineLegend: true,
         popUp: {
-          attributes: ['na', 'value'],
+          attributes: ['na', 'value', 'id'],
         },
         editor: {
           editable: true,
@@ -143,7 +143,7 @@ export class HslayersAppComponent {
         cluster: false,
         inlineLegend: true,
         popUp: {
-          attributes: ['na', 'value'],
+          attributes: ['na', 'value', 'id'],
         },
         editor: {
           editable: true,
@@ -172,7 +172,7 @@ export class HslayersAppComponent {
         cluster: false,
         inlineLegend: true,
         popUp: {
-          attributes: ['na', 'value'],
+          attributes: ['na', 'value', 'id'],
         },
         editor: {
           editable: true,
@@ -201,7 +201,7 @@ export class HslayersAppComponent {
         cluster: false,
         inlineLegend: true,
         popUp: {
-          attributes: ['na', 'value'],
+          attributes: ['na', 'value', 'id'],
         },
         editor: {
           editable: true,

@@ -34,11 +34,8 @@
             </div>
           </div>
           <div class="card-body">
-            <h5 class="card-title">List variables</h5>
-            <p class="card-text">
-              <hs-statistics-variable-list [timeSeriesComponent]="timeSeriesTemplateRef"
-                [mapControllerComponent]="mapControllerTemplateRef"></hs-statistics-variable-list>
-            </p>
+            <hs-statistics-variable-list [timeSeriesComponent]="timeSeriesTemplateRef"
+              [mapControllerComponent]="mapControllerTemplateRef"></hs-statistics-variable-list>
           </div>
         </div>
 
@@ -54,8 +51,8 @@
             </div>
           </div>
           <div class="card-body">
-              <hs-statistics-time-series #timeSeriesTemplateRef [dialogMode]="false" app="default">
-              </hs-statistics-time-series>
+            <hs-statistics-time-series #timeSeriesTemplateRef [dialogMode]="false" app="default">
+            </hs-statistics-time-series>
           </div>
         </div>
 
@@ -70,6 +67,13 @@
             </div>
           </div>
           <div class="card-body">
+            <div class="card-subtitle">
+              To visualize data on a map we must first choose the layer on which to draw and specify attribute (country
+              code, ZIP, field number, etc.) on the geographical objects by which to find matching records in the CSV.
+              Values must match with the column marked as `location` when uploading the CSV data.<br /><br />
+              Select a variable (phenomenon) which to visualize and time dimension (year) because it makes sense to
+              compare values between regions only in the same year.
+            </div>
             <hs-statistics-map-controller #mapControllerTemplateRef [data]="{
                 rows: statisticsAppRef.corpus.dict,
                 columns: statisticsAppRef.corpus.variables,
@@ -120,6 +124,18 @@
             </div>
           </div>
           <div class="card-body">
+            <div class="card-subtitle">
+              To create a predictive model where one variable depends on other those variables need to be proven to be
+              related. It is done by calculating correlation coefficients.
+              <br /><br />
+              Values always range between -1 (strong negative relationship) and +1 (strong positive relationship).
+              <br />
+              Values at or close to zero imply a weak or no linear relationship.<br />
+              Correlation coefficient values less than +0.8 or greater than -0.8 are not considered significant.<br />
+
+              Using the shifting sliders we can calculate correlation between delayed phenomena such as `investment` vs
+              `revenue`, `educated students` vs `number of professionals` etc.
+            </div>
             <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
             </hs-statistics-correlations>
           </div>
@@ -136,6 +152,11 @@
             </div>
           </div>
           <div class="card-body">
+            <div class="card-subtitle">
+              In case of a significant correlation we can choose one of the variables as dependant, the other as
+              depended variable and observe a scatterplot with diagonal line.
+            </div>
+
             <hs-statistics-regression [predictionsComponent]="predictionTemplateRef" #regressionTemplateRef>
             </hs-statistics-regression>
           </div>
