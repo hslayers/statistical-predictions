@@ -29,7 +29,12 @@
                 </th>
             </thead>
             <thead style="vertical-align: middle;">
-                <th *ngFor="let col of columns">{{col}}</th>
+                <th *ngFor="let col of columns">
+                    <ng-container *ngIf="uses[col] !== 'variable'">
+                        {{col}}
+                    </ng-container>
+                    <input *ngIf="uses[col] === 'variable'" class="form-control" [(ngModel)]="columnAliases[col]"/>
+                </th>
             </thead>
             <tbody [hidden]="rowsCollapsed">
                 <tr *ngFor="let row of rows | slice:0:limitShown">
@@ -41,7 +46,7 @@
     <div class="d-flex justify-content-between">
         <div class="btn-group" data-toggle="buttons" *ngIf="dataAvailable()">
             <button type="button" class="btn btn-primary"
-                (click)="hsStatisticsService.store(rows, columns, uses, app)">{{'STATISTICS.STORE' |
+                (click)="hsStatisticsService.store(rows, columns, columnAliases, uses, app)">{{'STATISTICS.STORE' |
                 translateHs : {app} }}</button>
             <button type="button" class="btn btn-secondary" (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP'
                 |

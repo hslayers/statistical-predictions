@@ -8,9 +8,9 @@ import {
   HsUploadedFiles,
 } from 'hslayers-ng';
 
+import {ColumnAlias, HsStatisticsService, Usage} from '../statistics.service';
 import {HsStatisticsMapControllerComponent} from '../hs-statistics-map-controller/hs-statistics-map-controller.component';
 import {HsStatisticsMapControllerDialogComponent} from '../hs-statistics-map-controller-dialog/hs-statistics-map-controller-dialog.component';
-import {HsStatisticsService, Usage} from '../statistics.service';
 
 @Component({
   selector: 'hs-statistics-upload-panel',
@@ -23,6 +23,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   public title = '';
   columns: string[] = [];
   uses: Usage = null;
+  columnAliases: ColumnAlias = null;
   rows: any[] = [];
   rowsCollapsed = false;
   records: any[] = [];
@@ -39,18 +40,11 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
     public hsConfig: HsConfig,
     private hsDialogContainerService: HsDialogContainerService
   ) {
-    if (!this.rows && !this.columns) {
-      const savedTable = localStorage.getItem('hs_statistics_table');
-      if (savedTable) {
-        this.rows = JSON.parse(savedTable).rows;
-        this.columns = JSON.parse(savedTable).columns;
-        this.setUses();
-      }
-    }
     this.hsStatisticsService.get(this.app).clearData$.subscribe(() => {
       this.rows = [];
       this.columns = [];
       this.uses = {};
+      this.columnAliases = {};
       this.rowsCollapsed = false;
       if (this.fileInput?.nativeElement?.value) {
         this.fileInput.nativeElement.value = '';
@@ -120,6 +114,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
       return;
     }
     this.uses = {};
+    this.columnAliases = {};
     this.columns.map((key) => {
       switch (key) {
         case 'Novads':
@@ -142,6 +137,9 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
           break;
         default:
           this.uses[key] = 'variable';
+      }
+      if (this.uses[key] == 'variable') {
+        this.columnAliases[key] = key;
       }
     });
   }

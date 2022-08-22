@@ -15,6 +15,10 @@ export interface Usage {
   [key: string]: 'location' | 'ignore' | 'time' | 'variable';
 }
 
+export interface ColumnAlias {
+  [key: string]: string;
+}
+
 export interface CorpusItemValues {
   [key: string]: number;
 }
@@ -102,7 +106,13 @@ export class HsStatisticsService {
     });
   }
 
-  store(rows: any[], columns: string[], uses: Usage, app: string): void {
+  store(
+    rows: any[],
+    columns: string[],
+    columnAliases: ColumnAlias,
+    uses: Usage,
+    app: string
+  ): void {
     const appRef = this.get(app);
     if (!rows || !columns) {
       return;
@@ -126,9 +136,10 @@ export class HsStatisticsService {
         corpusItem = appRef.corpus.dict[key];
       }
       for (const col of columns.filter((col) => uses[col] == 'variable')) {
+        const colName = columnAliases[col];
         //Why is this here? It breaks key comparisons between columns and usages
         //Answer: Its needed because vega treats everything after dot as a hierarchical sub-variable
-        const escapedCol = col.replace(/\./g, '');
+        const escapedCol = colName.replace(/\./g, '');
         corpusItem.values[escapedCol] = parseFloat(row[col]);
         if (!appRef.corpus.variables.some((v) => v == escapedCol)) {
           appRef.corpus.variables.push(escapedCol);
@@ -139,13 +150,6 @@ export class HsStatisticsService {
       }
     }
     Object.assign(appRef.corpus.uses, uses);
-    localStorage.setItem(
-      'hs_statistics_table',
-      JSON.stringify({
-        rows: rows,
-        columns: columns,
-      })
-    );
     this.save(app);
     this.afterVariablesChange(app);
   }
@@ -331,7 +335,6 @@ export class HsStatisticsService {
       appRef.corpus.variables = [];
       appRef.corpus.uses = {};
       localStorage.removeItem('hs_statistics_corpus');
-      localStorage.removeItem('hs_statistics_table');
       appRef.clearData$.next();
       this.afterVariablesChange(app);
     }
