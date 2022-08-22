@@ -10,10 +10,13 @@ export class InfoDialogComponent implements OnDestroy {
   private end = new Subject<void>();
   viewRef: ViewRef;
   data: any;
+  visible = true;
 
   constructor(public elementRef: ElementRef) {}
 
-  close(): void {}
+  close(): void {
+    this.visible = false;
+  }
 
   ngOnDestroy(): void {
     this.end.next();

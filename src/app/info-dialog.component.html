@@ -1,9 +1,9 @@
-<div class="alert alert-primary alert-dismissible fade show" role="alert">
+<div class="alert alert-primary alert-dismissible fade show" *ngIf="visible" role="alert">
     <h4 class="modal-title">
         About
     </h4>
 
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="close()" aria-label="Close"></button>
 
     This tool allows to easily visualize statistical data in <a
         href="https://support.microsoft.com/en-us/office/save-a-workbook-to-text-format-txt-or-csv-3e9a9d6c-70da-4255-aa28-fcacf1f081e6">CSV
