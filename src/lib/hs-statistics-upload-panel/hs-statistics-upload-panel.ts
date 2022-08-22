@@ -126,6 +126,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
         case 'Pagasts':
         case 'Pašvaldība':
         case 'Municipality':
+        case 'geo':
         case 'Field':
         case 'Municipality name or code':
         case 'AdministrativiTeritorialasVienibasNosaukums':
@@ -135,6 +136,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
         case 'Datums':
         case 'Year':
         case 'Month':
+        case 'TIME_PERIOD':
         case 'Date':
           this.uses[key] = 'time';
           break;
