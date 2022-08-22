@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -9,13 +10,13 @@ import {
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import {HsLayerUtilsService} from 'hslayers-ng';
 
 import {
   CorpusItemValues,
   HsStatisticsService,
   Usage,
 } from '../statistics.service';
-import {HsLayerUtilsService} from 'hslayers-ng';
 
 dayjs.extend(utc);
 /**
@@ -55,17 +56,27 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
 
   constructor(
     public hsLayerUtilsService: HsLayerUtilsService,
-    private hsStatisticsService: HsStatisticsService
+    private hsStatisticsService: HsStatisticsService,
+    public elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
     this.init();
     this.hsStatisticsService.variableChanges.subscribe(() => {
+      this.clearData();
       this.fillDataFromService();
       this.init();
     });
   }
 
+  private clearData(): void {
+    this.selectedVariable = undefined;
+    this.filteredRows = null;
+    this.locationValues = [];
+    this.colWrappers = [];
+    this.selectedLocation = undefined;
+    this.observations = [];
+  }
   init() {
     let tmpTimeValues = [];
     let tmpLocValues = [];

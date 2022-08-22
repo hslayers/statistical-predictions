@@ -3,8 +3,9 @@
         <h4 *ngIf="dialogMode" class="modal-title">
             {{'STATISTICS.TIME_SERIES_CHART' | translateHs : {app: data.app} }}
         </h4>
-        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
-                class="visually-hidden">{{'COMMON.close' | translateHs : {app: data.app} }}</span></button>
+        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span
+                aria-hidden="true"></span><span class="visually-hidden">{{'COMMON.close' | translateHs : {app: data.app}
+                }}</span></button>
     </div>
     <div class="modal-body" style="max-height:600px; overflow-y:auto">
         <div class="flex-row w-100 m-auto justify-content-center align-items-center" style="display: flex">
@@ -25,8 +26,8 @@
                 </button>
                 <div ngbDropdownMenu style="transform: translateX(25%); width: 15em">
                     <div class="d-flex align-items-center w-100 flex-column">
-                        <a class="dropdown-item text-truncate" *ngFor="let val of locationValues"
-                            data-toggle="tooltip" (click)="selectFilter(val)">{{val}}</a>
+                        <a class="dropdown-item text-truncate" *ngFor="let val of locationValues" data-toggle="tooltip"
+                            (click)="selectFilter(val)">{{val}}</a>
                     </div>
                 </div>
             </div>
@@ -49,14 +50,14 @@
             </ng-container>
         </ul>
 
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column" *ngIf="observations?.length > 0">
             <div class="align-self-stretch">
                 <hs-time-series-chart [observations]="observations"></hs-time-series-chart>
             </div>
         </div>
 
         <div class="modal-footer">
-            <button class="btn btn-primary" [disabled]="!filteredRows" (click)="visualize();"
+            <button class="btn btn-primary mt-1" [disabled]="!filteredRows" (click)="visualize();"
                 data-dismiss="modal">{{'STATISTICS.VISUALIZE'
                 | translateHs : {app: data.app} }}</button>
         </div>
