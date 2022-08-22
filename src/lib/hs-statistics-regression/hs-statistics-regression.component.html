@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div class="row" *ngIf="col.regressionOutput">
-                            <div class="col-9">
+                            <div class="col-12">
                                 Y - {{selectedVariable}} <br />
                                 X - {{col.name}} <span *ngIf="col.shift !== 0">({{col.shift | abs}} {{
                                     "STATISTICS.YEARS" |
@@ -96,7 +96,9 @@
                                     translateHs : {app: app} }})</span><br />
                                 Y = X * {{col.regressionOutput.m}} + {{col.regressionOutput.b}}
                             </div>
-                            <div class="col-3">
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
                                 <div class="input-group">
                                     <span class="input-group-text">{{ "STATISTICS.MODEL_NAME" | translateHs :
                                         {app: app}
