@@ -9,6 +9,7 @@ import {Tile} from 'ol/layer';
 
 import {
   HsConfig,
+  HsDialogContainerService,
   HsLayerManagerComponent,
   HsLayoutService,
   HsQueryComponent,
@@ -23,6 +24,7 @@ import {
   StatisticsServiceParams,
 } from '../lib/statistics.service';
 import {defaultStyleSld} from './default-style';
+import { HsStatisticsHelpDialogComponent } from './help-dialog/help-dialog.component';
 
 @Component({
   selector: 'hslayers-app',
@@ -38,7 +40,8 @@ export class HslayersAppComponent {
     hsLayoutService: HsLayoutService,
     hsQueryPopupService: HsQueryPopupService,
     hsToolbarPanelContainerService: HsToolbarPanelContainerService,
-    public hsStatisticsService: HsStatisticsService
+    public hsStatisticsService: HsStatisticsService,
+    private hsDialogContainerService: HsDialogContainerService
   ) {
     const vidzemeMuniSrc = new VectorSource({
       loader: (extent, projection) => {
@@ -182,7 +185,6 @@ export class HslayersAppComponent {
       },
       source: nuts1Src,
     });
-
 
     const nuts0Src = new VectorSource({
       loader: (extent, projection) => {
@@ -366,5 +368,33 @@ export class HslayersAppComponent {
         })
       );
     } catch (error) {}
+  }
+
+  showHelp(which: string): void {
+    const helpConfigMap = {
+      upload: {
+        image: 'assets/upload.gif',
+      },
+      timeSeries: {
+        image: 'assets/time-series.gif',
+      },
+      map: {
+        image: 'assets/map.gif',
+      },
+      correlation: {
+        image: 'assets/correlation.gif',
+      },
+      regression: {
+        image: 'assets/regression.gif',
+      },
+      predict: {
+        image: 'assets/predict.gif',
+      },
+    };
+    this.hsDialogContainerService.create(
+      HsStatisticsHelpDialogComponent,
+      helpConfigMap[which],
+      'default'
+    );
   }
 }

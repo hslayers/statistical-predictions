@@ -379,6 +379,7 @@ export class HsStatisticsService {
               ERROR_STORING_DATA: 'Error storing data to localStorage',
             },
             STATISTICS: {
+              HELP: 'Help',
               AGO: 'ago',
               BY: 'by',
               CLEAR_ALL_DATA: 'Clear all data',

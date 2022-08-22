@@ -9,46 +9,68 @@
         <info></info>
 
         <div class="card mt-1">
+          <div class="card-header d-flex">
+            <div class="flex-grow-1">
+              <h5>Upload data</h5>
+            </div>
+            <div class=""><a (click)="showHelp('upload')">
+                <i class="icon-question-sign text-secondary"></i>
+              </a>
+            </div>
+          </div>
           <div class="card-body">
-            <h5 class="card-title">Upload data</h5>
-            <p class="card-text">
-              <hs-statistics-upload-panel [dialogMode]="false" [mapControllerComponent]="mapControllerTemplateRef">
-              </hs-statistics-upload-panel>
-            </p>
+            <hs-statistics-upload-panel [dialogMode]="false" [mapControllerComponent]="mapControllerTemplateRef">
+            </hs-statistics-upload-panel>
           </div>
         </div>
 
 
         <div class="card mt-1">
+          <div class="card-header d-flex">
+            <div class="flex-grow-1">
+              <h5>List variables</h5>
+            </div>
+            <div class="">
+            </div>
+          </div>
           <div class="card-body">
-            <h5 class="card-title">List variables</h5>
-            <p class="card-text">
-              <hs-statistics-variable-list></hs-statistics-variable-list>
-            </p>
+            <hs-statistics-variable-list></hs-statistics-variable-list>
           </div>
         </div>
 
 
         <div class="card mt-1">
+          <div class="card-header d-flex">
+            <div class="flex-grow-1">
+              <h5>Visualize time series</h5>
+            </div>
+            <div class=""><a (click)="showHelp('timeSeries')">
+                <i class="icon-question-sign text-secondary"></i>
+              </a>
+            </div>
+          </div>
           <div class="card-body">
-            <h5 class="card-title">Visualize time series</h5>
-            <p class="card-text">
-              <hs-statistics-time-series [dialogMode]="false" app="default"></hs-statistics-time-series>
-            </p>
+            <hs-statistics-time-series [dialogMode]="false" app="default"></hs-statistics-time-series>
           </div>
         </div>
 
         <div class="card mt-1 mb-1">
+          <div class="card-header d-flex">
+            <div class="flex-grow-1">
+              <h5>Visualize on map</h5>
+            </div>
+            <div class=""><a (click)="showHelp('map')">
+                <i class="icon-question-sign text-secondary"></i>
+              </a>
+            </div>
+          </div>
           <div class="card-body">
-            <h5 class="card-title">Visualize on map</h5>
-            <p class="card-text">
-              <hs-statistics-map-controller #mapControllerTemplateRef [data]="{
+            <hs-statistics-map-controller #mapControllerTemplateRef [data]="{
                 rows: statisticsAppRef.corpus.dict,
                 columns: statisticsAppRef.corpus.variables,
                 uses: statisticsAppRef.corpus.uses,
                 app: 'default'
               }" [dialogMode]="false" app="default"></hs-statistics-map-controller>
-            </p>
           </div>
         </div>
 
@@ -83,21 +105,33 @@
         </hs-statistics-toolbar>
 
         <div class="card mt-1">
+          <div class="card-header d-flex">
+            <div class="flex-grow-1">
+              <h5>Correlate</h5>
+            </div>
+            <div class=""><a (click)="showHelp('correlation')">
+                <i class="icon-question-sign text-secondary"></i>
+              </a>
+            </div>
+          </div>
           <div class="card-body">
-            <h5 class="card-title">Correlate</h5>
-            <p class="card-text">
-              <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
-              </hs-statistics-correlations>
-            </p>
+            <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
+            </hs-statistics-correlations>
           </div>
         </div>
 
         <div class="card mt-1">
+          <div class="card-header d-flex">
+            <div class="flex-grow-1">
+              <h5>Create predictive model</h5>
+            </div>
+            <div class=""><a>
+                <i class="icon-question-sign text-secondary"></i>
+              </a>
+            </div>
+          </div>
           <div class="card-body">
-            <h5 class="card-title">Create predictive model</h5>
-            <p class="card-text">
               <hs-statistics-regression #regressionTemplateRef></hs-statistics-regression>
-            </p>
           </div>
         </div>
 

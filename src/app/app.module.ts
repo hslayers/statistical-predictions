@@ -7,12 +7,17 @@ import {HsSearchModule} from 'hslayers-ng';
 //import {HsMeasureModule} from 'hslayers-ng/components/measure/public-api';
 //import {HsDrawModule} from 'hslayers-ng/components/draw/public-api';
 import {HsLayerManagerModule, HsQueryModule, HsStylerModule} from 'hslayers-ng';
+import {HsStatisticsHelpDialogComponent} from './help-dialog/help-dialog.component';
 import {HsStatisticsModule} from '../lib/statistics.module';
 import {HslayersAppComponent} from './app.component';
 import {InfoDialogComponent} from './info.component';
 
 @NgModule({
-  declarations: [HslayersAppComponent, InfoDialogComponent],
+  declarations: [
+    HslayersAppComponent,
+    InfoDialogComponent,
+    HsStatisticsHelpDialogComponent,
+  ],
   imports: [
     BrowserModule,
     HsCoreModule,
