@@ -404,6 +404,7 @@ export class HsStatisticsService {
               DESCRIPTIVE_STATISTICS: 'Descriptive statistics',
               FREQUENCY: 'Frequency',
               INTERVALS: 'Intervals',
+              IN_SAME_CHART: 'Merge charts',
               LOCATION_FILTER: 'Location',
               MAXIMUM: 'Maximum',
               MEAN_ABSOLUTE_DEVIATION: 'Mean absolute deviation',

@@ -7,7 +7,7 @@
                 aria-hidden="true"></span><span class="visually-hidden">{{'COMMON.close' | translateHs : {app: data.app}
                 }}</span></button>
     </div>
-    <div class="modal-body" style="max-height:600px; overflow-y:auto">
+    <div class="modal-body" [ngStyle]="dialogMode ? {'max-height':'600px', 'overflow-y':'auto'} : {}">
         <div class="flex-row w-100 m-auto justify-content-center align-items-center" style="display: flex">
             <p class="m-0 p-0 flex-fill text-primary">{{'STATISTICS.LOCATION_FILTER' | translateHs : {app: data.app} }}:
             </p>
@@ -33,6 +33,13 @@
             </div>
         </div>
 
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="inSameChart">
+            <label class="form-check-label">
+                {{'STATISTICS.IN_SAME_CHART' | translateHs : {app: data.app} }}
+            </label>
+        </div>
+
         <ul class="list-group hs-styler-content-list">
             <ng-container *ngFor="let col of colWrappers; index as $index">
                 <li
@@ -50,11 +57,22 @@
             </ng-container>
         </ul>
 
-        <div class="d-flex flex-column" *ngIf="observations?.length > 0">
-            <div class="align-self-stretch">
-                <hs-time-series-chart [observations]="observations"></hs-time-series-chart>
+        <ng-container *ngIf="inSameChart">
+            <div class="d-flex flex-column" *ngIf="observations?.length > 0">
+                <div class="align-self-stretch">
+                    <hs-time-series-chart [observations]="observations"></hs-time-series-chart>
+                </div>
             </div>
-        </div>
+        </ng-container>
+
+        <ng-container *ngIf="!inSameChart">
+            <div class="d-flex flex-column" *ngFor="let col of colWrappers">
+                <div class="align-self-stretch" *ngIf="col.checked && observationsByCol[col.name]?.length > 0">
+                    <hs-time-series-chart [observations]="observationsByCol[col.name]"></hs-time-series-chart>
+                </div>
+            </div>
+        </ng-container>
+        
 
         <div class="modal-footer">
             <button class="btn btn-primary mt-1" [disabled]="!filteredRows" (click)="visualize();"

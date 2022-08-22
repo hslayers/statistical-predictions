@@ -53,6 +53,8 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
     value: null;
   }[];
   @Output() closed = new EventEmitter<void>();
+  inSameChart = false;
+  observationsByCol = {};
 
   constructor(
     public hsLayerUtilsService: HsLayerUtilsService,
@@ -177,6 +179,15 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
             })
           ),
         []
+      );
+    this.observationsByCol = {};
+    this.colWrappers
+      .filter((col) => col.checked)
+      .map(
+        (col) =>
+          (this.observationsByCol[col.name] = this.observations.filter(
+            (obs) => obs.name == col.name
+          ))
       );
   }
 
