@@ -17,7 +17,9 @@ const assets = [
   "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_0.json",
   "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_1.json",
   "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_2.json",
-  "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_3.json"
+  "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_3.json",
+  "https://dih.bosc.lv/statistical-predictions/assets/life_satisfaction_over_16.csv",
+  "https://dih.bosc.lv/statistical-predictions/assets/energy_consumption.csv",
 ];
 
 var dir = __dirname + '/assets';
