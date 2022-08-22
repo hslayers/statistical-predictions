@@ -20,6 +20,13 @@ const assets = [
   "https://raw.githubusercontent.com/eurostat/Nuts2json/master/2016/4326/20M/nutsrg_3.json",
   "https://dih.bosc.lv/statistical-predictions/assets/life_satisfaction_over_16.csv",
   "https://dih.bosc.lv/statistical-predictions/assets/energy_consumption.csv",
+  "https://dih.bosc.lv/statistical-predictions/assets/upload.gif",
+  "https://dih.bosc.lv/statistical-predictions/assets/time-series.gif",
+  "https://dih.bosc.lv/statistical-predictions/assets/map.gif",
+  "https://dih.bosc.lv/statistical-predictions/assets/correlation.gif",
+  "https://dih.bosc.lv/statistical-predictions/assets/regression.gif",
+  "https://dih.bosc.lv/statistical-predictions/assets/predict.gif",
+
 ];
 
 var dir = __dirname + '/assets';
