@@ -3,8 +3,9 @@
         <h4 *ngIf="dialogMode" class="modal-title">
             {{'STATISTICS.PREDICT' | translateHs : {app: app} }} {{predictedVariable}}
         </h4>
-        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
-                class="visually-hidden">{{'COMMON.close' | translateHs : {app: app} }}</span></button>
+        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span
+                aria-hidden="true"></span><span class="visually-hidden">{{'COMMON.close' | translateHs : {app: app}
+                }}</span></button>
     </div>
     <div class="modal-body" [ngStyle]="dialogMode ? {'max-height':'600px', 'overflow-y':'auto'} : {}">
 
@@ -50,18 +51,17 @@
         <table class="table">
             <tr>
                 <th>{{ "STATISTICS.VARIABLE" | translateHs : {app: app} }}</th>
-                <th>
-                    <div class="form-group">
-                        <input type="checkbox" [(ngModel)]="functionSketchVisible" />
-                        <label class="control-label ms-1">{{ "STATISTICS.FUNCTION" | translateHs : {app: app} }}</label>
-                    </div>
-                </th>
+                <th></th>
                 <th *ngFor="let year of years">
                     {{year}}
                 </th>
             </tr>
             <tr *ngFor="let col of variables">
-                <td>{{col.name}}</td>
+                <td>
+                    <a class="btn btn-sm border-0 btn-light" type="button"
+                        (click)="functionSketchVisible = !functionSketchVisible">
+                        <i class="icon-pencil"></i></a>{{col.name}}
+                </td>
                 <td>
                     <hs-sketch-function [app]="app" *ngIf="functionSketchVisible"
                         (set)="functionSketched(col.name, $event)" [years]="years"></hs-sketch-function>

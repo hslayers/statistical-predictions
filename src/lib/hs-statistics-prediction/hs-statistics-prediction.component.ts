@@ -130,27 +130,33 @@ export class HsStatisticsPredictionComponent implements OnInit {
   predict() {
     for (const year of this.years) {
       let tmp = 0;
-      for (const variable of this.regressionParams.variables) {
-        const key = this.hsStatisticsService.adjustDictionaryKey(
-          this.dict,
-          this.selectedLocation + '::' + year,
-          variable.name,
-          this.shifts
-        );
-        if (this.dict[key] === undefined) {
-          tmp = null;
-          continue;
+      if (
+        this.regressionParams?.variables &&
+        this.regressionParams.variables?.length > 0
+      ) {
+        for (const variable of this.regressionParams.variables) {
+          const key = this.hsStatisticsService.adjustDictionaryKey(
+            this.dict,
+            this.selectedLocation + '::' + year,
+            variable.name,
+            this.shifts
+          );
+          if (this.dict[key] === undefined) {
+            tmp = null;
+            continue;
+          }
+          tmp += variable.coefficient * this.dict[key].values[variable.name];
         }
-        tmp += variable.coefficient * this.dict[key].values[variable.name];
+
+        if (tmp !== null) {
+          tmp += this.regressionParams.constant;
+        }
+        this.dict[this.selectedLocation + '::' + year].values[
+          this.predictedVariable
+        ] = tmp;
       }
-      if (tmp !== null) {
-        tmp += this.regressionParams.constant;
-      }
-      this.dict[this.selectedLocation + '::' + year].values[
-        this.predictedVariable
-      ] = tmp;
+      this.visualize();
     }
-    this.visualize();
   }
 
   applyFilters() {
@@ -161,16 +167,16 @@ export class HsStatisticsPredictionComponent implements OnInit {
 
   async visualize(): Promise<void> {
     this.observations = [];
+    const variables = this.regressionParams?.variables
+      ? this.regressionParams.variables
+      : [];
     for (const year of this.years) {
-      for (const variable of [
-        ...this.regressionParams.variables,
-        {name: this.predictedVariable},
-      ]) {
+      for (const variable of [...variables, {name: this.predictedVariable}]) {
         this.observations.push({
           name: variable.name,
           time: year.toString(),
           value:
-            this.dict[this.selectedLocation + '::' + year].values[
+            this.dict[this.selectedLocation + '::' + `${year}`]?.values[
               variable.name
             ],
         });
