@@ -8,6 +8,7 @@ import {
   HsUploadedFiles,
 } from 'hslayers-ng';
 
+import {HsStatisticsMapControllerComponent} from '../hs-statistics-map-controller/hs-statistics-map-controller.component';
 import {HsStatisticsMapControllerDialogComponent} from '../hs-statistics-map-controller-dialog/hs-statistics-map-controller-dialog.component';
 import {HsStatisticsService, Usage} from '../statistics.service';
 
@@ -17,6 +18,8 @@ import {HsStatisticsService, Usage} from '../statistics.service';
 })
 export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   @Input() app = 'default';
+  @Input() mapControllerComponent?: HsStatisticsMapControllerComponent;
+  @Input() dialogMode = false;
   public title = '';
   columns: string[] = [];
   uses: Usage = null;
@@ -59,16 +62,20 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   }
 
   visualizeInMap(): void {
-    this.hsDialogContainerService.create(
-      HsStatisticsMapControllerDialogComponent,
-      {
-        rows: this.rows,
-        columns: this.columns,
-        uses: this.uses,
-        app: this.app,
-      },
-      this.app
-    );
+    if (this.dialogMode) {
+      this.hsDialogContainerService.create(
+        HsStatisticsMapControllerDialogComponent,
+        {
+          rows: this.rows,
+          columns: this.columns,
+          uses: this.uses,
+          app: this.app,
+        },
+        this.app
+      );
+    } else {
+      this.hsStatisticsService.scroll(this.mapControllerComponent?.elementRef);
+    }
   }
 
   dataAvailable(): boolean {

@@ -38,7 +38,7 @@ export class HsStatisticsToolbarComponent {
         this.app
       );
     } else {
-      this.scroll(this.correlationComponent?.elementRef);
+      this.hsStatisticsService.scroll(this.correlationComponent?.elementRef);
     }
   }
 
@@ -50,7 +50,7 @@ export class HsStatisticsToolbarComponent {
         this.app
       );
     } else {
-      this.scroll(this.regressionComponent?.elementRef);
+      this.hsStatisticsService.scroll(this.regressionComponent?.elementRef);
     }
   }
 
@@ -62,11 +62,7 @@ export class HsStatisticsToolbarComponent {
         this.app
       );
     } else {
-      this.scroll(this.predictionComponent?.elementRef);
+      this.hsStatisticsService.scroll(this.predictionComponent?.elementRef);
     }
-  }
-
-  scroll(el: ElementRef) {
-    el.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
 }

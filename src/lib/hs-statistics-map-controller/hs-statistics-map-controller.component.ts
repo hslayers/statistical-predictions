@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewRef} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewRef} from '@angular/core';
 
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
@@ -65,7 +65,8 @@ export class HsStatisticsMapControllerComponent implements OnInit {
     private hsMapService: HsMapService,
     private hsStylerService: HsStylerService,
     private hsStatisticsService: HsStatisticsService,
-    private hsUtilsService: HsUtilsService
+    private hsUtilsService: HsUtilsService,
+    public elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {

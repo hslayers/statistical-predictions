@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {ElementRef, Injectable} from '@angular/core';
 
 import {
   HsConfig,
@@ -433,5 +433,9 @@ export class HsStatisticsService {
       },
       app
     );
+  }
+
+  scroll(el: ElementRef) {
+    el.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
 }

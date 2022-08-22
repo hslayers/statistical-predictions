@@ -12,7 +12,8 @@
           <div class="card-body">
             <h5 class="card-title">Upload data</h5>
             <p class="card-text">
-              <hs-statistics-upload-panel></hs-statistics-upload-panel>
+              <hs-statistics-upload-panel [dialogMode]="false" [mapControllerComponent]="mapControllerTemplateRef">
+              </hs-statistics-upload-panel>
             </p>
           </div>
         </div>
@@ -36,12 +37,12 @@
             </p>
           </div>
         </div>
-        
+
         <div class="card mt-1 mb-1">
           <div class="card-body">
             <h5 class="card-title">Visualize on map</h5>
             <p class="card-text">
-              <hs-statistics-map-controller [data]="{
+              <hs-statistics-map-controller #mapControllerTemplateRef [data]="{
                 rows: statisticsAppRef.corpus.dict,
                 columns: statisticsAppRef.corpus.variables,
                 uses: statisticsAppRef.corpus.uses,
@@ -100,7 +101,7 @@
           </div>
         </div>
 
-      
+
         <div class="card mt-1">
           <div class="card-body">
             <h5 class="card-title">Input X and Predict Y</h5>
