@@ -42,7 +42,7 @@ export class HsStatisticsPredictionComponent implements OnInit {
   locationColumn: string;
   locationValues: string[];
   predictions: Prediction[];
-  selectedPrediction: Prediction;
+  selectedModel: Prediction;
   variables: ColumnWrapper[];
   predictedVariable: string;
   fromYear = new Date().getFullYear();
@@ -71,7 +71,10 @@ export class HsStatisticsPredictionComponent implements OnInit {
   ngOnInit(): void {
     this.locationColumn = 'location';
     this.timeColumn = 'time';
+    this.fillModels();
+  }
 
+  private fillModels() {
     this.predictions = this.hsStatisticsService.get(this.app).predictions;
   }
 
@@ -87,7 +90,7 @@ export class HsStatisticsPredictionComponent implements OnInit {
   }
 
   selectPrediction(prediction: Prediction) {
-    this.selectedPrediction = prediction;
+    this.selectedModel = prediction;
     this.variables = prediction.variables;
     this.regressionParams = prediction.coefficients;
     this.predictedVariable = prediction.predictedVariable;
@@ -197,5 +200,11 @@ export class HsStatisticsPredictionComponent implements OnInit {
       false,
       this
     )();
+  }
+
+  removeModel(): void {
+    this.hsStatisticsService.removeModel(this.selectedModel, this.app);
+    this.selectedModel = undefined;
+    this.fillModels();
   }
 }

@@ -217,6 +217,15 @@ export class HsStatisticsService {
     this.predictionsAdded.next(newPrediction);
   }
 
+  removeModel(prediction: Prediction, app: string = 'default'){
+    const appRef = this.get(app);
+    appRef.predictions.splice(appRef.predictions.indexOf(prediction), 1);
+    localStorage.setItem(
+      'hs_statistics_predictions',
+      JSON.stringify(appRef.predictions)
+    );
+  }
+
   correlate(
     variableShifts: ShiftBy,
     app: string

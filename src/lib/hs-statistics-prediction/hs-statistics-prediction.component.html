@@ -9,28 +9,38 @@
     </div>
     <div class="modal-body" [ngStyle]="dialogMode ? {'max-height':'600px', 'overflow-y':'auto'} : {}">
 
-        <div class="flex-row w-100 m-auto justify-content-center align-items-center" style="display: flex">
-            <p class="m-0 p-0 flex-fill text-primary">{{'STATISTICS.STORED_STATISTICAL_MODEL' | translateHs : {app: app} }}:
+        <div class="d-flex w-100 m-1 justify-content-center align-items-center">
+            <p class="m-0 p-0 text-primary">{{'STATISTICS.STORED_STATISTICAL_MODEL' | translateHs : {app: app}
+                }}:
             </p>
-            <div ngbDropdown placement="bottom-right" style="max-width: 50%">
-                <button type="button" ngbDropdownToggle class="
-                      btn btn-sm
-                      rounded-0
-                      hs-toolbar-button
-                      d-flex
-                      align-items-center
-                      mw-100
-                    " aria-haspopup="true">
-                    <div class="text-truncate" *ngIf="selectedPrediction !== undefined">
-                        {{selectedPrediction.name}}
-                    </div>
-                </button>
-                <div ngbDropdownMenu style="transform: translateX(25%); width: 15em">
-                    <div class="d-flex align-items-center w-100 flex-column">
-                        <a class="dropdown-item text-truncate" *ngFor="let prediction of predictions"
-                            data-toggle="tooltip" (click)="selectPrediction(prediction)">{{prediction.name}}</a>
+            <div class="flex-grow-1">
+                <div ngbDropdown placement="bottom-right"  style="max-width: 50%">
+                    <button type="button" ngbDropdownToggle class="
+                          btn btn-sm
+                          rounded-0
+                          hs-toolbar-button
+                          d-flex
+                          align-items-center
+                          mw-100
+                        " aria-haspopup="true">
+                        <div class="text-truncate" *ngIf="selectedModel !== undefined">
+                            {{selectedModel.name}}
+                        </div>
+                    </button>
+                    <div ngbDropdownMenu style="transform: translateX(25%); width: 15em">
+                        <div class="d-flex align-items-center w-100 flex-column">
+                            <a class="dropdown-item text-truncate" *ngFor="let prediction of predictions"
+                                data-toggle="tooltip" (click)="selectPrediction(prediction)">{{prediction.name}}</a>
+                        </div>
                     </div>
                 </div>
+            </div>
+            
+            <div>
+                <button class="btn btn-danger btn-sm me-0" *ngIf="selectedModel" (click)="removeModel()" data-toggle="tooltip"
+                    [title]="'STATISTICS.removeModel' | translateHs : {app: app} ">
+                    <i class="icon-trash"></i>
+                </button>
             </div>
         </div>
 
@@ -62,8 +72,8 @@
                 </td>
                 <td>
                     <a class="btn btn-sm border-0 btn-light" type="button"
-                    (click)="functionSketchVisible = !functionSketchVisible">
-                    <i class="icon-pencil"></i></a>
+                        (click)="functionSketchVisible = !functionSketchVisible">
+                        <i class="icon-pencil"></i></a>
                     <hs-sketch-function [app]="app" *ngIf="functionSketchVisible"
                         (set)="functionSketched(col.name, $event)" [years]="years"></hs-sketch-function>
                 </td>
@@ -85,11 +95,10 @@
             <p class="m-0 p-0 flex-fill text-primary">{{'STATISTICS.LOCATION_FILTER' | translateHs : {app: app} }}
                 {{'STATISTICS.OPTIONAL' | translateHs : {app: app} }}:
             </p>
-            <div ngbDropdown placement="bottom-right" style="max-width: 50%">
+            <div ngbDropdown placement="top-right" style="max-width: 50%">
                 <button type="button" ngbDropdownToggle class="
                       btn btn-sm
                       rounded-0
-                      hs-toolbar-button
                       d-flex
                       align-items-center
                       mw-100
