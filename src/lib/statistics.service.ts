@@ -148,7 +148,7 @@ export class HsStatisticsService {
         const colName = columnAliases[col];
         //Why is this here? It breaks key comparisons between columns and usages
         //Answer: Its needed because vega treats everything after dot as a hierarchical sub-variable
-        const escapedCol = colName.replace(/\./g, '');
+        const escapedCol = colName?.replace(/\./g, '');
         corpusItem.values[escapedCol] = parseFloat(row[col]);
         if (!appRef.corpus.variables.some((v) => v == escapedCol)) {
           appRef.corpus.variables.push(escapedCol);

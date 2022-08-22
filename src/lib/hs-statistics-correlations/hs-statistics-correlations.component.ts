@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 import {HsStatisticsService, ShiftBy} from '../statistics.service';
@@ -17,7 +18,7 @@ export enum Tabs {
   templateUrl: './hs-statistics-correlations.component.html',
   styleUrls: ['./hs-statistics-correlations.component.sass'],
 })
-export class HsStatisticsCorrelationsComponent {
+export class HsStatisticsCorrelationsComponent implements OnInit {
   tabs = Tabs;
   @Input() correlate: any;
   @Input() app = 'default';
@@ -31,6 +32,12 @@ export class HsStatisticsCorrelationsComponent {
     private hsStatisticsService: HsStatisticsService,
     public elementRef: ElementRef
   ) {}
+
+  ngOnInit(): void {
+    this.hsStatisticsService.variableChanges.subscribe(() => {
+      this.correlate = this.hsStatisticsService.correlations;
+    });
+  }
 
   updateShifting(variable: string, shiftBy: number) {
     this.shifts[variable] = shiftBy;
