@@ -14,6 +14,7 @@ import {HsStatisticsCorrelationsDialogComponent} from './hs-statistics-correlati
 import {HsStatisticsHistogramComponent} from './histogram-chart-dialog.component';
 import {HsStatisticsMapControllerComponent} from './hs-statistics-map-controller/hs-statistics-map-controller.component';
 import {HsStatisticsMapControllerDialogComponent} from './hs-statistics-map-controller-dialog/hs-statistics-map-controller-dialog.component';
+import {HsStatisticsModelViewerComponent} from './hs-statistics-model-viewer/hs-statistics-model-viewer';
 import {HsStatisticsPanelComponent} from './statistics-panel.component';
 import {HsStatisticsPredictionComponent} from './hs-statistics-prediction/hs-statistics-prediction.component';
 import {HsStatisticsPredictionDialogComponent} from './hs-statistics-prediction-dialog/prediction-dialog.component';
@@ -44,7 +45,7 @@ import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/h
     HsStatisticsPredictionComponent,
     HsStatisticsPredictionDialogComponent,
     AbsPipe,
-
+    HsStatisticsModelViewerComponent,
     HsSketchFunctionComponent,
     HsErrorDialogComponent,
     HsStatisticsToolbarComponent,
@@ -80,6 +81,7 @@ import {HsStatisticsVariableListComponent} from './hs-statistics-variable-list/h
     HsStatisticsToolbarComponent,
     HsStatisticsVariableListComponent,
     HsStatisticsCorrelationsDialogComponent,
+    HsStatisticsModelViewerComponent,
   ],
 })
 export class HsStatisticsModule {}

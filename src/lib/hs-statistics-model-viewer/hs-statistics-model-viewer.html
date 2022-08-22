@@ -1,0 +1,8 @@
+<div>
+    Y - {{model.predictedVariable}} <br />
+    <span *ngFor="let col of model.variables">
+        X{{model.variables.indexOf(col)}} - {{col.name}} <br />
+    </span>
+    Y = <span *ngFor="let col of model.coefficients.variables">X{{model.coefficients.variables.indexOf(col)}}
+        * {{col.coefficient}}</span> + {{model.coefficients.constant}}
+</div>
