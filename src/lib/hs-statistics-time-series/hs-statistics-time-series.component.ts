@@ -140,6 +140,7 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
   selectFilter(value: any): void {
     this.selectedLocation = value;
     this.applyFilters();
+    this.visualize();
   }
 
   applyFilters() {
@@ -169,14 +170,16 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
       .reduce(
         (acc, col) =>
           acc.concat(
-            this.filteredRows?.map((s) => {
-              const item = {
-                value: s.values[col.name],
-                name: col.name,
-                time: s.time,
-              };
-              return item;
-            })
+            this.filteredRows
+              ?.map((s) => {
+                const item = {
+                  value: s.values[col.name],
+                  name: col.name,
+                  time: s.time,
+                };
+                return item;
+              })
+              .filter((obs) => obs.value !== undefined)
           ),
         []
       );
