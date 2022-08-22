@@ -48,7 +48,7 @@ export class StatisticsServiceParams {
   corpus: CorpusItems = {dict: {}, variables: [], uses: {}};
   clearData$: Subject<void> = new Subject();
   activeTab = 1;
-  predictions: any = [];
+  predictions: Prediction[] = [];
 }
 
 @Injectable({

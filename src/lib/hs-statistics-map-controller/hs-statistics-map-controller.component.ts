@@ -246,6 +246,14 @@ export class HsStatisticsMapControllerComponent implements OnInit {
     );
   }
 
+  visualizeDisabled(): boolean {
+    return (
+      !this.filteredRows ||
+      !this.filteredValues ||
+      this.filteredValues?.length === 0
+    );
+  }
+
   selectVariable(variable): void {
     this.selectedVariable = variable;
     this.fillTimeValues();
@@ -278,8 +286,8 @@ export class HsStatisticsMapControllerComponent implements OnInit {
         .filter((value) => !isNaN(value));
     }
 
-    this.min = min(this.filteredValues) || 0;
-    this.max = max(this.filteredValues) || 0;
+    this.min = this.filteredValues?.length > 0 ? min(this.filteredValues) : 0;
+    this.max = this.filteredValues?.length > 0 ? max(this.filteredValues) : 0;
   }
 
   async visualize(): Promise<void> {

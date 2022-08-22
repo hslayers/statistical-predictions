@@ -8,13 +8,18 @@ import {
   ViewRef,
 } from '@angular/core';
 
-import {ColumnWrapper} from '../column-wrapper.type';
-import {CorpusItemValues, HsStatisticsService} from '../statistics.service';
 import {
   HsDialogContainerService,
   HsLayerUtilsService,
   HsUtilsService,
 } from 'hslayers-ng';
+
+import {ColumnWrapper} from '../column-wrapper.type';
+import {
+  CorpusItemValues,
+  HsStatisticsService,
+  Prediction,
+} from '../statistics.service';
 
 /**
  * Dialog window to choose variables and filters to visualize data on map.
@@ -36,8 +41,8 @@ export class HsStatisticsPredictionComponent implements OnInit {
   filteredRows: any[];
   locationColumn: string;
   locationValues: string[];
-  predictions: any;
-  selectedPrediction: any;
+  predictions: Prediction[];
+  selectedPrediction: Prediction;
   variables: ColumnWrapper[];
   predictedVariable: string;
   fromYear = new Date().getFullYear();
@@ -81,7 +86,7 @@ export class HsStatisticsPredictionComponent implements OnInit {
     this.fillPlaceholders();
   }
 
-  selectPrediction(prediction) {
+  selectPrediction(prediction: Prediction) {
     this.selectedPrediction = prediction;
     this.variables = prediction.variables;
     this.regressionParams = prediction.coefficients;
