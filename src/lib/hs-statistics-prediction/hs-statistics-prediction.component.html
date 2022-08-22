@@ -58,11 +58,12 @@
             </tr>
             <tr *ngFor="let col of variables">
                 <td>
-                    <a class="btn btn-sm border-0 btn-light" type="button"
-                        (click)="functionSketchVisible = !functionSketchVisible">
-                        <i class="icon-pencil"></i></a>{{col.name}}
+                    {{col.name}}
                 </td>
                 <td>
+                    <a class="btn btn-sm border-0 btn-light" type="button"
+                    (click)="functionSketchVisible = !functionSketchVisible">
+                    <i class="icon-pencil"></i></a>
                     <hs-sketch-function [app]="app" *ngIf="functionSketchVisible"
                         (set)="functionSketched(col.name, $event)" [years]="years"></hs-sketch-function>
                 </td>
