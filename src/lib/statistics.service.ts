@@ -190,6 +190,18 @@ export class HsStatisticsService {
     variables: ColumnWrapper[]
   ) {
     const appRef = this.get(app);
+    if (type == 'linear') {
+      coefficients = {
+        constant: variables[0].regressionOutput.b,
+        variables: [
+          {
+            coefficient: variables[0].regressionOutput.m,
+            factorName: 'X',
+            name: variables[0].name,
+          },
+        ],
+      };
+    }
     const newPrediction = {
       name,
       type,
