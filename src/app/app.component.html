@@ -125,16 +125,22 @@
           </div>
           <div class="card-body">
             <div class="card-subtitle">
-              To create a predictive model where one variable depends on other those variables need to be proven to be
-              related. It is done by calculating correlation coefficients.
-              <br /><br />
-              Values always range between -1 (strong negative relationship) and +1 (strong positive relationship).
-              <br />
-              Values at or close to zero imply a weak or no linear relationship.<br />
-              Correlation coefficient values less than +0.8 or greater than -0.8 are not considered significant.<br />
-
-              Using the shifting sliders we can calculate correlation between delayed phenomena such as `investment` vs
-              `revenue`, `educated students` vs `number of professionals` etc.
+              <p>
+                To create a predictive model where one variable depends on other those variables need to be proven to be
+                related. It is done by calculating correlation coefficients.
+              </p>
+              <p>
+                Values always range between -1 (strong negative relationship) and +1 (strong positive relationship).
+              </p>
+              
+              <p>
+                Values at or close to zero imply a weak or no linear relationship.<br />
+                Correlation coefficient values less than +0.8 or greater than -0.8 are not considered significant.
+              </p>
+              <p>
+                Using the shifting sliders we can calculate correlation between delayed phenomena such as `investment` vs
+                `revenue`, `educated students` vs `number of professionals` etc.
+              </p>
             </div>
             <hs-statistics-correlations #correlationTemplateRef [correlate]="hsStatisticsService.correlations">
             </hs-statistics-correlations>
@@ -153,10 +159,23 @@
           </div>
           <div class="card-body">
             <div class="card-subtitle">
-              In case of a significant correlation we can choose one of the variables as dependant, the other as
-              depended variable and observe a scatterplot with diagonal line.
+              <p>
+                In case of a significant correlation we can choose one of the variables as dependant, the other as
+                independent variable. 
+              </p>
+              <p>
+                Scatter plots are used to plot data points on a horizontal and a vertical axis in the attempt to show how much one variable is affected by another. 
+                Each row in the data table is represented by a marker whose position depends on its values in the columns set on the X and Y axes.
+              </p>
+              <p>
+                Linear regression analysis estimates the coefficients of the linear equation, involving one or more independent (choose multiple-linear) 
+                variables that best predict the value of the dependent variable. Linear regression fits a straight line or 
+                surface that minimizes the discrepancies between predicted and actual output values.
+              </p>
+              <p>
+                The calculated regression coefficients (statistical model) can be saved to make predictions for the dependent variable in case we know or can make an educated guesses for the future values of independent variable. 
+              </p>
             </div>
-
             <hs-statistics-regression [predictionsComponent]="predictionTemplateRef" #regressionTemplateRef>
             </hs-statistics-regression>
           </div>
@@ -174,6 +193,14 @@
             </div>
           </div>
           <div class="card-body">
+            <div class="card-subtitle">
+              <p>
+                By selecting one of the previously created linear regression models we can predict the future values of the dependent statistical variable.
+              </p>
+              <p>
+                Please fill the date range to generate input fields to be filled for the independent variable. You can fill them manually or use a sketch area to draw a line describing the function. 
+              </p>
+            </div>
             <p class="card-text">
               <hs-statistics-prediction #predictionTemplateRef></hs-statistics-prediction>
             </p>
