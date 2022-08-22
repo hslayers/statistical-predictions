@@ -90,6 +90,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
         console.error('Something went wrong');
         return;
       }
+      this.records = [];
       Papa.parse(fileContents[0] as string, {
         header: true,
         skipEmptyLines: true,
