@@ -164,7 +164,7 @@ export class HslayersAppComponent {
     const nuts1 = new VectorLayer({
       visible: false,
       properties: {
-        title: 'Nuts1 regions (countries)',
+        title: 'Nuts1 regions',
         synchronize: false,
         cluster: false,
         inlineLegend: true,
@@ -181,6 +181,36 @@ export class HslayersAppComponent {
         path: 'User generated',
       },
       source: nuts1Src,
+    });
+
+
+    const nuts0Src = new VectorSource({
+      loader: (extent, projection) => {
+        const url = './assets/nutsrg_0.json';
+        this.loadFeatureToSrc(url, nuts0Src);
+      },
+    });
+
+    const nuts0 = new VectorLayer({
+      visible: false,
+      properties: {
+        title: 'Nuts0 regions (countries)',
+        synchronize: false,
+        cluster: false,
+        inlineLegend: true,
+        popUp: {
+          attributes: ['na', 'value'],
+        },
+        editor: {
+          editable: true,
+          defaultAttributes: {
+            na: 'New polygon',
+          },
+        },
+        sld: defaultStyleSld,
+        path: 'User generated',
+      },
+      source: nuts0Src,
     });
 
     this.HsConfig.update(
@@ -296,6 +326,7 @@ export class HslayersAppComponent {
 
           latvianMuni,
           vidzemeMuni,
+          nuts0,
           nuts1,
           nuts2,
           nuts3,

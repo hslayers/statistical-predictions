@@ -71,21 +71,51 @@ export class HsStatisticsMapControllerComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isDataLoaded()) {
-      let tmpTimeValues = [];
       if (Array.isArray(this.data.rows)) {
         this.locationColumn = this.data.columns.find(
           (col) => this.data.uses[col] == 'location'
         );
+      } else {
+        this.locationColumn = 'location';
+      }
+      this.availableVariables = this.data.columns.filter(
+        (col) => this.data.uses[col] == 'variable'
+      );
+      this.selectedVariable = this.availableVariables[0];
+      this.fillTimeValues();
+      if (this.timeValues?.length > 0) {
+        this.selectFilter(this.timeValues[this.timeValues.length - 1]);
+      }
+    }
+
+    this.fillVectorLayers();
+  }
+
+  fillTimeValues(): void {
+    if (this.isDataLoaded()) {
+      let tmpTimeValues = [];
+      if (Array.isArray(this.data.rows)) {
         this.timeColumn = this.data.columns.find(
           (col) => this.data.uses[col] == 'time'
         );
         tmpTimeValues = this.data.rows
+          .filter((row) => {
+            return (
+              this.selectedVariable === undefined ||
+              row[this.selectedVariable] !== undefined
+            );
+          })
           .map((row) => row[this.timeColumn])
           .filter((value) => value != undefined);
       } else {
-        this.locationColumn = 'location';
         this.timeColumn = 'time';
         tmpTimeValues = Object.keys(this.data.rows)
+          .filter((key) => {
+            return (
+              this.selectedVariable === undefined ||
+              this.data.rows[key].values[this.selectedVariable] !== undefined
+            );
+          })
           .map((key) => this.data.rows[key])
           .map((row) => row.time);
       }
@@ -96,17 +126,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
           return self.indexOf(value) === index;
         })
         .filter((val) => val);
-
-      this.availableVariables = this.data.columns.filter(
-        (col) => this.data.uses[col] == 'variable'
-      );
-      this.selectedVariable = this.availableVariables[0];
-      if (this.timeValues?.length > 0) {
-        this.selectFilter(this.timeValues[this.timeValues.length - 1]);
-      }
     }
-
-    this.fillVectorLayers();
   }
 
   isDataLoaded(): boolean {
@@ -195,6 +215,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
 
   selectVariable(variable): void {
     this.selectedVariable = variable;
+    this.fillTimeValues();
     this.applyFilters();
   }
 
@@ -211,16 +232,17 @@ export class HsStatisticsMapControllerComponent implements OnInit {
       this.filteredRows = this.data.rows.filter(
         (row) => row[this.timeColumn] == this.selectedTimeValue
       );
-      this.filteredValues = this.filteredRows.map((row) =>
-        parseFloat(row[this.selectedVariable])
-      );
+      this.filteredValues = this.filteredRows
+        .map((row) => parseFloat(row[this.selectedVariable]))
+        .filter((value) => !isNaN(value));
     } else {
       this.filteredRows = Object.keys(this.data.rows)
         .map((key) => this.data.rows[key])
         .filter((row) => row.time == this.selectedTimeValue);
       this.filteredValues = this.filteredRows
         .map((row) => row.values)
-        .map((row) => parseFloat(row[this.selectedVariable]));
+        .map((row) => parseFloat(row[this.selectedVariable]))
+        .filter((value) => !isNaN(value));
     }
 
     this.min = min(this.filteredValues) || 0;
