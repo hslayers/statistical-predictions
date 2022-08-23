@@ -25,8 +25,9 @@
                 {{'STATISTICS.REGRESSION' | translateHs : {app: app} }}
             </div>
         </div>
-        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span aria-hidden="true"></span><span
-                class="visually-hidden">{{'COMMON.close' | translateHs : {app: app} }}</span></button>
+        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span
+                aria-hidden="true"></span><span class="visually-hidden">{{'COMMON.close' | translateHs : {app: app}
+                }}</span></button>
     </div>
     <div class="modal-body" [ngStyle]="dialogMode ? {'max-height':'51em', 'overflow-y':'auto'} : {}">
 
@@ -61,7 +62,8 @@
                     *ngIf="col.name !== selectedVariable">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" (change)="selectedRegressionType.name === 'multi-linear' ? visualizeMulti() : visualizeSimpleReg(col)"
+                            <input class="form-check-input" type="checkbox"
+                                (change)="selectedRegressionType.name === 'multi-linear' ? visualizeMulti() : visualizeSimpleReg(col)"
                                 [(ngModel)]="col.checked" id="hs-time-series-col-{{colWrappers.indexOf(col)}}">
                             <label class="form-check-label" for="{{colWrappers.indexOf(col)}}">
                                 {{col.name}}
@@ -89,12 +91,19 @@
                         </div>
                         <div class="row" *ngIf="col.regressionOutput">
                             <div class="col-12">
-                                Y - {{selectedVariable}} <br />
-                                X - {{col.name}} <span *ngIf="col.shift !== 0">({{col.shift | abs}} {{
-                                    "STATISTICS.YEARS" |
-                                    translateHs : {app: app} }} {{ "STATISTICS.AGO" |
-                                    translateHs : {app: app} }})</span><br />
-                                Y = X * {{col.regressionOutput.m}} + {{col.regressionOutput.b}}
+                                <hs-statistics-model-viewer [model]="
+                                {'predictedVariable': selectedVariable, 
+                                    'coefficients': {
+                                        'constant': col.regressionOutput.b,
+                                        'variables': [
+                                            {
+                                                'coefficient': col.regressionOutput.m,
+                                                'factorName': 'X',
+                                                'name': col.name
+                                            },
+                                        ]
+                                    }, 
+                                    'variables': [col]}"></hs-statistics-model-viewer>
                             </div>
                         </div>
                         <div class="row">
@@ -122,7 +131,9 @@
                 </div>
             </div>
             <div class="align-self-start">
-                <hs-statistics-model-viewer class="m-1" [model]="{'predictedVariable': selectedVariable, 'coefficients': multipleRegressionOutput, 'variables': multipleRegressionOutput.variables}"></hs-statistics-model-viewer>
+                <hs-statistics-model-viewer
+                    [model]="{'predictedVariable': selectedVariable, 'coefficients': multipleRegressionOutput, 'variables': multipleRegressionOutput.variables}">
+                </hs-statistics-model-viewer>
             </div>
 
             <div class="input-group">
