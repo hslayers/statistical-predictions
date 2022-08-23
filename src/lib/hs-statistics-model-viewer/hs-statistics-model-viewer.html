@@ -3,6 +3,6 @@
     <span *ngFor="let col of model.variables">
         X{{model.variables.indexOf(col)}} - {{col.name}} <br />
     </span>
-    Y = <span *ngFor="let col of model.coefficients.variables">+ X{{model.coefficients.variables.indexOf(col)}}
-        * {{col.coefficient}}</span> + {{model.coefficients.constant}}
+    Y = <span *ngFor="let col of model.coefficients.variables; index as $index">{{$index>0 && col.coefficient >= 0 ? '+': ''}} {{col.coefficient}} * X{{model.coefficients.variables.indexOf(col)}}
+        </span> + {{model.coefficients.constant}}
 </div>
