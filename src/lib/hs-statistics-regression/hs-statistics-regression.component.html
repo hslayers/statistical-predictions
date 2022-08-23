@@ -128,7 +128,7 @@
                     X{{multipleRegressionOutput.variables.indexOf(col)}} - {{col.name}} <br />
                 </span>
                 Y = <span
-                    *ngFor="let col of multipleRegressionOutput.variables">X{{multipleRegressionOutput.variables.indexOf(col)}}
+                    *ngFor="let col of multipleRegressionOutput.variables">+ X{{multipleRegressionOutput.variables.indexOf(col)}}
                     * {{col.coefficient}}</span> + {{multipleRegressionOutput.constant}}
             </div>
 

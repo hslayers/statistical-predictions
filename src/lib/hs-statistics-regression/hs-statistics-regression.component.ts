@@ -257,9 +257,9 @@ export class HsStatisticsRegressionComponent implements OnInit {
                   regressionVars
                     .map(
                       (col) =>
-                        `if(datum.shiftedReal${col.factorName} == null, null, datum.shiftedReal${col.factorName} * ${col.coefficient}`
+                        `if(datum.shiftedReal${col.factorName} == null, null, datum.shiftedReal${col.factorName} * ${col.coefficient})`
                     )
-                    .join('') + ` + ${this.multipleRegressionOutput.constant})`,
+                    .join(' + ') + ` + ${this.multipleRegressionOutput.constant}`,
                 'as': 'predicted_value',
               },
               {'type': 'filter', 'expr': 'datum.predicted_value != null'},
