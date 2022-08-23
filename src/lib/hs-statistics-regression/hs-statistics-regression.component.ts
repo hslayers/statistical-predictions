@@ -134,16 +134,15 @@ export class HsStatisticsRegressionComponent implements OnInit {
     if (samples[0].length == 0) {
       coefficients = [0, ...factors.map((_) => 0)];
     } else {
-      coefficients = regression(
-        [...Array(samples[0].length).keys()].map(
-          (
-            i // Loop & map from 0 to sample length - 1
-          ) =>
-            factors
-              .map((factor) => samples[factors.indexOf(factor)][i]) // Factors
-              .concat([samples[samples.length - 1][i]]) // Predictor
-        )
-      ); //result : [const, coefficient_1, coefficient_2, ... coefficient_n] for function f(X) = 0.5X0 - 0.5X1 + constant
+      const datas = [...Array(samples[0].length).keys()].map(
+        (
+          i // Loop & map from 0 to sample length - 1
+        ) =>
+          factors
+            .map((factor) => samples[factors.indexOf(factor)][i]) // Factors
+            .concat([samples[samples.length - 1][i]])
+      );
+      coefficients = regression(datas); //result : [const, coefficient_1, coefficient_2, ... coefficient_n] for function f(X) = 0.5X0 - 0.5X1 + constant
     }
 
     const observations = Object.keys(
@@ -259,7 +258,8 @@ export class HsStatisticsRegressionComponent implements OnInit {
                       (col) =>
                         `if(datum.shiftedReal${col.factorName} == null, null, datum.shiftedReal${col.factorName} * ${col.coefficient})`
                     )
-                    .join(' + ') + ` + ${this.multipleRegressionOutput.constant}`,
+                    .join(' + ') +
+                  ` + ${this.multipleRegressionOutput.constant}`,
                 'as': 'predicted_value',
               },
               {'type': 'filter', 'expr': 'datum.predicted_value != null'},
