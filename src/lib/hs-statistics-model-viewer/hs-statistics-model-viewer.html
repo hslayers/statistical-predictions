@@ -1,8 +1,37 @@
-<div>
-    Y - {{model.predictedVariable}} <br />
-    <span *ngFor="let col of model.variables">
-        X{{model.variables.indexOf(col)}} - {{col.name}} <br />
-    </span>
-    Y = <span *ngFor="let col of model.coefficients.variables; index as $index">{{$index>0 && col.coefficient >= 0 ? '+': ''}} {{col.coefficient}} * X{{model.coefficients.variables.indexOf(col)}}
-        </span> {{model.coefficients.constant > 0 ? '+': ''}} {{model.coefficients.constant !== 0 ?  model.coefficients.constant : ''}}
+<div class="d-flex border border-secondary p-2 m-2">
+
+    <div class="flex-grow-1">
+        Y - {{model.predictedVariable}} <br />
+        <span *ngFor="let col of model.variables">
+            X{{model.variables.indexOf(col)}} - {{col.name}} <span *ngIf="col.shift !== 0">({{col.shift | abs}} {{
+                "STATISTICS.YEARS" |
+                translateHs : {app: app} }} {{ "STATISTICS.AGO" |
+                translateHs : {app: app} }})</span><br />
+        </span>
+        Y = <span *ngFor="let col of model.coefficients.variables; index as $index">{{$index>0 && col.coefficient >= 0 ?
+            '+': ''}} {{col.coefficient.toFixed(decimals)}} * X{{model.coefficients.variables.indexOf(col)}}
+        </span> {{model.coefficients.constant > 0 ? '+': ''}} {{model.coefficients.constant !== 0 ?
+        model.coefficients.constant.toFixed(decimals) : ''}}
+    </div>
+    <div class="">
+        <button class="btn btn-sm py-0 ms-2 btn-outline-secondary" (click)="increaseDecimals()">
+            0.0
+            <div style="
+            margin-top: -10px;
+            margin-left: 15px;
+        ">
+                <i class="icon-plus"></i>
+            </div>
+        </button>
+
+        <button class="btn btn-sm py-0 ms-2 btn-outline-secondary" (click)="decreaseDecimals()">
+            0.0
+            <div style="
+        margin-top: -10px;
+        margin-left: 15px;
+    ">
+                <i class="icon-minus"></i>
+            </div>
+        </button>
+    </div>
 </div>

@@ -9,6 +9,16 @@ import {Prediction} from '../statistics.service';
 })
 export class HsStatisticsModelViewerComponent {
   @Input() model: Prediction;
+  @Input() app = 'default';
+  decimals = 6;
 
   constructor(private hsLanguageService: HsLanguageService) {}
+
+  increaseDecimals(): void {
+    this.decimals++;
+  }
+
+  decreaseDecimals(): void {
+    this.decimals--;
+  }
 }
