@@ -122,6 +122,8 @@ export class HsStatisticsService {
     uses: Usage,
     app: string
   ): void {
+    let duplicateFound = false;
+    const tmpCorpus: CorpusItems = {dict: {}, variables: [], uses: {}};
     const appRef = this.get(app);
     if (!rows || !columns) {
       return;
@@ -138,11 +140,19 @@ export class HsStatisticsService {
       }
       let corpusItem: {values: CorpusItemValues};
       const key = keyObject.location + '::' + keyObject.time;
-      if (appRef.corpus.dict[key] === undefined) {
+      if (tmpCorpus.dict[key] === undefined) {
         corpusItem = {values: {}, ...keyObject};
-        appRef.corpus.dict[key] = corpusItem;
+        tmpCorpus.dict[key] = corpusItem;
       } else {
-        corpusItem = appRef.corpus.dict[key];
+        duplicateFound = true;
+        this.callErrorDialog(
+          {
+            header: 'ERROR_DIALOG.DUPLICATE_DATA_ENTRY',
+            errorMessage: 'ERROR_DIALOG.MORE_THEN_ONE_ENTRY_WAS_FOUND',
+          },
+          app
+        );
+        break;
       }
       for (const col of columns.filter((col) => uses[col] == 'variable')) {
         const colName = columnAliases[col];
@@ -150,17 +160,22 @@ export class HsStatisticsService {
         //Answer: Its needed because vega treats everything after dot as a hierarchical sub-variable
         const escapedCol = colName?.replace(/\./g, '');
         corpusItem.values[escapedCol] = parseFloat(row[col]);
-        if (!appRef.corpus.variables.some((v) => v == escapedCol)) {
-          appRef.corpus.variables.push(escapedCol);
+        if (!tmpCorpus.variables.some((v) => v == escapedCol)) {
+          tmpCorpus.variables.push(escapedCol);
         }
         if (escapedCol != col) {
           uses[escapedCol] = uses[col];
         }
       }
     }
-    Object.assign(appRef.corpus.uses, uses);
-    this.save(app);
-    this.afterVariablesChange(app);
+    if (duplicateFound) {
+      appRef.clearData$.next();
+    } else {
+      Object.assign(appRef.corpus, tmpCorpus);
+      Object.assign(appRef.corpus.uses, uses);
+      this.save(app);
+      this.afterVariablesChange(app);
+    }
   }
 
   save(app: string) {
@@ -217,7 +232,7 @@ export class HsStatisticsService {
     this.predictionsAdded.next(newPrediction);
   }
 
-  removeModel(prediction: Prediction, app: string = 'default'){
+  removeModel(prediction: Prediction, app: string = 'default') {
     const appRef = this.get(app);
     appRef.predictions.splice(appRef.predictions.indexOf(prediction), 1);
     localStorage.setItem(
@@ -349,19 +364,24 @@ export class HsStatisticsService {
     return parseInt(time) + (variableShifts[variable] ?? 0);
   }
 
-  async clear(app: string): Promise<void> {
+  async clear(app: string, forceClear?: boolean): Promise<void> {
     const appRef = this.get(app);
-    const dialog = this.hsDialogContainerService.create(
-      HsConfirmDialogComponent,
-      {
-        message: this.hsLanguageService.getTranslation(
-          'STATISTICS.CLEAR_ALL_STATISTICS_DATA'
-        ),
-        title: this.hsLanguageService.getTranslation('COMMON.confirm'),
-      },
-      app
-    );
-    const confirmed = await dialog.waitResult();
+    let confirmed: string;
+    if (forceClear !== undefined && forceClear === true) {
+      confirmed = 'yes';
+    } else {
+      const dialog = this.hsDialogContainerService.create(
+        HsConfirmDialogComponent,
+        {
+          message: this.hsLanguageService.getTranslation(
+            'STATISTICS.CLEAR_ALL_STATISTICS_DATA'
+          ),
+          title: this.hsLanguageService.getTranslation('COMMON.confirm'),
+        },
+        app
+      );
+      confirmed = await dialog.waitResult();
+    }
     if (confirmed == 'yes') {
       appRef.corpus.dict = {};
       appRef.corpus.variables = [];
@@ -409,6 +429,9 @@ export class HsStatisticsService {
               MAKE_SURE_YOU_HAVE:
                 'Make sure You have selected layer before trying to visualize the data on the map!',
               ERROR_STORING_DATA: 'Error storing data to localStorage',
+              DUPLICATE_DATA_ENTRY: 'Duplicate data entry',
+              MORE_THEN_ONE_ENTRY_WAS_FOUND:
+                'More then one data entry was found for the selected time and location dimension. Please filter the data, to avoid this error.',
             },
             STATISTICS: {
               HELP: 'Help',
