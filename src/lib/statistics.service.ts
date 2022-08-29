@@ -33,6 +33,8 @@ export interface CorpusItems {
   };
   variables: string[];
   uses: Usage;
+  timeUnit?: string;
+  timeFormat?: string;
 }
 
 export type Prediction = {
@@ -45,7 +47,7 @@ export type Prediction = {
 
 export class StatisticsServiceParams {
   /** Main hash table of time+location keys and values which are populated from columns marked as 'variable'*/
-  corpus: CorpusItems = {dict: {}, variables: [], uses: {}};
+  corpus: CorpusItems = {dict: {}, variables: [], uses: {}, timeUnit: 'year'};
   clearData$: Subject<void> = new Subject();
   activeTab = 1;
   predictions: Prediction[] = [];
@@ -123,7 +125,11 @@ export class HsStatisticsService {
     app: string
   ): void {
     let duplicateFound = false;
-    const tmpCorpus: CorpusItems = {dict: {}, variables: [], uses: {}};
+    const tmpCorpus: CorpusItems = {
+      dict: {},
+      variables: [],
+      uses: {},
+    };
     const appRef = this.get(app);
     if (!rows || !columns) {
       return;

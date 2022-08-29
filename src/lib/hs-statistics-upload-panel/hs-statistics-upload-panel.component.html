@@ -4,7 +4,10 @@
             [hsDownload]="uploadTemplate" mimeType="text/csv" [href]="downloadData"
             (downloadPrepared)="downloadData = $event" [title]="'STATISTICS.HERE' | translateHs: {app} ">
             {{'STATISTICS.HERE' |
-            translateHs : {app} }}</a>.<br/> Example dataset for life satisfaction of people aged over 16: <a href="assets/life_satisfaction_over_16.csv" target="_blank">life_satisfaction_over_16.csv</a>. <br/>Example dataset for energy consumption in kilograms of oil per capita per year: <a href="assets/energy_consumption.csv" target="_blank">energy_consumption.csv</a>. 
+            translateHs : {app} }}</a>.<br /> Example dataset for life satisfaction of people aged over 16: <a
+            href="assets/life_satisfaction_over_16.csv" target="_blank">life_satisfaction_over_16.csv</a>. <br />Example
+        dataset for energy consumption in kilograms of oil per capita per year: <a href="assets/energy_consumption.csv"
+            target="_blank">energy_consumption.csv</a>.
     </div>
     <div class="form-group m-3">
         <hs-file-upload (uploaded)="handleFileUpload($event)" [app]="app" uploader="hs-sld-upload"
@@ -16,7 +19,7 @@
             *ngIf="dataAvailable()">{{'STATISTICS.COLLAPSE_ROWS' |
             translateHs : {app} }}</button>
     </div>
-    <ng-container>
+    <ng-container *ngIf="dataAvailable()">
         <table class="table table-striped table-bordered"
             style="table-layout: fixed;max-height: 500px;display: block;overflow-y: scroll;">
             <thead>
@@ -28,14 +31,41 @@
                         <option value="variable">Variable</option>
                     </select>
                 </th>
+                <th style="vertical-align: middle">
+                    Time unit
+                </th>
+                <th style="vertical-align: middle">
+                    Time format
+                </th>
             </thead>
             <thead style="vertical-align: middle;">
                 <th *ngFor="let col of columns">
                     <ng-container *ngIf="uses[col] !== 'variable'">
                         {{col}}
                     </ng-container>
-                    <input *ngIf="uses[col] === 'variable'" class="form-control" [(ngModel)]="columnAliases[col]"/>
+                    <input *ngIf="uses[col] === 'variable'" class="form-control" style="border: none;"
+                        [(ngModel)]="columnAliases[col]" />
                 </th>
+                <td [attr.rowspan]="rows.length">
+                    <select class="form-control form-select" style="border: none; min-width: 5.5em "
+                        [(ngModel)]="timeUnit" (ngModelChange)="updateTime()">
+                        <option value="day">Day</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                        <option value="quarter">Quarter</option>
+                        <option value="year">Year</option>
+                    </select>
+                </td>
+                <td [attr.rowspan]="rows.length">
+                    <select class="form-control form-select" style="border: none; min-width: 9em "
+                        [(ngModel)]="timeFormat" (ngModelChange)="updateTime()">
+                        <option value="YYYY">YYYY</option>
+                        <option value="YYYY-MM">YYYY-MM</option>
+                        <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                        <option value="DD-MM-YYYY">DD-MM-YYYY</option>
+                        <option value="MM-YYYY">MM-YYYY</option>
+                    </select>
+                </td>
             </thead>
             <tbody [hidden]="rowsCollapsed">
                 <tr *ngFor="let row of rows | slice:0:limitShown">

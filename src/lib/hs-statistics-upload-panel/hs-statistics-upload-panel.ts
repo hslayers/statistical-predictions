@@ -34,7 +34,8 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   uploadTemplate = `"Municipality name or code",Year,"Variable 1","Variable 2"
   Alūksnes municipality,2010,1,1
   Cēsu municipality,2010,1,2`;
-
+  timeUnit = 'year';
+  timeFormat = 'YYYY';
   constructor(
     public hsStatisticsService: HsStatisticsService,
     public hsConfig: HsConfig,
@@ -53,6 +54,8 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
     if (this.fileInput?.nativeElement?.value) {
       this.fileInput.nativeElement.value = '';
     }
+    this.timeUnit = 'year';
+    this.timeFormat = 'YYYY';
   }
 
   ngAfterViewInit(): void {
@@ -164,5 +167,11 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
       default:
         this.limitShown = 50;
     }
+  }
+
+  updateTime(): void {
+    const statisticsAppRef = this.hsStatisticsService.get(this.app);
+    statisticsAppRef.corpus.timeUnit = this.timeUnit;
+    statisticsAppRef.corpus.timeFormat = this.timeFormat;
   }
 }
