@@ -11,8 +11,9 @@ import {sampleCorrelation} from 'simple-statistics';
 
 import {ColumnWrapper} from './column-wrapper.type';
 import {HsErrorDialogComponent} from './error-dialog/error-dialog.component';
+
 export interface Usage {
-  [key: string]: 'location' | 'ignore' | 'time' | 'variable';
+  [key: string]: 'location' | 'ignore' | 'time' | 'variable' | 'dimension';
 }
 
 export interface ColumnAlias {
@@ -52,6 +53,15 @@ export class StatisticsServiceParams {
   activeTab = 1;
   predictions: Prediction[] = [];
 }
+
+export type StorageConf = {
+  rows: any[];
+  columns: string[];
+  columnAliases: ColumnAlias;
+  uses: Usage;
+  dimensionFilters: Map<string, string>;
+  app: string;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -117,13 +127,14 @@ export class HsStatisticsService {
     });
   }
 
-  store(
-    rows: any[],
-    columns: string[],
-    columnAliases: ColumnAlias,
-    uses: Usage,
-    app: string
-  ): void {
+  store({
+    rows,
+    columns,
+    columnAliases,
+    uses,
+    dimensionFilters,
+    app,
+  }: StorageConf): void {
     let duplicateFound = false;
     const tmpCorpus: CorpusItems = {
       dict: {},
@@ -133,6 +144,21 @@ export class HsStatisticsService {
     const appRef = this.get(app);
     if (!rows || !columns) {
       return;
+    }
+    const filtersApplicable = Object.keys(uses)
+      .filter((u) => uses[u] == 'dimension')
+      .map((col) => {
+        return {col, value: dimensionFilters[col]};
+      });
+    if (filtersApplicable.length > 0) {
+      rows = rows.filter((r) => {
+        /*Look through rows and count how many columns have values 
+        specified in filtersApplicable array. If all filters match then include this row */
+        return (
+          filtersApplicable.filter((f) => r[f.col] == f.value).length ==
+          filtersApplicable.length
+        );
+      });
     }
     for (const row of rows) {
       /** Example '2010Kentucky' */

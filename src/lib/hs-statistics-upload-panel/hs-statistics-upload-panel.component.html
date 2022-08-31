@@ -26,6 +26,7 @@
                 <th *ngFor="let col of columns" style="min-width: 6em">
                     <select class="form-control form-select" style="border: none;" [(ngModel)]="uses[col]">
                         <option value="ignore">Ignore</option>
+                        <option value="dimension">Dimension</option>
                         <option value="location">Location</option>
                         <option value="time">Time</option>
                         <option value="variable">Variable</option>
@@ -40,8 +41,16 @@
             </thead>
             <thead style="vertical-align: middle;">
                 <th *ngFor="let col of columns">
-                    <ng-container *ngIf="uses[col] !== 'variable'">
+                    <ng-container *ngIf="uses[col] !== 'variable' && uses[col] !== 'dimension'">
                         {{col}}
+                    </ng-container>
+                    <ng-container *ngIf="uses[col] === 'dimension'">
+                        <div class="mb-0">
+                            <label class="form-label">{{col}}</label>
+                            <select class="form-control form-select" [(ngModel)]="dimensionFilters[col]">
+                                <option *ngFor="let uv of uniqueValues[col]">{{uv}}</option>
+                            </select>
+                        </div>
                     </ng-container>
                     <input *ngIf="uses[col] === 'variable'" class="form-control" style="border: none;"
                         [(ngModel)]="columnAliases[col]" />
@@ -77,7 +86,7 @@
     <div class="d-flex justify-content-between">
         <div class="btn-group" data-toggle="buttons" *ngIf="dataAvailable()">
             <button type="button" class="btn btn-primary"
-                (click)="hsStatisticsService.store(rows, columns, columnAliases, uses, app)">{{'STATISTICS.STORE' |
+                (click)="store()">{{'STATISTICS.STORE' |
                 translateHs : {app} }}</button>
             <button type="button" class="btn btn-secondary" (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP'
                 |

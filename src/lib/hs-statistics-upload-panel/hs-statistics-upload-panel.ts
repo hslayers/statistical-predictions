@@ -36,6 +36,8 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   Cēsu municipality,2010,1,2`;
   timeUnit = 'year';
   timeFormat = 'YYYY';
+  uniqueValues: Map<string, string[]> = new Map();
+  dimensionFilters: Map<string, string> = new Map();
   constructor(
     public hsStatisticsService: HsStatisticsService,
     public hsConfig: HsConfig,
@@ -104,8 +106,8 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
         step: this.trimEmptyCells,
       });
       this.columns = Object.keys(this.records[0]);
-      this.setUses();
       this.rows = this.records;
+      this.setDefaultUses();
     });
   }
 
@@ -117,13 +119,23 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
     });
     this.records.push(results.data);
   };
-  setUses(): void {
+  setDefaultUses(): void {
     if (!this.columns) {
       return;
     }
     this.uses = {};
     this.columnAliases = {};
     this.columns.map((key) => {
+      this.dimensionFilters[key] = null;
+      const allValues = this.rows.map((r) => r[key]);
+      this.uniqueValues[key] = allValues.filter(
+        (v, i, a) => a.indexOf(v) === i
+      );
+      if (this.uniqueValues[key].length == 1) {
+        this.uses[key] = 'dimension';
+        this.dimensionFilters[key] = this.uniqueValues[key][0];
+        return;
+      }
       switch (key) {
         case 'Novads':
         case 'Pagasts':
@@ -167,6 +179,18 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
       default:
         this.limitShown = 50;
     }
+  }
+
+  store(): void {
+    const storageConf = {
+      rows: this.rows.map((r) => r), //Clone
+      columns: this.columns,
+      columnAliases: this.columnAliases,
+      uses: this.uses,
+      app: this.app,
+      dimensionFilters: this.dimensionFilters,
+    };
+    this.hsStatisticsService.store(storageConf);
   }
 
   updateTime(): void {
