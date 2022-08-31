@@ -297,6 +297,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
           header: 'ERROR_DIALOG.MISSING_LAYER',
           errorMessage: 'ERROR_DIALOG.MAKE_SURE_YOU_HAVE',
         },
+        undefined,
         this.data.app
       );
       return;

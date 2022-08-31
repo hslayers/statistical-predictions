@@ -187,6 +187,7 @@ export class HsStatisticsService {
               header: 'ERROR_DIALOG.DUPLICATE_DATA_ENTRY',
               errorMessage: 'ERROR_DIALOG.MORE_THEN_ONE_ENTRY_WAS_FOUND',
             },
+            {location: key, value: row[col]},
             app
           );
           break;
@@ -224,6 +225,7 @@ export class HsStatisticsService {
           header: 'ERROR_DIALOG.ERROR_STORING_DATA',
           errorMessage: error.message,
         },
+        undefined,
         app
       );
     }
@@ -427,6 +429,7 @@ export class HsStatisticsService {
 
   callErrorDialog(
     dialogOptions: {header: string; errorMessage?: string},
+    params,
     app: string
   ): void {
     this.hsDialogContainerService.create(
@@ -434,7 +437,9 @@ export class HsStatisticsService {
       {
         header: this.hsLanguageService.getTranslation(dialogOptions.header),
         errorMessage: this.hsLanguageService.getTranslation(
-          dialogOptions.errorMessage
+          dialogOptions.errorMessage,
+          params,
+          app
         ),
       },
       app
@@ -464,7 +469,7 @@ export class HsStatisticsService {
               ERROR_STORING_DATA: 'Error storing data to localStorage',
               DUPLICATE_DATA_ENTRY: 'Duplicate data entry',
               MORE_THEN_ONE_ENTRY_WAS_FOUND:
-                'More then one data entry was found for the selected time and location dimension. Please filter the data, to avoid this error.',
+                'More then one data entry was found for {{location}} when storing value {{value}}. Set some of the columns as `Dimension` with corresponding filters to reduce dimensionality. Only one value must remain in `Variable` column for each Location-Time combination.',
             },
             STATISTICS: {
               HELP: 'Help',
