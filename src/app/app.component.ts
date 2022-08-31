@@ -19,12 +19,12 @@ import {
   HsStylerComponent,
   HsToolbarPanelContainerService,
 } from 'hslayers-ng';
+import {HsStatisticsHelpDialogComponent} from './help-dialog/help-dialog.component';
 import {
   HsStatisticsService,
   StatisticsServiceParams,
 } from '../lib/statistics.service';
 import {defaultStyleSld} from './default-style';
-import { HsStatisticsHelpDialogComponent } from './help-dialog/help-dialog.component';
 
 @Component({
   selector: 'hslayers-app',
@@ -34,6 +34,10 @@ import { HsStatisticsHelpDialogComponent } from './help-dialog/help-dialog.compo
 export class HslayersAppComponent {
   app = 'default';
   statisticsAppRef: StatisticsServiceParams;
+  downloadData: any;
+  uploadTemplate = `"Municipality name or code",Year,"Variable 1","Variable 2"
+  Alūksnes municipality,2010,1,1
+  Cēsu municipality,2010,1,2`;
   constructor(
     public HsConfig: HsConfig,
     private httpClient: HttpClient,

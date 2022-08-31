@@ -19,6 +19,16 @@
             </div>
           </div>
           <div class="card-body">
+            <div class="card-subtitle">
+              {{'STATISTICS.DOWNLOAD_TEMPLATE_HINT' | translateHs : {app} }} <a download="template.csv"
+            [hsDownload]="uploadTemplate" mimeType="text/csv" [href]="downloadData"
+            (downloadPrepared)="downloadData = $event" [title]="'STATISTICS.HERE' | translateHs: {app} ">
+            {{'STATISTICS.HERE' |
+            translateHs : {app} }}</a>.<br /> Example dataset for life satisfaction of people aged over 16: <a
+            href="assets/life_satisfaction_over_16.csv" target="_blank">life_satisfaction_over_16.csv</a>. <br />Example
+        dataset for energy consumption in kilograms of oil per capita per year: <a href="assets/energy_consumption.csv"
+            target="_blank">energy_consumption.csv</a>.
+            </div>
             <hs-statistics-upload-panel [dialogMode]="false" [mapControllerComponent]="mapControllerTemplateRef">
             </hs-statistics-upload-panel>
           </div>

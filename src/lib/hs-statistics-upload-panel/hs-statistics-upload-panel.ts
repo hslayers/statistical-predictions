@@ -30,10 +30,6 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   fileInput;
   limitShown = 50;
   @ViewChild(HsUploadComponent) hsUploadComponent: HsUploadComponent;
-  downloadData: any;
-  uploadTemplate = `"Municipality name or code",Year,"Variable 1","Variable 2"
-  Alūksnes municipality,2010,1,1
-  Cēsu municipality,2010,1,2`;
   timeUnit = 'year';
   timeFormat = 'YYYY';
   uniqueValues: Map<string, string[]> = new Map();

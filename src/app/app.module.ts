@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
-import {HsCoreModule, HsLanguageModule} from 'hslayers-ng';
+import {HsCoreModule, HsDownloadModule, HsLanguageModule} from 'hslayers-ng';
 import {HsLayoutModule} from 'hslayers-ng';
 import {HsSearchModule} from 'hslayers-ng';
 //import {HsMeasureModule} from 'hslayers-ng/components/measure/public-api';
@@ -13,6 +13,7 @@ import {HslayersAppComponent} from './app.component';
 import {InfoDialogComponent} from './info.component';
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     HslayersAppComponent,
     InfoDialogComponent,
@@ -32,6 +33,7 @@ import {InfoDialogComponent} from './info.component';
     HsLayerManagerModule,
     HsStylerModule,
     HsStatisticsModule,
+    HsDownloadModule,
   ],
   providers: [],
   bootstrap: [HslayersAppComponent],
