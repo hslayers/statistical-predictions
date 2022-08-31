@@ -132,10 +132,12 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
         (v, i, a) => a.indexOf(v) === i
       );
       if (this.uniqueValues[key].length == 1) {
-        this.uses[key] = 'dimension';
-        this.dimensionFilters[key] = this.uniqueValues[key][0];
+        this.uses[key] = 'ignore';
+        this.dimensionFilters[key] = this.uniqueValues[key][0]; //In case 'dimension' usage will be selected later
         return;
       }
+      const isNumeric = (num) => !isNaN(num);
+
       switch (key) {
         case 'Novads':
         case 'Pagasts':
@@ -156,7 +158,11 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
           this.uses[key] = 'time';
           break;
         default:
-          this.uses[key] = 'variable';
+          if (isNumeric(allValues[0])) {
+            this.uses[key] = 'variable';
+          } else {
+            this.uses[key] = 'dimension';
+          }
       }
       if (this.uses[key] == 'variable') {
         this.columnAliases[key] = key;
