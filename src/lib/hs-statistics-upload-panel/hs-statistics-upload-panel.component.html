@@ -32,49 +32,50 @@
                         <option value="variable">Variable</option>
                     </select>
                 </th>
-                <th style="vertical-align: middle">
-                    Time unit
-                </th>
-                <th style="vertical-align: middle">
-                    Time format
-                </th>
             </thead>
             <thead style="vertical-align: middle;">
                 <th *ngFor="let col of columns">
-                    <ng-container *ngIf="uses[col] !== 'variable' && uses[col] !== 'dimension'">
+                    <ng-container *ngIf="uses[col] !== 'variable'">
                         {{col}}
                     </ng-container>
+                   <input *ngIf="uses[col] === 'variable'" class="form-control"
+                        [(ngModel)]="columnAliases[col]" />
+                </th>
+            </thead>
+            <thead style="vertical-align: middle;">
+                <th *ngFor="let col of columns" class="p-0">
                     <ng-container *ngIf="uses[col] === 'dimension'">
-                        <div class="mb-0">
-                            <label class="form-label">{{col}}</label>
+                        <div class="m-0 p-0">
                             <select class="form-control form-select" [(ngModel)]="dimensionFilters[col]">
                                 <option *ngFor="let uv of uniqueValues[col]">{{uv}}</option>
                             </select>
                         </div>
                     </ng-container>
-                    <input *ngIf="uses[col] === 'variable'" class="form-control" style="border: none;"
-                        [(ngModel)]="columnAliases[col]" />
+                    <ng-container *ngIf="uses[col] === 'time'">
+                        <div class="m-0 p-0">
+                            <label class="form-label">Frequency</label>
+                            <select class="form-control form-select" [(ngModel)]="timeUnit"
+                                (ngModelChange)="updateTime()">
+                                <option value="day">Day</option>
+                                <option value="week">Week</option>
+                                <option value="month">Month</option>
+                                <option value="quarter">Quarter</option>
+                                <option value="year">Year</option>
+                            </select>
+                        </div>
+                        <div class="m-0 p-0">
+                            <label class="form-label">Format</label>
+                            <select class="form-control form-select" [(ngModel)]="timeFormat"
+                                (ngModelChange)="updateTime()">
+                                <option value="YYYY">YYYY</option>
+                                <option value="YYYY-MM">YYYY-MM</option>
+                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                <option value="DD-MM-YYYY">DD-MM-YYYY</option>
+                                <option value="MM-YYYY">MM-YYYY</option>
+                            </select>
+                        </div>
+                    </ng-container>
                 </th>
-                <td [attr.rowspan]="rows.length">
-                    <select class="form-control form-select" style="border: none; min-width: 5.5em "
-                        [(ngModel)]="timeUnit" (ngModelChange)="updateTime()">
-                        <option value="day">Day</option>
-                        <option value="week">Week</option>
-                        <option value="month">Month</option>
-                        <option value="quarter">Quarter</option>
-                        <option value="year">Year</option>
-                    </select>
-                </td>
-                <td [attr.rowspan]="rows.length">
-                    <select class="form-control form-select" style="border: none; min-width: 9em "
-                        [(ngModel)]="timeFormat" (ngModelChange)="updateTime()">
-                        <option value="YYYY">YYYY</option>
-                        <option value="YYYY-MM">YYYY-MM</option>
-                        <option value="YYYY-MM-DD">YYYY-MM-DD</option>
-                        <option value="DD-MM-YYYY">DD-MM-YYYY</option>
-                        <option value="MM-YYYY">MM-YYYY</option>
-                    </select>
-                </td>
             </thead>
             <tbody [hidden]="rowsCollapsed">
                 <tr *ngFor="let row of rows | slice:0:limitShown">
@@ -85,8 +86,7 @@
     </ng-container>
     <div class="d-flex justify-content-between">
         <div class="btn-group" data-toggle="buttons" *ngIf="dataAvailable()">
-            <button type="button" class="btn btn-primary"
-                (click)="store()">{{'STATISTICS.STORE' |
+            <button type="button" class="btn btn-primary" (click)="store()">{{'STATISTICS.STORE' |
                 translateHs : {app} }}</button>
             <button type="button" class="btn btn-secondary" (click)="visualizeInMap()">{{'STATISTICS.VISUALIZE_MAP'
                 |
