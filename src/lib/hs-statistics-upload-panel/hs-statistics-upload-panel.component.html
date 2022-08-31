@@ -10,7 +10,9 @@
             translateHs : {app} }}</button>
     </div>
     <ng-container *ngIf="dataAvailable()">
-        <p>Please tag uploaded CSV file columns as either "Variable" (your data to calculate models from), "Location", "Time" or other extra "Dimensions". Columns containing only one repeated value should be marked as "Ignore". You can also rename the "Variable" column</p>
+        <p>Please tag uploaded CSV file columns as either "Variable" (your data to calculate models from), "Location",
+            "Time" or other extra "Dimensions". Columns containing only one repeated value should be marked as "Ignore".
+            You can also rename the "Variable" column</p>
         <table class="table table-striped table-bordered"
             style="table-layout: fixed;max-height: 500px;display: block;overflow-y: scroll;">
             <thead>
@@ -26,11 +28,41 @@
             </thead>
             <thead style="vertical-align: middle;">
                 <th *ngFor="let col of columns" [ngStyle]="uses[col] === 'dimension' ? {'min-width': '7em'} : {}">
-                    <ng-container *ngIf="uses[col] !== 'variable'">
+                    <ng-container *ngIf="uses[col] !== 'variable' && uses[col] !== 'time'">
                         {{col}}
                     </ng-container>
-                   <input *ngIf="uses[col] === 'variable'" class="form-control"
-                        [(ngModel)]="columnAliases[col]" />
+                    <ng-container *ngIf="uses[col] !== 'variable' && uses[col] === 'time'">
+                        <div class="display: flex; justify-content: space-between;">
+                            <div ngbDropdown display="dynamic" placement="bottom-right" [autoClose]="'outside'"
+                                #timeDropdown="ngbDropdown">
+                                <label>
+                                    {{col}}
+                                </label>
+                                <span class="dropdown-toggle ps-1" style="cursor: pointer;" ngbDropdownToggle>
+                                    <i class="icon-settingsthree-gears"></i>
+                                </span>
+
+                                <div ngbDropdownMenu class="dropdown-menu" class="m-0 p-1 text-truncate"
+                                    style="text-align: center" data-toggle="dropdown">
+                                    <label class="form-label">Frequency</label>
+
+                                    <select class="form-control form-select border-0" [(ngModel)]="timeFrequency"
+                                        (ngModelChange)="updateTime(); timeDropdown.close()">
+                                        <option *ngFor="let freq of timeFrequencies" [ngValue]="freq">{{freq}}</option>
+                                    </select>
+                                    <div class="m-0 pt-1">
+                                        <label class="form-label">Format</label>
+                                        <select class="form-control form-select border-0" [(ngModel)]="timeFormat"
+                                            (ngModelChange)="updateTime(); timeDropdown.close()">
+                                            <option *ngFor="let format of timeFormats" [ngValue]="format">{{format}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <input *ngIf="uses[col] === 'variable'" class="form-control" [(ngModel)]="columnAliases[col]" />
                 </th>
             </thead>
             <thead style="vertical-align: middle;">
@@ -42,35 +74,13 @@
                             </select>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="uses[col] === 'time'">
-                        <div class="m-0 p-0">
-                            <label class="form-label">Frequency</label>
-                            <select class="form-control form-select" [(ngModel)]="timeUnit"
-                                (ngModelChange)="updateTime()">
-                                <option value="day">Day</option>
-                                <option value="week">Week</option>
-                                <option value="month">Month</option>
-                                <option value="quarter">Quarter</option>
-                                <option value="year">Year</option>
-                            </select>
-                        </div>
-                        <div class="m-0 p-0">
-                            <label class="form-label">Format</label>
-                            <select class="form-control form-select" [(ngModel)]="timeFormat"
-                                (ngModelChange)="updateTime()">
-                                <option value="YYYY">YYYY</option>
-                                <option value="YYYY-MM">YYYY-MM</option>
-                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
-                                <option value="DD-MM-YYYY">DD-MM-YYYY</option>
-                                <option value="MM-YYYY">MM-YYYY</option>
-                            </select>
-                        </div>
-                    </ng-container>
                 </th>
             </thead>
             <tbody [hidden]="rowsCollapsed">
                 <tr *ngFor="let row of rows | slice:0:limitShown">
-                    <td *ngFor="let col of columns"><ng-container *ngIf="uses[col] !== 'ignore'">{{row[col]}}</ng-container></td>
+                    <td *ngFor="let col of columns">
+                        <ng-container *ngIf="uses[col] !== 'ignore'">{{row[col]}}</ng-container>
+                    </td>
                 </tr>
             </tbody>
         </table>

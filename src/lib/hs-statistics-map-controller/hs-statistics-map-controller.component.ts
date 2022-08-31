@@ -19,6 +19,7 @@ import {max, min} from 'simple-statistics';
 import {
   CorpusItemValues,
   HsStatisticsService,
+  StatisticsServiceParams,
   Usage,
 } from '../statistics.service';
 import {HsStatisticsHistogramComponent} from '../histogram-chart-dialog.component';
@@ -58,7 +59,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
   filteredValues: number[];
   locProperties: {[x: string]: any};
   selectedLocationProp: string;
-
+  statisticsAppRef: StatisticsServiceParams;
   constructor(
     public hsDialogContainerService: HsDialogContainerService,
     public hsLayerUtilsService: HsLayerUtilsService,
@@ -70,6 +71,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.statisticsAppRef = this.hsStatisticsService.get(this.data.app);
     this.hsStatisticsService.variableChanges.subscribe(() => {
       this.resetData();
       this.init();
@@ -92,11 +94,10 @@ export class HsStatisticsMapControllerComponent implements OnInit {
   }
 
   private fillDataFromService(): void {
-    const statisticsAppRef = this.hsStatisticsService.get(this.data.app);
     this.data = {
-      rows: statisticsAppRef.corpus.dict,
-      columns: statisticsAppRef.corpus.variables,
-      uses: statisticsAppRef.corpus.uses,
+      rows: this.statisticsAppRef.corpus.dict,
+      columns: this.statisticsAppRef.corpus.variables,
+      uses: this.statisticsAppRef.corpus.uses,
       app: this.data.app,
     };
   }

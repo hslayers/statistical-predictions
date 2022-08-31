@@ -34,7 +34,7 @@ export interface CorpusItems {
   };
   variables: string[];
   uses: Usage;
-  timeUnit?: string;
+  timeFrequency?: string;
   timeFormat?: string;
 }
 
@@ -48,7 +48,12 @@ export type Prediction = {
 
 export class StatisticsServiceParams {
   /** Main hash table of time+location keys and values which are populated from columns marked as 'variable'*/
-  corpus: CorpusItems = {dict: {}, variables: [], uses: {}, timeUnit: 'year'};
+  corpus: CorpusItems = {
+    dict: {},
+    variables: [],
+    uses: {},
+    timeFrequency: 'year',
+  };
   clearData$: Subject<void> = new Subject();
   activeTab = 1;
   predictions: Prediction[] = [];

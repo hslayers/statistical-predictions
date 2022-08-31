@@ -104,7 +104,8 @@
                 <div ngbDropdownMenu style="transform: translateX(25%); width: 15em">
                     <div class="d-flex align-items-center w-100 flex-column">
                         <a class="dropdown-item text-truncate" *ngFor="let val of timeValues" data-toggle="tooltip"
-                            (click)="selectFilter(val)">{{val}}</a>
+                            (click)="selectFilter(val)">{{val | date: statisticsAppRef?.corpus?.timeFormat ??
+                            'YYYY'}}</a>
                     </div>
                 </div>
             </div>

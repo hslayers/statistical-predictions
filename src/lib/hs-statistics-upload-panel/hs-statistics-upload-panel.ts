@@ -12,6 +12,14 @@ import {ColumnAlias, HsStatisticsService, Usage} from '../statistics.service';
 import {HsStatisticsMapControllerComponent} from '../hs-statistics-map-controller/hs-statistics-map-controller.component';
 import {HsStatisticsMapControllerDialogComponent} from '../hs-statistics-map-controller-dialog/hs-statistics-map-controller-dialog.component';
 
+export const Frequencies = ['day', 'week', 'month', 'quarter', 'year'];
+export const Formats = [
+  'YYYY',
+  'YYYY-MM',
+  'YYYY-MM-DD',
+  'DD-MM-YYYY',
+  'MM-YYYY',
+];
 @Component({
   selector: 'hs-statistics-upload-panel',
   templateUrl: './hs-statistics-upload-panel.component.html',
@@ -29,8 +37,10 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   records: any[] = [];
   fileInput;
   limitShown = 50;
+  timeFrequencies: string[] = Frequencies;
+  timeFormats: string[] = Formats;
   @ViewChild(HsUploadComponent) hsUploadComponent: HsUploadComponent;
-  timeUnit = 'year';
+  timeFrequency = 'year';
   timeFormat = 'YYYY';
   uniqueValues: Map<string, string[]> = new Map();
   dimensionFilters: Map<string, string> = new Map();
@@ -52,7 +62,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
     if (this.fileInput?.nativeElement?.value) {
       this.fileInput.nativeElement.value = '';
     }
-    this.timeUnit = 'year';
+    this.timeFrequency = 'year';
     this.timeFormat = 'YYYY';
   }
 
@@ -197,7 +207,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
 
   updateTime(): void {
     const statisticsAppRef = this.hsStatisticsService.get(this.app);
-    statisticsAppRef.corpus.timeUnit = this.timeUnit;
+    statisticsAppRef.corpus.timeFrequency = this.timeFrequency;
     statisticsAppRef.corpus.timeFormat = this.timeFormat;
   }
 }

@@ -33,7 +33,7 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
     rows: any[] | {[key: string]: {values: CorpusItemValues}};
     columns: string[];
     uses: Usage;
-    timeUnit: string;
+    timeFrequency: string;
     timeFormat: string;
     app: string;
   };
@@ -130,7 +130,7 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
       rows: statisticsAppRef.corpus.dict,
       columns: statisticsAppRef.corpus.variables,
       uses: statisticsAppRef.corpus.uses,
-      timeUnit: statisticsAppRef.corpus.timeUnit ?? 'year',
+      timeFrequency: statisticsAppRef.corpus.timeFrequency ?? 'year',
       timeFormat: statisticsAppRef.corpus.timeFormat ?? 'YYYY',
       app: this.app,
     };
