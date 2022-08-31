@@ -271,7 +271,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
     }
     if (Array.isArray(this.data.rows)) {
       this.filteredRows = this.data.rows.filter(
-        (row) => row[this.timeColumn] == this.selectedTimeValue
+        (row) => row[this.timeColumn] == this.selectedTimeValue || this.timeValues.length == 0
       );
       this.filteredValues = this.filteredRows
         .map((row) => parseFloat(row[this.selectedVariable]))
@@ -279,7 +279,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
     } else {
       this.filteredRows = Object.keys(this.data.rows)
         .map((key) => this.data.rows[key])
-        .filter((row) => row.time == this.selectedTimeValue);
+        .filter((row) => row.time == this.selectedTimeValue || this.timeValues.length == 0);
       this.filteredValues = this.filteredRows
         .map((row) => row.values)
         .map((row) => parseFloat(row[this.selectedVariable]))
