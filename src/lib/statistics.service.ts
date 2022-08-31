@@ -136,12 +136,9 @@ export class HsStatisticsService {
     app,
   }: StorageConf): void {
     let duplicateFound = false;
-    const tmpCorpus: CorpusItems = {
-      dict: {},
-      variables: [],
-      uses: {},
-    };
     const appRef = this.get(app);
+    const tmpCorpus: CorpusItems = Object.assign({}, appRef.corpus);
+
     if (!rows || !columns) {
       return;
     }
@@ -176,21 +173,24 @@ export class HsStatisticsService {
         corpusItem = {values: {}, ...keyObject};
         tmpCorpus.dict[key] = corpusItem;
       } else {
-        duplicateFound = true;
-        this.callErrorDialog(
-          {
-            header: 'ERROR_DIALOG.DUPLICATE_DATA_ENTRY',
-            errorMessage: 'ERROR_DIALOG.MORE_THEN_ONE_ENTRY_WAS_FOUND',
-          },
-          app
-        );
-        break;
+        corpusItem = tmpCorpus.dict[key];
       }
       for (const col of columns.filter((col) => uses[col] == 'variable')) {
         const colName = columnAliases[col];
         //Why is this here? It breaks key comparisons between columns and usages
         //Answer: Its needed because vega treats everything after dot as a hierarchical sub-variable
         const escapedCol = colName?.replace(/\./g, '');
+        if (corpusItem.values[escapedCol] !== undefined) {
+          duplicateFound = true;
+          this.callErrorDialog(
+            {
+              header: 'ERROR_DIALOG.DUPLICATE_DATA_ENTRY',
+              errorMessage: 'ERROR_DIALOG.MORE_THEN_ONE_ENTRY_WAS_FOUND',
+            },
+            app
+          );
+          break;
+        }
         corpusItem.values[escapedCol] = parseFloat(row[col]);
         if (!tmpCorpus.variables.some((v) => v == escapedCol)) {
           tmpCorpus.variables.push(escapedCol);
@@ -198,6 +198,9 @@ export class HsStatisticsService {
         if (escapedCol != col) {
           uses[escapedCol] = uses[col];
         }
+      }
+      if (duplicateFound) {
+        return;
       }
     }
     if (!duplicateFound) {
