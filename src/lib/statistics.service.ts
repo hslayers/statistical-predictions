@@ -139,9 +139,9 @@ export class HsStatisticsService {
       /** Used to later filter records by location/time since key string is hard to
        * use if only location is provided and not time or vice versa */
       const keyObject = {location: undefined, time: undefined};
-      for (const col of columns
-        .sort()
-        .filter((col) => ['location', 'time'].includes(uses[col]))) {
+      for (const col of columns.filter((col) =>
+        ['location', 'time'].includes(uses[col])
+      )) {
         keyObject[uses[col]] = row[col];
       }
       let corpusItem: {values: CorpusItemValues};
@@ -174,9 +174,7 @@ export class HsStatisticsService {
         }
       }
     }
-    if (duplicateFound) {
-      appRef.clearData$.next();
-    } else {
+    if (!duplicateFound) {
       Object.assign(appRef.corpus, tmpCorpus);
       Object.assign(appRef.corpus.uses, uses);
       this.save(app);
