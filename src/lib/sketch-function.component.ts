@@ -1,9 +1,9 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -14,7 +14,7 @@ import {HsDialogContainerService, HsLayerUtilsService} from 'hslayers-ng';
   selector: 'hs-sketch-function',
   templateUrl: './sketch-function.component.html',
 })
-export class HsSketchFunctionComponent implements OnChanges {
+export class HsSketchFunctionComponent implements AfterViewInit {
   @Input() years: number[];
   @Input() app = 'default';
   @ViewChild('canvas') canvas: ElementRef;
@@ -29,10 +29,6 @@ export class HsSketchFunctionComponent implements OnChanges {
     public hsDialogContainerService: HsDialogContainerService,
     public hsLayerUtilsService: HsLayerUtilsService
   ) {}
-
-  ngOnChanges(): void {
-    //this.visualize();
-  }
 
   ngAfterViewInit() {
     this.canvas.nativeElement.addEventListener('mousemove', (e) =>

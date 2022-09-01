@@ -14,7 +14,7 @@
             "Time" or other extra "Dimensions". Columns containing only one repeated value should be marked as "Ignore".
             You can also rename the "Variable" column</p>
         <table class="table table-striped table-bordered"
-            style="table-layout: fixed;max-height: 500px;display: block;overflow-y: scroll;">
+            style="table-layout: fixed; min-height: 100px; max-height: 500px;display: block;overflow-y: scroll;">
             <thead>
                 <th *ngFor="let col of columns" style="min-width: 6em">
                     <select class="form-control form-select" style="border: none;" [(ngModel)]="uses[col]">
@@ -42,7 +42,7 @@
                                     <i class="icon-settingsthree-gears"></i>
                                 </span>
 
-                                <div ngbDropdownMenu class="dropdown-menu" class="m-0 p-1 text-truncate"
+                                <div ngbDropdownMenu class="dropdown-menu" class="p-1 text-truncate"
                                     style="text-align: center" data-toggle="dropdown">
                                     <label class="form-label">Frequency</label>
 
@@ -76,7 +76,10 @@
                                 <div ngbDropdownMenu class="dropdown-menu" class="m-0 p-1 text-truncate"
                                     style="text-align: center" data-toggle="dropdown">
                                     <select class="form-control form-select border-0"
-                                        [(ngModel)]="dimensionFilters[col]" (ngModelChange)="dimensionDropdown.close()">
+                                        [(ngModel)]="dimensionFilters[col]"
+                                        (ngModelChange)="refreshTable(); dimensionDropdown.close()">
+                                        <option [ngValue]="null" selected>None
+                                        </option>
                                         <option *ngFor="let uv of uniqueValues[col]">{{uv}}</option>
                                     </select>
                                 </div>
@@ -88,7 +91,7 @@
                 </th>
             </thead>
             <tbody [hidden]="rowsCollapsed">
-                <tr *ngFor="let row of rows | slice:0:limitShown">
+                <tr *ngFor="let row of filteredRows | slice:0:limitShown">
                     <td *ngFor="let col of columns">
                         <ng-container *ngIf="uses[col] !== 'ignore'">{{row[col]}}</ng-container>
                     </td>

@@ -1,4 +1,10 @@
-import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import Papa from 'papaparse';
 import {
@@ -16,15 +22,15 @@ export const Frequencies = ['day', 'week', 'month', 'quarter', 'year'];
 export const Formats = [
   'YYYY',
   'YYYY-MM',
-  'YYYY-MM-DD',
-  'DD-MM-YYYY',
+  'YYYY-MM-dd',
+  'dd-MM-YYYY',
   'MM-YYYY',
 ];
 @Component({
   selector: 'hs-statistics-upload-panel',
   templateUrl: './hs-statistics-upload-panel.component.html',
 })
-export class HsStatisticsUploadPanelComponent implements AfterViewInit {
+export class HsStatisticsUploadPanelComponent implements AfterViewInit, OnInit {
   @Input() app = 'default';
   @Input() mapControllerComponent?: HsStatisticsMapControllerComponent;
   @Input() dialogMode = false;
@@ -32,7 +38,8 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   columns: string[] = [];
   uses: Usage = null;
   columnAliases: ColumnAlias = null;
-  rows: any[] = [];
+  originalRows: any[] = [];
+  filteredRows: any[] = [];
   rowsCollapsed = false;
   records: any[] = [];
   fileInput;
@@ -40,8 +47,8 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   timeFrequencies: string[] = Frequencies;
   timeFormats: string[] = Formats;
   @ViewChild(HsUploadComponent) hsUploadComponent: HsUploadComponent;
-  timeFrequency = 'year';
-  timeFormat = 'YYYY';
+  timeFrequency: string;
+  timeFormat: string;
   uniqueValues: Map<string, string[]> = new Map();
   dimensionFilters: Map<string, string> = new Map();
   constructor(
@@ -53,8 +60,18 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
       this.resetData();
     });
   }
+  ngOnInit(): void {
+    const statisticsAppRef = this.hsStatisticsService.get(this.app);
+    statisticsAppRef.corpus.timeFormat
+      ? (this.timeFormat = statisticsAppRef.corpus?.timeFormat)
+      : (this.timeFormat = 'YYYY');
+    statisticsAppRef.corpus.timeFrequency
+      ? (this.timeFrequency = statisticsAppRef.corpus?.timeFrequency)
+      : (this.timeFrequency = 'year');
+  }
   private resetData(): void {
-    this.rows = [];
+    this.originalRows = [];
+    this.filteredRows = [];
     this.columns = [];
     this.uses = {};
     this.columnAliases = {};
@@ -75,7 +92,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
       this.hsDialogContainerService.create(
         HsStatisticsMapControllerDialogComponent,
         {
-          rows: this.rows,
+          rows: this.filteredRows,
           columns: this.columns,
           uses: this.uses,
           app: this.app,
@@ -88,7 +105,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
   }
 
   dataAvailable(): boolean {
-    return this.columns?.length > 0 && this.rows?.length > 0;
+    return this.columns?.length > 0 && this.originalRows?.length > 0;
   }
 
   handleFileUpload(evt: HsUploadedFiles): void {
@@ -112,7 +129,8 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
         step: this.trimEmptyCells,
       });
       this.columns = Object.keys(this.records[0]);
-      this.rows = this.records;
+      this.originalRows = this.records;
+      this.filteredRows = this.records;
       this.setDefaultUses();
     });
   }
@@ -133,7 +151,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
     this.columnAliases = {};
     this.columns.map((key) => {
       this.dimensionFilters[key] = null;
-      const allValues = this.rows.map((r) => r[key]);
+      const allValues = this.filteredRows.map((r) => r[key]);
       this.uniqueValues[key] = allValues.filter(
         (v, i, a) => a.indexOf(v) === i
       );
@@ -195,7 +213,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
 
   store(): void {
     const storageConf = {
-      rows: this.rows.map((r) => r), //Clone
+      rows: this.filteredRows.map((r) => r), //Clone
       columns: this.columns,
       columnAliases: this.columnAliases,
       uses: this.uses,
@@ -222,5 +240,13 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
       default:
         return 'other';
     }
+  }
+
+  refreshTable(): void {
+    this.filteredRows = this.hsStatisticsService.filterRowsByDimension(
+      this.uses,
+      this.originalRows,
+      this.dimensionFilters
+    );
   }
 }

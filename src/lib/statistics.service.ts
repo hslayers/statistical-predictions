@@ -53,6 +53,7 @@ export class StatisticsServiceParams {
     variables: [],
     uses: {},
     timeFrequency: 'year',
+    timeFormat: 'YYYY',
   };
   clearData$: Subject<void> = new Subject();
   activeTab = 1;
@@ -132,14 +133,7 @@ export class HsStatisticsService {
     });
   }
 
-  store({
-    rows,
-    columns,
-    columnAliases,
-    uses,
-    dimensionFilters,
-    app,
-  }: StorageConf): void {
+  store({rows, columns, columnAliases, uses, app}: StorageConf): void {
     let duplicateFound = false;
     const appRef = this.get(app);
     const tmpCorpus: CorpusItems = Object.assign({}, appRef.corpus);
@@ -147,21 +141,7 @@ export class HsStatisticsService {
     if (!rows || !columns) {
       return;
     }
-    const filtersApplicable = Object.keys(uses)
-      .filter((u) => uses[u] == 'dimension')
-      .map((col) => {
-        return {col, value: dimensionFilters[col]};
-      });
-    if (filtersApplicable.length > 0) {
-      rows = rows.filter((r) => {
-        /*Look through rows and count how many columns have values 
-        specified in filtersApplicable array. If all filters match then include this row */
-        return (
-          filtersApplicable.filter((f) => r[f.col] == f.value).length ==
-          filtersApplicable.length
-        );
-      });
-    }
+
     for (const row of rows) {
       /** Example '2010Kentucky' */
       /** Used to later filter records by location/time since key string is hard to
@@ -215,6 +195,29 @@ export class HsStatisticsService {
       this.save(app);
       this.afterVariablesChange(app);
     }
+  }
+
+  filterRowsByDimension(
+    uses: Usage,
+    rows: any[],
+    dimensionFilters: Map<string, string>
+  ): any[] {
+    const filtersApplicable = Object.keys(uses)
+      .filter((u) => uses[u] == 'dimension')
+      .map((col) => {
+        return {col, value: dimensionFilters[col]};
+      });
+    if (filtersApplicable.length > 0) {
+      rows = rows.filter((r) => {
+        /*Look through rows and count how many columns have values 
+        specified in filtersApplicable array. If all filters match then include this row */
+        return (
+          filtersApplicable.filter((f) => r[f.col] == f.value).length ==
+          filtersApplicable.length
+        );
+      });
+    }
+    return rows;
   }
 
   save(app: string) {
@@ -367,11 +370,11 @@ export class HsStatisticsService {
   }
 
   /**
-   * Take data dictionary item key and return the same item, but from another year
+   * Take data dictionary item key and return the same item, but from another time frequency
+   * @param dict -
    * @param key -
    * @param variable -
    * @param variableShifts -
-   * @param app - App identifier
    * @returns
    */
   adjustDictionaryKey(
@@ -426,6 +429,8 @@ export class HsStatisticsService {
       appRef.corpus.dict = {};
       appRef.corpus.variables = [];
       appRef.corpus.uses = {};
+      appRef.corpus.timeFormat = 'YYYY';
+      appRef.corpus.timeFrequency = 'year';
       localStorage.removeItem('hs_statistics_corpus');
       appRef.clearData$.next();
       this.afterVariablesChange(app);
