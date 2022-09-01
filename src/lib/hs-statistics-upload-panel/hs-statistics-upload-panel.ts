@@ -210,4 +210,17 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
     statisticsAppRef.corpus.timeFrequency = this.timeFrequency;
     statisticsAppRef.corpus.timeFormat = this.timeFormat;
   }
+
+  getUseType(col: string): string {
+    switch (true) {
+      case this.uses[col] === 'variable':
+        return 'variable';
+      case this.uses[col] === 'time':
+        return 'time';
+      case this.uses[col] === 'dimension':
+        return 'dimension';
+      default:
+        return 'other';
+    }
+  }
 }

@@ -28,11 +28,11 @@
             </thead>
             <thead style="vertical-align: middle;">
                 <th *ngFor="let col of columns" [ngStyle]="uses[col] === 'dimension' ? {'min-width': '7em'} : {}">
-                    <ng-container *ngIf="uses[col] !== 'variable' && uses[col] !== 'time'">
+                    <ng-container *ngIf="getUseType(col) === 'other'">
                         {{col}}
                     </ng-container>
-                    <ng-container *ngIf="uses[col] !== 'variable' && uses[col] === 'time'">
-                        <div class="display: flex; justify-content: space-between;">
+                    <ng-container *ngIf="getUseType(col) === 'time'">
+                        <div style="display: flex; justify-content: space-between;">
                             <div ngbDropdown display="dynamic" placement="bottom-right" [autoClose]="'outside'"
                                 #timeDropdown="ngbDropdown">
                                 <label>
@@ -62,18 +62,29 @@
                             </div>
                         </div>
                     </ng-container>
-                    <input *ngIf="uses[col] === 'variable'" class="form-control" [(ngModel)]="columnAliases[col]" />
-                </th>
-            </thead>
-            <thead style="vertical-align: middle;">
-                <th *ngFor="let col of columns" class="p-0">
-                    <ng-container *ngIf="uses[col] === 'dimension'">
-                        <div class="m-0 p-0">
-                            <select class="form-control form-select" [(ngModel)]="dimensionFilters[col]">
-                                <option *ngFor="let uv of uniqueValues[col]">{{uv}}</option>
-                            </select>
+
+                    <ng-container *ngIf="getUseType(col) === 'dimension'">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div ngbDropdown display="dynamic" placement="bottom-right" [autoClose]="'outside'"
+                                #dimensionDropdown="ngbDropdown">
+                                <label>
+                                    {{col}}
+                                </label>
+                                <span class="dropdown-toggle ps-1" style="cursor: pointer;" ngbDropdownToggle>
+                                    <i class="icon-settingsthree-gears"></i>
+                                </span>
+                                <div ngbDropdownMenu class="dropdown-menu" class="m-0 p-1 text-truncate"
+                                    style="text-align: center" data-toggle="dropdown">
+                                    <select class="form-control form-select border-0"
+                                        [(ngModel)]="dimensionFilters[col]" (ngModelChange)="dimensionDropdown.close()">
+                                        <option *ngFor="let uv of uniqueValues[col]">{{uv}}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </ng-container>
+                    <input *ngIf="getUseType(col) === 'variable'" class="form-control"
+                        [(ngModel)]="columnAliases[col]" />
                 </th>
             </thead>
             <tbody [hidden]="rowsCollapsed">
