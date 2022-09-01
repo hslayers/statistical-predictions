@@ -203,7 +203,7 @@ export class HsStatisticsService {
     dimensionFilters: Map<string, string>
   ): any[] {
     const filtersApplicable = Object.keys(uses)
-      .filter((u) => uses[u] == 'dimension')
+      .filter((u) => uses[u] == 'dimension' && dimensionFilters[u])
       .map((col) => {
         return {col, value: dimensionFilters[col]};
       });
