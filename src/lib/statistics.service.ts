@@ -28,10 +28,12 @@ export interface ShiftBy {
   [key: string]: number;
 }
 
+export interface CorpusDict {
+  [key: string]: {values: CorpusItemValues; location?: string; time?: string};
+}
+
 export interface CorpusItems {
-  dict: {
-    [key: string]: {values: CorpusItemValues; location?: string; time?: string};
-  };
+  dict: CorpusDict;
   variables: string[];
   uses: Usage;
   timeFrequency?: string;
@@ -136,7 +138,11 @@ export class HsStatisticsService {
   store({rows, columns, columnAliases, uses, app}: StorageConf): void {
     let duplicateFound = false;
     const appRef = this.get(app);
-    const tmpCorpus: CorpusItems = Object.assign({}, appRef.corpus);
+    const tmpCorpus: CorpusItems = {
+      dict: Object.assign({}, appRef.corpus.dict),
+      variables: [...appRef.corpus.variables],
+      uses: Object.assign({}, appRef.corpus.uses),
+    };
 
     if (!rows || !columns) {
       return;
@@ -378,13 +384,7 @@ export class HsStatisticsService {
    * @returns
    */
   adjustDictionaryKey(
-    dict: {
-      [key: string]: {
-        values: CorpusItemValues;
-        location?: string;
-        time?: string;
-      };
-    },
+    dict: CorpusDict,
     key: string,
     variable: string,
     variableShifts: ShiftBy

@@ -16,7 +16,7 @@ import {
 
 import {ColumnWrapper} from '../column-wrapper.type';
 import {
-  CorpusItemValues,
+  CorpusDict,
   HsStatisticsService,
   Prediction,
 } from '../statistics.service';
@@ -48,11 +48,9 @@ export class HsStatisticsPredictionComponent implements OnInit {
   fromYear = new Date().getFullYear();
   tillYear = new Date().getFullYear() + 10;
   years: number[];
-  dict: {
-    [key: string]: {values: CorpusItemValues; location?: string; time?: string};
-  };
+  dict: CorpusDict;
   regressionParams: any;
-  shifts: {};
+  shifts = {};
   observations: any;
   functionSketchVisible = false;
 
