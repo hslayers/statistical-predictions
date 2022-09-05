@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import {ElementRef, Injectable} from '@angular/core';
 
 import {
@@ -17,7 +18,10 @@ export interface Usage {
 }
 
 export interface TimeConfigDict {
-  [key: string]: {timeFrequency: string; timeFormat: string};
+  [key: string]: {
+    timeFrequency: 'day' | 'week' | 'month' | 'quarter' | 'year';
+    timeFormat: string;
+  };
 }
 
 export interface ColumnAlias {
@@ -349,14 +353,17 @@ export class HsStatisticsService {
     variableShifts: ShiftBy,
     app: string
   ): {samples: number[][]; sampleKeys: string[][]} {
-    const dict = this.get(app).corpus.dict;
+    const corpus = this.get(app).corpus;
+    const dict = corpus.dict;
     const tmpSamples = variables.map((variable) => {
       const keys = Object.keys(dict).map((key) =>
         this.adjustDictionaryKey(
           this.get(app).corpus.dict,
           key,
           variable,
-          variableShifts
+          variableShifts,
+          corpus.timeConfig[variable].timeFormat,
+          corpus.timeConfig[variable].timeFrequency
         )
       );
       return {
@@ -401,13 +408,21 @@ export class HsStatisticsService {
     dict: CorpusDict,
     key: string,
     variable: string,
-    variableShifts: ShiftBy
+    variableShifts: ShiftBy,
+    format: string,
+    frequency: 'year' | 'month' | 'quarter' | 'day' | 'week'
   ): string {
     const origEntry = dict[key];
     return (
       origEntry.location +
       '::' +
-      this.shiftTime(variable, origEntry.time, variableShifts)
+      this.shiftTime(
+        variable,
+        origEntry.time,
+        variableShifts,
+        format,
+        frequency
+      )
     );
   }
 
@@ -417,8 +432,20 @@ export class HsStatisticsService {
    * @param time -
    * @returns
    */
-  shiftTime(variable: string, time: string, variableShifts: ShiftBy) {
-    return parseInt(time) + (variableShifts[variable] ?? 0);
+  shiftTime(
+    variable: string,
+    time: string,
+    variableShifts: ShiftBy,
+    timeFormat: string,
+    timeFrequency: 'year' | 'month' | 'quarter' | 'day' | 'week'
+  ): string {
+    let tmpDate = dayjs(time);
+    if (timeFrequency == 'quarter') {
+      tmpDate = tmpDate.add(variableShifts[variable] * 3 ?? 0, 'month');
+    } else {
+      tmpDate = tmpDate.add(variableShifts[variable] ?? 0, timeFrequency);
+    }
+    return tmpDate.format(timeFormat);
   }
 
   async clear(app: string, forceClear?: boolean): Promise<void> {

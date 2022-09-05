@@ -63,8 +63,8 @@
             <tr>
                 <th>{{ "STATISTICS.VARIABLE" | translateHs : {app: app} }}</th>
                 <th></th>
-                <th *ngFor="let year of years">
-                    {{year}}
+                <th *ngFor="let timeStep of timeSteps">
+                    {{timeStep}}
                 </th>
             </tr>
             <tr *ngFor="let col of variables">
@@ -76,19 +76,19 @@
                         (click)="functionSketchVisible = !functionSketchVisible">
                         <i class="icon-pencil"></i></a>
                     <hs-sketch-function [app]="app" *ngIf="functionSketchVisible"
-                        (set)="functionSketched(col.name, $event)" [years]="years"></hs-sketch-function>
+                        (set)="functionSketched(col.name, $event)" [years]="timeSteps"></hs-sketch-function>
                 </td>
-                <td *ngFor="let year of years">
+                <td *ngFor="let timeStep of timeSteps">
                     <input class="form-control form-control-sm" (change)="predict()"
-                        [(ngModel)]="dict[selectedLocation + '::'+ year].values[col.name]" />
+                        [(ngModel)]="dict[selectedLocation + '::'+ timeStep].values[col.name]" />
                 </td>
             </tr>
             <tr class="table-primary">
                 <td>{{predictedVariable}}</td>
                 <td></td>
-                <td *ngFor="let year of years">
+                <td *ngFor="let timeStep of timeSteps">
                     <input class="form-control form-control-sm" readonly
-                        [(ngModel)]="dict[selectedLocation + '::'+ year].values[predictedVariable]" />
+                        [(ngModel)]="dict[selectedLocation + '::'+ timeStep].values[predictedVariable]" />
                 </td>
             </tr>
         </table>
@@ -117,9 +117,9 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column" *ngIf="selectedModel">
             <div class="align-self-stretch">
-                <hs-time-series-chart [observations]="observations"></hs-time-series-chart>
+                <hs-time-series-chart [observations]="observations" [timeUnit]='appRef.corpus.timeConfig[variables[0].name].timeFrequency' [timeFormat]='appRef.corpus.timeConfig[variables[0].name].timeFormat'></hs-time-series-chart>
             </div>
         </div>
     </div>

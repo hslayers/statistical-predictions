@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import {
   Component,
   ElementRef,
@@ -19,6 +20,7 @@ import {
   CorpusDict,
   HsStatisticsService,
   Prediction,
+  StatisticsServiceParams,
 } from '../statistics.service';
 
 /**
@@ -45,14 +47,15 @@ export class HsStatisticsPredictionComponent implements OnInit {
   selectedModel: Prediction;
   variables: ColumnWrapper[];
   predictedVariable: string;
-  fromYear = new Date().getFullYear();
-  tillYear = new Date().getFullYear() + 10;
-  years: number[];
+  fromYear = new Date().getFullYear() + '';
+  tillYear = new Date().getFullYear() + 10 + '';
+  timeSteps: string[];
   dict: CorpusDict;
   regressionParams: any;
   shifts = {};
   observations: any;
   functionSketchVisible = false;
+  appRef: StatisticsServiceParams;
 
   constructor(
     public hsDialogContainerService: HsDialogContainerService,
@@ -67,6 +70,7 @@ export class HsStatisticsPredictionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appRef = this.hsStatisticsService.get(this.app);
     this.locationColumn = 'location';
     this.timeColumn = 'time';
     this.fillModels();
@@ -81,9 +85,25 @@ export class HsStatisticsPredictionComponent implements OnInit {
   }
 
   dateRangeChanged() {
-    const range = (start: number, end: number) =>
-      Array.from({length: end - start}, (v, k) => k + start);
-    this.years = range(Math.floor(this.fromYear), Math.floor(this.tillYear));
+    const varName = this.variables[0].name;
+    const timeConfig = this.appRef.corpus.timeConfig[varName];
+    const shift = {};
+    shift[varName] = 0;
+    let counter = dayjs(this.fromYear + '');
+    this.timeSteps = [];
+    while (counter < dayjs(this.tillYear)) {
+      shift[varName]++;
+      counter = dayjs(
+        this.hsStatisticsService.shiftTime(
+          varName,
+          this.fromYear.toString(),
+          shift,
+          timeConfig.timeFormat,
+          timeConfig.timeFrequency
+        )
+      );
+      this.timeSteps.push(counter.format(timeConfig.timeFormat));
+    }
     this.fillPlaceholders();
   }
 
@@ -107,6 +127,16 @@ export class HsStatisticsPredictionComponent implements OnInit {
       (obj, item) => Object.assign(obj, {[item.name]: item.shift}),
       {}
     );
+    const varName = this.variables[0].name;
+    const timeConfig = this.appRef.corpus.timeConfig[varName];
+    this.fromYear = dayjs().format(timeConfig.timeFormat);
+    if (timeConfig.timeFrequency == 'quarter') {
+      this.tillYear = dayjs().add(10, 'month').format(timeConfig.timeFormat);
+    } else {
+      this.tillYear = dayjs()
+        .add(10, timeConfig.timeFrequency)
+        .format(timeConfig.timeFormat);
+    }
     this.dateRangeChanged();
   }
 
@@ -117,7 +147,7 @@ export class HsStatisticsPredictionComponent implements OnInit {
   }
 
   fillPlaceholders() {
-    for (const year of this.years) {
+    for (const year of this.timeSteps) {
       if (this.dict[this.selectedLocation + '::' + year] == undefined) {
         this.dict[this.selectedLocation + '::' + year] = {
           values: {},
@@ -129,7 +159,8 @@ export class HsStatisticsPredictionComponent implements OnInit {
   }
 
   predict() {
-    for (const year of this.years) {
+    const corpus = this.hsStatisticsService.get(this.app).corpus;
+    for (const year of this.timeSteps) {
       let tmp = 0;
       if (
         this.regressionParams?.variables &&
@@ -140,7 +171,9 @@ export class HsStatisticsPredictionComponent implements OnInit {
             this.dict,
             this.selectedLocation + '::' + year,
             variable.name,
-            this.shifts
+            this.shifts,
+            corpus.timeConfig[variable.name].timeFormat,
+            corpus.timeConfig[variable.name].timeFrequency
           );
           if (this.dict[key] === undefined) {
             tmp = null;
@@ -171,7 +204,7 @@ export class HsStatisticsPredictionComponent implements OnInit {
     const variables = this.regressionParams?.variables
       ? this.regressionParams.variables
       : [];
-    for (const year of this.years) {
+    for (const year of this.timeSteps) {
       for (const variable of [...variables, {name: this.predictedVariable}]) {
         this.observations.push({
           name: variable.name,

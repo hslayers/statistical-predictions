@@ -6,7 +6,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {HsStatisticsService, ShiftBy} from '../statistics.service';
+import {
+  HsStatisticsService,
+  ShiftBy,
+  StatisticsServiceParams,
+} from '../statistics.service';
 
 export enum Tabs {
   varList = 'variableList',
@@ -27,6 +31,7 @@ export class HsStatisticsCorrelationsComponent implements OnInit {
 
   tabSelected = Tabs.varList;
   shifts: ShiftBy = {};
+  appRef: StatisticsServiceParams;
 
   constructor(
     private hsStatisticsService: HsStatisticsService,
@@ -34,6 +39,7 @@ export class HsStatisticsCorrelationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.appRef = this.hsStatisticsService.get(this.app);
     this.hsStatisticsService.variableChanges.subscribe(() => {
       this.correlate = this.hsStatisticsService.correlations;
     });

@@ -171,7 +171,7 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit {
           this.uses[key] = 'time';
           if (this.uniqueValues[key][0].length == 4) {
             this.timeConfig[key].timeFormat = 'YYYY';
-            this.timeConfig[key].timeFrequency = 'YYYY';
+            this.timeConfig[key].timeFrequency = 'year';
           }
           break;
         default:

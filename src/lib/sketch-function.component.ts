@@ -15,7 +15,7 @@ import {HsDialogContainerService, HsLayerUtilsService} from 'hslayers-ng';
   templateUrl: './sketch-function.component.html',
 })
 export class HsSketchFunctionComponent implements AfterViewInit {
-  @Input() years: number[];
+  @Input() years: string[];
   @Input() app = 'default';
   @ViewChild('canvas') canvas: ElementRef;
   mouseDown: boolean;
@@ -71,11 +71,11 @@ export class HsSketchFunctionComponent implements AfterViewInit {
     ctx.strokeRect(1, 1, canvas.width - 2, canvas.height - 2);
     ctx.beginPath();
     const year = Object.keys(this.values)[0];
-    const x = this.scaleX(this.years.indexOf(parseInt(year)));
+    const x = this.scaleX(this.years.indexOf(year));
     const y = this.scaleY(this.values[year]);
     ctx.moveTo(x, y);
     for (const year of Object.keys(this.values)) {
-      const x = this.scaleX(this.years.indexOf(parseInt(year)));
+      const x = this.scaleX(this.years.indexOf(year));
       const y = this.scaleY(this.values[year]);
       ctx.lineTo(x, y);
     }
