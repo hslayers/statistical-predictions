@@ -78,7 +78,7 @@
                                     <select class="form-control form-select border-0"
                                         [(ngModel)]="dimensionFilters[col]"
                                         (ngModelChange)="refreshTable(); dimensionDropdown.close()">
-                                        <option [ngValue]="null" selected>None
+                                        <option [ngValue]="null" selected>All
                                         </option>
                                         <option *ngFor="let uv of uniqueValues[col]">{{uv}}</option>
                                     </select>
