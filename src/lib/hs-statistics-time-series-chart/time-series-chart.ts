@@ -23,6 +23,8 @@ export class HsStatisticsTimeSeriesChartComponent implements OnChanges {
     time_stamp?: string | Date;
     value: null;
   }[];
+  @Input() timeUnit: 'day' | 'week' | 'month' | 'quarter' | 'year' = 'year';
+  @Input() timeFormat: string;
 
   constructor(
     public hsDialogContainerService: HsDialogContainerService,
@@ -67,6 +69,14 @@ export class HsStatisticsTimeSeriesChartComponent implements OnChanges {
           type: 'quantitative',
         };
       });
+      toolTipVariables.push({field: 'time', type: 'temporal'});
+    let timeUnit: string = this.timeUnit;
+    if (this.timeFormat == 'YYYY-MM') {
+      timeUnit = 'yearmonth';
+    }
+    if (this.timeFormat == 'MM-YYYY') {
+      timeUnit = 'monthyear';
+    }
     //See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat for flattening array
     const chartData: any = {
       '$schema': 'https://vega.github.io/schema/vega-lite/v4.15.0.json',
@@ -114,7 +124,7 @@ export class HsStatisticsTimeSeriesChartComponent implements OnChanges {
               },
               'field': 'time',
               'sort': false,
-              'timeUnit': 'year',
+              'timeUnit': timeUnit,
               'type': 'temporal',
             },
             'y': {

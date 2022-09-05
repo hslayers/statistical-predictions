@@ -68,7 +68,7 @@
         <ng-container *ngIf="!inSameChart">
             <div class="d-flex flex-column" *ngFor="let col of colWrappers">
                 <div class="align-self-stretch" *ngIf="col.checked && observationsByCol[col.name]?.length > 0">
-                    <hs-time-series-chart [observations]="observationsByCol[col.name]"></hs-time-series-chart>
+                    <hs-time-series-chart [observations]="observationsByCol[col.name]" [timeUnit] = 'data.timeFrequency' [timeFormat] = 'data.timeFormat'></hs-time-series-chart>
                 </div>
             </div>
         </ng-container>
