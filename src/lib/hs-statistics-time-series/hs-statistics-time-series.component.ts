@@ -15,6 +15,7 @@ import {HsLayerUtilsService} from 'hslayers-ng';
 import {
   CorpusItemValues,
   HsStatisticsService,
+  TimeConfigDict,
   Usage,
 } from '../statistics.service';
 
@@ -33,8 +34,7 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
     rows: any[] | {[key: string]: {values: CorpusItemValues}};
     columns: string[];
     uses: Usage;
-    timeFrequency: string;
-    timeFormat: string;
+    timeConfig: TimeConfigDict;
     app: string;
   };
   @Input() app? = 'default';
@@ -130,8 +130,7 @@ export class HsStatisticsTimeSeriesComponent implements OnInit {
       rows: statisticsAppRef.corpus.dict,
       columns: statisticsAppRef.corpus.variables,
       uses: statisticsAppRef.corpus.uses,
-      timeFrequency: statisticsAppRef.corpus.timeFrequency ?? 'year',
-      timeFormat: statisticsAppRef.corpus.timeFormat ?? 'YYYY',
+      timeConfig: statisticsAppRef.corpus.timeConfig,
       app: this.app,
     };
   }

@@ -46,14 +46,14 @@
                                     style="text-align: center" data-toggle="dropdown">
                                     <label class="form-label">Frequency</label>
 
-                                    <select class="form-control form-select border-0" [(ngModel)]="timeFrequency"
-                                        (ngModelChange)="updateTime(); timeDropdown.close()">
+                                    <select class="form-control form-select border-0" [(ngModel)]="timeConfig[col].timeFrequency"
+                                        (ngModelChange)="timeDropdown.close()">
                                         <option *ngFor="let freq of timeFrequencies" [ngValue]="freq">{{freq}}</option>
                                     </select>
                                     <div class="m-0 pt-1">
                                         <label class="form-label">Format</label>
-                                        <select class="form-control form-select border-0" [(ngModel)]="timeFormat"
-                                            (ngModelChange)="updateTime(); timeDropdown.close()">
+                                        <select class="form-control form-select border-0" [(ngModel)]="timeConfig[col].timeFormat"
+                                            (ngModelChange)="timeDropdown.close()">
                                             <option *ngFor="let format of timeFormats" [ngValue]="format">{{format}}
                                             </option>
                                         </select>

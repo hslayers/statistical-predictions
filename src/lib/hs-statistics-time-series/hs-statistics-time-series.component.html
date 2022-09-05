@@ -44,15 +44,23 @@
             <ng-container *ngFor="let col of colWrappers; index as $index">
                 <li
                     class="list-group-item hs-list-item-header list-group-item-primary d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="form-check">
-                            <input class="form-check-input" (change)="visualize()" type="checkbox" [(ngModel)]="col.checked"
-                                id="hs-time-series-col-{{$index}}">
-                            <label class="form-check-label" for="{{$index}}">
-                                {{col.name}}
-                            </label>
+
+                    <div class="d-flex w-100">
+                        <div class="flex-grow-1">
+                            <div class="form-check">
+                                <input class="form-check-input" (change)="visualize()" type="checkbox"
+                                    [(ngModel)]="col.checked" id="hs-time-series-col-{{$index}}">
+                                <label class="form-check-label" for="{{$index}}">
+                                    {{col.name}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="">
+                            {{'STATISTICS.FREQUENCY' | translateHs : {app: data.app} }}: 
+                            <span class="badge text-bg-secondary">{{data.timeConfig[col.name].timeFrequency}}</span>
                         </div>
                     </div>
+
                 </li>
             </ng-container>
         </ul>
@@ -68,7 +76,9 @@
         <ng-container *ngIf="!inSameChart">
             <div class="d-flex flex-column" *ngFor="let col of colWrappers">
                 <div class="align-self-stretch" *ngIf="col.checked && observationsByCol[col.name]?.length > 0">
-                    <hs-time-series-chart [observations]="observationsByCol[col.name]" [timeUnit] = 'data.timeFrequency' [timeFormat] = 'data.timeFormat'></hs-time-series-chart>
+                    <hs-time-series-chart [observations]="observationsByCol[col.name]"
+                        [timeUnit]='data.timeConfig[col.name].timeFrequency' [timeFormat]='data.timeConfig[col.name].timeFormat'>
+                    </hs-time-series-chart>
                 </div>
             </div>
         </ng-container>

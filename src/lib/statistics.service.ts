@@ -16,6 +16,10 @@ export interface Usage {
   [key: string]: 'location' | 'ignore' | 'time' | 'variable' | 'dimension';
 }
 
+export interface TimeConfigDict {
+  [key: string]: {timeFrequency: string; timeFormat: string};
+}
+
 export interface ColumnAlias {
   [key: string]: string;
 }
@@ -36,8 +40,7 @@ export interface CorpusItems {
   dict: CorpusDict;
   variables: string[];
   uses: Usage;
-  timeFrequency?: string;
-  timeFormat?: string;
+  timeConfig: TimeConfigDict;
 }
 
 export type Prediction = {
@@ -54,8 +57,7 @@ export class StatisticsServiceParams {
     dict: {},
     variables: [],
     uses: {},
-    timeFrequency: 'year',
-    timeFormat: 'YYYY',
+    timeConfig: {},
   };
   clearData$: Subject<void> = new Subject();
   activeTab = 1;
@@ -68,6 +70,7 @@ export type StorageConf = {
   columnAliases: ColumnAlias;
   uses: Usage;
   dimensionFilters: Map<string, string>;
+  timeConfig: TimeConfigDict;
   app: string;
 };
 
@@ -135,19 +138,29 @@ export class HsStatisticsService {
     });
   }
 
-  store({rows, columns, columnAliases, uses, app}: StorageConf): void {
+  store({
+    rows,
+    columns,
+    columnAliases,
+    uses,
+    timeConfig,
+    app,
+  }: StorageConf): void {
     let duplicateFound = false;
     const appRef = this.get(app);
     const tmpCorpus: CorpusItems = {
       dict: Object.assign({}, appRef.corpus.dict),
       variables: [...appRef.corpus.variables],
       uses: Object.assign({}, appRef.corpus.uses),
+      timeConfig: Object.assign({}, appRef.corpus.timeConfig),
     };
 
     if (!rows || !columns) {
       return;
     }
-
+    const timeColumn = Object.keys(uses).find(
+      (useCol) => uses[useCol] == 'time'
+    );
     for (const row of rows) {
       /** Example '2010Kentucky' */
       /** Used to later filter records by location/time since key string is hard to
@@ -186,6 +199,7 @@ export class HsStatisticsService {
         corpusItem.values[escapedCol] = parseFloat(row[col]);
         if (!tmpCorpus.variables.some((v) => v == escapedCol)) {
           tmpCorpus.variables.push(escapedCol);
+          tmpCorpus.timeConfig[escapedCol] = timeConfig[timeColumn]; //Time config is actually assigned to variable because we need to frequency to be used to visualize it
         }
         if (escapedCol != col) {
           uses[escapedCol] = uses[col];
@@ -429,8 +443,7 @@ export class HsStatisticsService {
       appRef.corpus.dict = {};
       appRef.corpus.variables = [];
       appRef.corpus.uses = {};
-      appRef.corpus.timeFormat = 'YYYY';
-      appRef.corpus.timeFrequency = 'year';
+      appRef.corpus.timeConfig = {};
       localStorage.removeItem('hs_statistics_corpus');
       appRef.clearData$.next();
       this.afterVariablesChange(app);
