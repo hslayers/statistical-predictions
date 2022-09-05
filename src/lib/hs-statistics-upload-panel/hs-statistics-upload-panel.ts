@@ -180,6 +180,9 @@ export class HsStatisticsUploadPanelComponent implements AfterViewInit, OnInit {
         case 'TIME_PERIOD':
         case 'Date':
           this.uses[key] = 'time';
+          if (this.uniqueValues[key][0].length == 4) {
+            this.timeFormat = 'YYYY';
+          }
           break;
         default:
           if (isNumeric(allValues[0])) {
