@@ -1,3 +1,4 @@
+import colormap from 'colormap';
 import dayjs from 'dayjs';
 import {ElementRef, Injectable} from '@angular/core';
 
@@ -323,6 +324,12 @@ export class HsStatisticsService {
   } {
     const appRef = this.get(app);
     const results = {matrix: {}, list: []};
+    const colors = colormap({
+      colormap: 'picnic',
+      nshades: 20,
+      format: 'hex',
+      alpha: 1,
+    });
     for (const var1 of appRef.corpus.variables) {
       results.matrix[var1] = [];
       for (const var2 of appRef.corpus.variables) {
@@ -333,7 +340,9 @@ export class HsStatisticsService {
         );
         const coefficient =
           samples[0].length > 1 ? sampleCorrelation(samples[0], samples[1]) : 0;
-        results.matrix[var1].push({var2, coefficient});
+        const color = colors[Math.round(((coefficient + 1) / 2) * 19)];
+        results.matrix[var1].push({var2, coefficient, color});
+
         if (var1 !== var2) {
           results.list.push({
             shift: variableShifts[var1] ?? 0,
@@ -341,6 +350,7 @@ export class HsStatisticsService {
             var1,
             var2,
             coefficient,
+            color,
           });
         }
       }

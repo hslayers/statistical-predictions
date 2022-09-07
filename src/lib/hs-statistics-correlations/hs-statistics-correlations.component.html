@@ -40,7 +40,7 @@
                         </div>
                     </td>
                     <td>{{result.var2}}</td>
-                    <td>{{result.coefficient | number: '1.2-2'}}</td>
+                    <td [ngStyle]="{'background-color': result.color}">{{result.coefficient | number: '1.2-2'}}</td>
                     <td>{{result.samplePairs}}</td>
                 </tr>
             </tbody>
@@ -55,7 +55,7 @@
             <tbody *ngFor="let item of correlate.matrix | keyvalue : keyAscOrder">
                 <tr>
                     <td>{{item.key}}</td>
-                    <td *ngFor="let result of item.value">{{result.coefficient | number: '1.2-2'}}</td>
+                    <td *ngFor="let result of item.value" [ngStyle]="{'background-color': result.color}">{{result.coefficient | number: '1.2-2'}}</td>
                 </tr>
             </tbody>
         </ng-container>
