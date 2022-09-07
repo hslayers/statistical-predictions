@@ -216,7 +216,9 @@ export class HsStatisticsRegressionComponent implements OnInit {
           }),
           {
             'name': 'realY',
-            'values': this.hsStatisticsService.clone(observations),
+            'values': this.hsStatisticsService
+              .clone(observations)
+              .filter((o) => o.Y != undefined),
           },
           {
             'name': 'predictions',
@@ -346,31 +348,27 @@ export class HsStatisticsRegressionComponent implements OnInit {
               },
             };
           })
-          .concat(
-            regressionVars.map((col) => {
-              return {
-                from: {'data': 'real' + col.factorName},
-                'type': 'symbol',
-                'encode': {
-                  'enter': {
-                    'tooltip': {
-                      'signal': `{title: 'Historical data', '${this.selectedVariable}': datum.Y, 'time': datum.time, 'location': datum.location}`,
-                    },
-                    stroke: {scale: 'color', value: 'Observed Y'},
-                    shape: {value: 'diamond'},
-                    size: {value: 30},
-                    strokeWidth: {value: 1.5},
-                  },
-                  'update': {
-                    'strokeOpacity': {'value': 1},
-                    'x': {'scale': 'x', 'field': 'key'},
-                    'y': {'scale': 'y', 'field': 'Y'},
-                  },
-                  'hover': {'strokeOpacity': {'value': 0.5}},
+          .concat({
+            from: {'data': 'realY'},
+            'type': 'symbol',
+            'encode': {
+              'enter': {
+                'tooltip': {
+                  'signal': `{title: 'Historical data', '${this.selectedVariable}': datum.Y, 'time': datum.time, 'location': datum.location}`,
                 },
-              };
-            })
-          )
+                stroke: {scale: 'color', value: 'Observed Y'},
+                shape: {value: 'diamond'},
+                size: {value: 30},
+                strokeWidth: {value: 1.5},
+              },
+              'update': {
+                'strokeOpacity': {'value': 1},
+                'x': {'scale': 'x', 'field': 'key'},
+                'y': {'scale': 'y', 'field': 'Y'},
+              },
+              'hover': {'strokeOpacity': {'value': 0.5}},
+            },
+          })
           .concat([
             {
               'from': {
