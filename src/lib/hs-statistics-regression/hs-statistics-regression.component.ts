@@ -37,7 +37,7 @@ export class HsStatisticsRegressionComponent implements OnInit {
   @Input() predictionsComponent?: HsStatisticsPredictionComponent;
   viewRef: ViewRef;
   selectedVariable: string;
-  selectedLocation: any;
+  selectedLocation: any = null;
   timeValues: any[];
   timeColumn: string;
   locationColumn: string;
@@ -192,6 +192,10 @@ export class HsStatisticsRegressionComponent implements OnInit {
       constant: coefficients[0],
     };
 
+    const filterLocation = (row) =>
+      row[this.locationColumn] == this.selectedLocation ||
+      this.selectedLocation === null;
+
     setTimeout((_) => {
       const chartDiv = this.elementRef.nativeElement.querySelector(
         '.hs-statistics-multi-regression'
@@ -211,18 +215,23 @@ export class HsStatisticsRegressionComponent implements OnInit {
           ...this.multipleRegressionOutput.variables.map((col) => {
             return {
               'name': 'real' + col.factorName,
-              'values': this.hsStatisticsService.clone(observations),
+              'values': this.hsStatisticsService
+                .clone(observations)
+                .filter(filterLocation),
             };
           }),
           {
             'name': 'realY',
             'values': this.hsStatisticsService
               .clone(observations)
+              .filter(filterLocation)
               .filter((o) => o.Y != undefined),
           },
           {
             'name': 'predictions',
-            'values': this.hsStatisticsService.clone(observations),
+            'values': this.hsStatisticsService
+              .clone(observations)
+              .filter(filterLocation),
             'transform': [
               ...regressionVars.map((col) => {
                 return {

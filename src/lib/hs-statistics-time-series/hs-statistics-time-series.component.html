@@ -24,7 +24,7 @@
                         {{selectedLocation}}
                     </div>
                 </button>
-                <div ngbDropdownMenu style="transform: translateX(25%); width: 15em">
+                <div ngbDropdownMenu style="transform: translateX(25%); width: 15em; max-height: 20em; overflow-y: scroll;">
                     <div class="d-flex align-items-center w-100 flex-column">
                         <a class="dropdown-item text-truncate" *ngFor="let val of locationValues" data-toggle="tooltip"
                             (click)="selectFilter(val)">{{val}}</a>
