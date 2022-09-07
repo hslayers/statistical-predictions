@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -57,4 +58,11 @@ export class HsStatisticsCorrelationsComponent implements OnInit {
   close(): void {
     this.closed.emit();
   }
+
+  keyAscOrder = (
+    a: KeyValue<string, any>,
+    b: KeyValue<string, any>
+  ): number => {
+    return a.key.localeCompare(b.key);
+  };
 }

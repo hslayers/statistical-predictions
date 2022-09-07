@@ -333,7 +333,7 @@ export class HsStatisticsService {
         );
         const coefficient =
           samples[0].length > 1 ? sampleCorrelation(samples[0], samples[1]) : 0;
-        results.matrix[var1].push(coefficient);
+        results.matrix[var1].push({var2, coefficient});
         if (var1 !== var2) {
           results.list.push({
             shift: variableShifts[var1] ?? 0,
@@ -345,6 +345,12 @@ export class HsStatisticsService {
         }
       }
     }
+    Object.keys(results.matrix).map(
+      (var1) =>
+        (results.matrix[var1] = results.matrix[var1].sort((a, b) =>
+          b.var2 > a.var2 ? -1 : 1
+        ))
+    );
     return results;
   }
 

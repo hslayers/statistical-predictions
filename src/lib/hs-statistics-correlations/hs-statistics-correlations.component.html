@@ -49,13 +49,13 @@
             <thead>
                 <tr>
                     <th style="border: none;"></th>
-                    <th *ngFor="let item of correlate.matrix | keyvalue">{{item.key}}</th>
+                    <th *ngFor="let item of correlate.matrix | keyvalue : keyAscOrder">{{item.key}}</th>
                 </tr>
             </thead>
-            <tbody *ngFor="let item of correlate.matrix | keyvalue">
+            <tbody *ngFor="let item of correlate.matrix | keyvalue : keyAscOrder">
                 <tr>
                     <td>{{item.key}}</td>
-                    <td *ngFor="let result of item.value">{{result | number: '1.2-2'}}</td>
+                    <td *ngFor="let result of item.value">{{result.coefficient | number: '1.2-2'}}</td>
                 </tr>
             </tbody>
         </ng-container>
