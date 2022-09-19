@@ -187,6 +187,7 @@ export class HsStatisticsRegressionComponent implements OnInit {
           name: factor,
           factorName: `X${factors.indexOf(factor)}`,
           coefficient: coefficients[factors.indexOf(factor) + 1],
+          shift: this.shifts[factor],
         };
       }),
       constant: coefficients[0],
