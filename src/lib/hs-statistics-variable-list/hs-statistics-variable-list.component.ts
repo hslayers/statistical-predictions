@@ -6,6 +6,7 @@ import {HsStatisticsMapControllerDialogComponent} from '../hs-statistics-map-con
 import {HsStatisticsService} from '../statistics.service';
 import {HsStatisticsTimeSeriesComponent} from '../hs-statistics-time-series/hs-statistics-time-series.component';
 import {HsStatisticsTimeSeriesDialogComponent} from '../hs-statistics-time-series-dialog/hs-statistics-time-series-dialog.component';
+import {variance} from 'simple-statistics';
 
 @Component({
   selector: 'hs-statistics-variable-list',
@@ -29,10 +30,20 @@ export class HsStatisticsVariableListComponent implements OnInit {
 
   removeVariable(varSelected: string) {
     if (varSelected) {
-      this.hsStatisticsService.get(this.app).corpus.variables =
-        this.hsStatisticsService
-          .get(this.app)
-          .corpus.variables.filter((variable) => variable != varSelected);
+      const corpus = this.hsStatisticsService.get(this.app).corpus;
+      corpus.variables = corpus.variables.filter(
+        (variable) => variable != varSelected
+      );
+      for (const key of Object.keys(corpus.dict)) {
+        if (corpus.dict[key].values[varSelected] !== undefined) {
+          delete corpus.dict[key].values[varSelected];
+          if (Object.keys(corpus.dict[key].values).length == 0) {
+            delete corpus.dict[key];
+          }
+        }
+      }
+      delete corpus.uses[varSelected];
+      delete corpus.timeConfig[varSelected];
       this.hsStatisticsService.afterVariablesChange(this.app);
       this.hsStatisticsService.save(this.app);
     }
