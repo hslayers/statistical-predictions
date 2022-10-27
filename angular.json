@@ -60,6 +60,7 @@
             ],
             "scripts": [],
             "commonChunk": false,
+            "namedChunks": true,
             "extraWebpackConfig": "./webpack.config.js"
           },
 
@@ -86,11 +87,16 @@
               ]
             },
             "development": {
+              "commonChunk": false,
+              "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "vendor": true
+              },
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
               "namedChunks": true
             }
           }
