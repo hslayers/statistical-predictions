@@ -8,19 +8,19 @@
             <li [ngbNavItem]="1">
                 <a ngbNavLink>Upload</a>
                 <ng-template ngbNavContent>
-                    <hs-statistics-upload [app]="data.app"></hs-statistics-upload>
+                    <hs-statistics-upload-panel [dialogMode]="true" [app]="data.app"></hs-statistics-upload-panel>
                 </ng-template>
             </li>
             <li [ngbNavItem]="2">
                 <a ngbNavLink>Data</a>
                 <ng-template ngbNavContent>
-                    <!-- <hs-statistics-variable-list [app]="data.app"></hs-statistics-variable-list> -->
+                    <hs-statistics-variable-list [dialogMode]="true" [app]="data.app"></hs-statistics-variable-list>
                 </ng-template>
             </li>
         </ul>
 
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
-        <hs-statistics-toolbar [app]="data.app"></hs-statistics-toolbar>
+        <hs-statistics-toolbar [dialogMode]="true" [app]="data.app"></hs-statistics-toolbar>
 
     </div>
 </div>

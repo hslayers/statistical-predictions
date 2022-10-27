@@ -3,7 +3,7 @@
         <h4 *ngIf="dialogMode" class="modal-title">
             {{'STATISTICS.VISUALIZE_MAP' | translateHs : {app: data.app} }}
         </h4>
-        <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span
+              <button *ngIf="dialogMode" (click)="close()" class="btn-close" data-dismiss="modal"><span
                 aria-hidden="true"></span><span class="visually-hidden">{{'COMMON.close' | translateHs : {app: data.app}
                 }}</span></button>
     </div>

@@ -16,7 +16,7 @@ import {HsStatisticsService} from '../statistics.service';
 })
 export class HsStatisticsToolbarComponent {
   @Input() app = 'default';
-  dialogMode: any;
+  @Input() dialogMode? = false;
   @Input() predictionComponent?: HsStatisticsPredictionComponent;
   @Input() regressionComponent?: HsStatisticsRegressionComponent;
   @Input()

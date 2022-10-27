@@ -71,13 +71,15 @@ export class HsStatisticsVariableListComponent implements OnInit {
 
   timeSeries(): void {
     if (this.dialogMode) {
+      const statisticsAppRef = this.hsStatisticsService.get(this.app);
       this.hsDialogContainerService.create(
         HsStatisticsTimeSeriesDialogComponent,
         {
-          rows: this.hsStatisticsService.get(this.app).corpus.dict,
-          columns: this.hsStatisticsService.get(this.app).corpus.variables,
-          uses: this.hsStatisticsService.get(this.app).corpus.uses,
+          rows: statisticsAppRef.corpus.dict,
+          columns: statisticsAppRef.corpus.variables,
+          uses: statisticsAppRef.corpus.uses,
           app: this.app,
+          timeConfig: statisticsAppRef.corpus.timeConfig,
         },
         this.app
       );

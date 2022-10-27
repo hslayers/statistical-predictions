@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewRef} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewRef} from '@angular/core';
 
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
@@ -41,6 +41,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
     app: string;
   };
   @Input() dialogMode = false;
+  @Output() closed = new EventEmitter<void>();
   viewRef: ViewRef;
   vectorLayers = [];
   selectedLayer: {
@@ -212,7 +213,7 @@ export class HsStatisticsMapControllerComponent implements OnInit {
   }
 
   close(): void {
-    this.hsDialogContainerService.destroy(this, this.data.app);
+    this.closed.emit();
   }
 
   async selectLayer(layer: {
