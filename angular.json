@@ -59,7 +59,8 @@
               "./src/styles.sass"
             ],
             "scripts": [],
-            "commonChunk": false
+            "commonChunk": false,
+            "extraWebpackConfig": "./webpack.config.js"
           },
 
           "configurations": {
