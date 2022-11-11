@@ -4,3 +4,6 @@ rsync-demo:
 
 build-demo:
 	npm run build --configuration=production
+
+start-local-build:
+	cd dist && live-server --port=5100 --proxy=/statistical-predictions:http://127.0.0.1:5100 --no-browser --host=localhost && cd ..
