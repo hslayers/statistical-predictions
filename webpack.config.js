@@ -36,7 +36,6 @@ module.exports = withModuleFederationPlugin({
     "@ngx-translate/core": { singleton: true, strictVersion: false },
     "@angular/localize/init": {
       singleton: true,
-      eager: true,
     },
     'ol': {singleton: true, requiredVersion: '^7.1.0'},
     'ol-ext': {singleton: true, requiredVersion: '^4.0.3'},
