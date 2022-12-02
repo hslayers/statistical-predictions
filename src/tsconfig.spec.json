@@ -9,7 +9,6 @@
     "resolveJsonModule":true
   },
   "files": [
-    "test/test.ts",
     "polyfills.ts"
   ],
   "include": [

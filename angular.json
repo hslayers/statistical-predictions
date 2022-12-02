@@ -63,7 +63,6 @@
             "namedChunks": true,
             "extraWebpackConfig": "./webpack.config.js"
           },
-
           "configurations": {
             "production": {
               "optimization": true,
@@ -101,7 +100,6 @@
             }
           }
         },
-
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
@@ -117,12 +115,11 @@
           },
           "defaultConfiguration": "development"
         },
-
         "federated-serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
             "port": 5100,
-            "extraWebpackConfig": "./webpack.config.js"            
+            "extraWebpackConfig": "./webpack.config.js"
           },
           "configurations": {
             "production": {
@@ -134,29 +131,10 @@
           },
           "defaultConfiguration": "development"
         },
-
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "app:build"
-          }
-        },
-
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "./test/test.ts",
-            "polyfills": "./src/polyfills.ts",
-            "tsConfig": "./tsconfig.spec.json",
-            "karmaConfig": "./karma.conf.js",
-            "assets": [
-              "./src/favicon.ico",
-              "./src/assets"
-            ],
-            "styles": [
-              "./src/styles.sass"
-            ],
-            "scripts": []
           }
         }
       }
@@ -165,5 +143,13 @@
   "defaultProject": "app",
   "cli": {
     "analytics": false
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }
