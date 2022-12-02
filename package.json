@@ -45,7 +45,7 @@
     "geostyler-qgis-parser": "^1.0.0",
     "geostyler-sld-parser": "^4.0.1",
     "geostyler-style": "^7.2.0",
-    "hslayers-ng": "^10.0.0",
+    "hslayers-ng": "^11.0.0-next.0",
     "hslayers-server": "^1.5.1",
     "jszip": "^3.10.1",
     "multiregress": "^1.0.0",
