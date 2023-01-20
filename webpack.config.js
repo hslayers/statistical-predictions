@@ -48,8 +48,8 @@ module.exports = withModuleFederationPlugin({
     'hslayers-ng': {
       singleton: true,
       strictVersion: true,
-      requiredVersion: '^10.0.0',
-      version: '10.0.0'
+      requiredVersion: '^11.0.0-next.0',
+      version: '11.0.0-next.0'
     },
   }
 
